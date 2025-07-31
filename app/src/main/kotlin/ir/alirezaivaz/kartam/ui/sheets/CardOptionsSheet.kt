@@ -1,0 +1,190 @@
+package ir.alirezaivaz.kartam.ui.sheets
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.dokar.sonner.ToasterState
+import com.dokar.sonner.rememberToasterState
+import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.Bank
+import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.FakeData
+import ir.alirezaivaz.kartam.ui.theme.KartamTheme
+import ir.alirezaivaz.kartam.ui.widgets.CardItem
+import ir.alirezaivaz.kartam.ui.widgets.CardOptionItem
+import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
+import ir.alirezaivaz.tablericons.TablerIcons
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CardOptionsSheet(
+    card: CardInfo?,
+    onEditRequest: () -> Unit,
+    onDeleteRequest: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    val toaster = rememberToasterState()
+    val sheetState = rememberModalBottomSheetState()
+
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = onDismissRequest
+    ) {
+        KartamToaster(state = toaster)
+        if (card != null) {
+            CardOptionsSheetContent(
+                card = card,
+                toaster = toaster,
+                onEditRequest = onEditRequest,
+                onDeleteRequest = onDeleteRequest,
+                onDismissRequest = onDismissRequest
+            )
+        }
+    }
+}
+
+@Composable
+fun CardOptionsSheetContent(
+    card: CardInfo,
+    toaster: ToasterState,
+    onEditRequest: () -> Unit,
+    onDeleteRequest: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(card.bank.logo),
+            contentDescription = stringResource(card.bank.title),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.heightIn(min = 50.dp)
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        CardItem(
+            card = card,
+            showShabaNumber = true,
+            isCvv2VisibleByDefault = true
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        HorizontalDivider()
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        if (card.number.isNotEmpty()) {
+            CardOptionItem(
+                title = stringResource(R.string.label_card_number),
+                subtitle = card.number,
+                toaster = toaster
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        }
+        if (!card.shabaNumber.isNullOrEmpty()) {
+            CardOptionItem(
+                title = stringResource(R.string.label_shaba_number),
+                subtitle = stringResource(R.string.formatter_shaba_number).format(card.shabaNumber),
+                toaster = toaster
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        }
+        if (!card.accountNumber.isNullOrEmpty()) {
+            CardOptionItem(
+                title = stringResource(R.string.label_account_number),
+                subtitle = card.accountNumber,
+                toaster = toaster
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        HorizontalDivider()
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_horizontal))
+        ) {
+            ExtendedFloatingActionButton(
+                modifier = Modifier.weight(1f),
+                contentColor = MaterialTheme.colorScheme.tertiary,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                text = {
+                    Text(
+                        text = stringResource(R.string.action_edit_card)
+                    )
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(TablerIcons.Edit),
+                        contentDescription = stringResource(R.string.action_edit_card)
+                    )
+                },
+                onClick = {
+                    onEditRequest()
+                }
+            )
+            ExtendedFloatingActionButton(
+                modifier = Modifier.weight(1f),
+                contentColor = MaterialTheme.colorScheme.error,
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                text = {
+                    Text(
+                        text = stringResource(R.string.action_delete_card)
+                    )
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(TablerIcons.Trash),
+                        contentDescription = stringResource(R.string.action_delete_card)
+                    )
+                },
+                onClick = {
+                    onDeleteRequest()
+                }
+            )
+        }
+        Spacer(Modifier.height(80.dp))
+    }
+}
+
+@Preview
+@Composable
+fun CardOptionsSheetPreview() {
+    KartamTheme {
+        Surface {
+            CardOptionsSheetContent(
+                card = FakeData.bluCard,
+                toaster = rememberToasterState(),
+                onEditRequest = {},
+                onDeleteRequest = {},
+                onDismissRequest = {}
+            )
+        }
+    }
+}

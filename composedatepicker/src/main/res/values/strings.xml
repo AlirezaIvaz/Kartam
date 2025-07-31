@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_submit">Submit</string>
+    <string name="action_today">Today</string>
+
+    <string name="month_farvardin">Farvardin</string>
+    <string name="month_ordibehesht">Ordibehesht</string>
+    <string name="month_khordad">Khordad</string>
+    <string name="month_tir">Tir</string>
+    <string name="month_mordad">Mordad</string>
+    <string name="month_shahrivar">Shahrivar</string>
+    <string name="month_mehr">Mehr</string>
+    <string name="month_aban">Aban</string>
+    <string name="month_azar">Azar</string>
+    <string name="month_dey">Dey</string>
+    <string name="month_bahman">Bahman</string>
+    <string name="month_esfand">Esfand</string>
+
+</resources>

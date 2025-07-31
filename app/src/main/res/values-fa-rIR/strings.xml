@@ -1,0 +1,112 @@
+<resources>
+    <string name="app_name">کارتام</string>
+
+    <!-- Actions -->
+    <string name="action_back">بازگشت</string>
+    <string name="action_confirm">تایید</string>
+    <string name="action_dismiss">انصراف</string>
+    <string name="action_add_card">افزودن کارت</string>
+    <string name="action_stay_here">همینجا بمان</string>
+    <string name="action_edit_card">ویرایش کارت</string>
+    <string name="action_delete_card">حذف کارت</string>
+    <string name="action_choose_exp">انتخاب تاریخ انقضا</string>
+    <string name="action_reload">تازه‌سازی</string>
+    <string name="action_settings">تنظیمات</string>
+    <string name="action_copy">کپی</string>
+    <string name="action_share">اشتراک‌گذاری</string>
+    <string name="action_share_via">اشتراک‌گذاری با…</string>
+    <string name="action_more_apps">برنامه‌های بیشتر</string>
+    <string name="action_rate">دیدگاه</string>
+
+    <!-- Labels -->
+    <string name="label_card_number">شمارهٔ کارت</string>
+    <string name="label_shaba_number">شمارهٔ شبا</string>
+    <string name="label_shaba_number_placeholder">شمارهٔ شبا (اختیاری)</string>
+    <string name="label_account_number">شمارهٔ حساب</string>
+    <string name="label_account_number_placeholder">شمارهٔ حساب (اختیاری)</string>
+    <string name="label_card_owner">نام صاحب کارت</string>
+    <string name="label_card_owner_en">نام صاحب کارت (انگلیسی)</string>
+    <string name="label_expiration_date">تاریخ انقضا</string>
+    <string name="label_exp_month">ماه انقضا</string>
+    <string name="label_exp_year">سال انقضا</string>
+    <string name="label_cvv2_placeholder">CVV2 (اختیاری)</string>
+
+    <!-- Messages -->
+    <string name="message_card_added">کارت با موفقیت اضافه شد!</string>
+    <string name="message_card_updated">کارت با موفقیت به‌روزرسانی شد!</string>
+    <string name="message_copied_to_clipboard">%s در بریده‌دان کپی شد!</string>
+    <string name="message_no_card">هیچ کارتی یافت نشد!</string>
+    <string name="message_no_card_description">اولین کارت خود را با کلیک روی دکمهٔ + در پایین صفحه اضافه کنید.</string>
+    <string name="message_went_wrong">مشکلی پیش آمد!</string>
+    <string name="message_went_wrong_description">نتوانستیم چیزی که به‌دنبال آن هستید را پیدا کنیم. لطفا برگردید و دوباره تلاش کنید.</string>
+
+    <!-- Errors -->
+    <string name="error_empty_card_number">لطفا شمارهٔ کارت را وارد کنید!</string>
+    <string name="error_empty_owner_name">لطفا نام صاحب کارت را وارد کنید!</string>
+    <string name="error_empty_exp_month">لطفا ماه انقضای کارت را وارد/انتخاب کنید!</string>
+    <string name="error_empty_exp_year">لطفا سال انقضای کارت را وارد/انتخاب کنید!</string>
+    <string name="error_invalid_card_number">شمارهٔ کارت نامعتبر است! لطفا آن‌را بررسی و دوباره تلاش کنید.</string>
+    <string name="error_invalid_owner_name">نام صاحب کارت باید فقط شامل نویسه‌های فارسی و انگلیسی باشد!</string>
+    <string name="error_invalid_shaba_number">شمارهٔ شبا نامعتبر است! لطفا آن‌را بررسی و دوباره تلاش کنید.</string>
+    <string name="error_invalid_account_number">شمارهٔ حساب نامعتبر است!</string>
+    <string name="error_invalid_cvv2">کد اعتبارسنجی کارت (CVV2) باید یک عدد ۳ یا ۴ شماره‌ای باشد!</string>
+    <string name="error_invalid_exp_month">ماه انقضای کارت نامعتبر است!</string>
+    <string name="error_invalid_exp_year">سال انقضای کارت نامعتبر یا گذشته است!</string>
+    <string name="error_request_run_failed">امکان اجرای درخواست شما وجود ندارد!</string>
+
+    <!-- Card added dialog -->
+    <string name="card_added_title">کارت اضافه شد</string>
+    <string name="card_added_message">کارت با موفقیت اضافه شد. می‌توانید به صفحهٔ اصلی برگردید یا کارت جدید اضافه کنید.</string>
+
+    <!-- Delete dialog -->
+    <string name="delete_title">حذف کارت</string>
+    <string name="delete_message">آیا مطمئن هستید که می‌خواهید این کارت را حذف کنید؟ این کار همیشگی است و نمی‌تواند بازگردانده شود!</string>
+
+    <!-- Settings -->
+    <string name="settings_dynamic_colors">رنگ‌بندی پویا</string>
+    <string name="settings_language">زبان</string>
+    <string name="settings_theme">پوسته</string>
+
+    <!-- Themes -->
+    <string name="theme_day">روز</string>
+    <string name="theme_night">شب</string>
+    <string name="theme_system">سامانه</string>
+
+    <!-- Banks -->
+    <string name="bank_ansar">بانک انصار</string>
+    <string name="bank_ayandeh">بانک آینده</string>
+    <string name="bank_bankino">بانکینو</string>
+    <string name="bank_blu">بلو بانک</string>
+    <string name="bank_central">بانک مرکزی</string>
+    <string name="bank_day">بانک دی</string>
+    <string name="bank_eghtesad_novin">بانک اقتصاد نوین</string>
+    <string name="bank_gardeshgari">بانک گردشگری</string>
+    <string name="bank_iran_venezuela">بانک مشترک ایران و ونزوئلا</string>
+    <string name="bank_iranzamin">بانک ایران‌زمین</string>
+    <string name="bank_karafarin">بانک کارآفرین</string>
+    <string name="bank_keshavarzi">بانک کشاورزی</string>
+    <string name="bank_khavarmianeh">بانک خاورمیانه</string>
+    <string name="bank_maskan">بانک مسکن</string>
+    <string name="bank_mehr">بانک قرض‌الحسنه مهر ایران</string>
+    <string name="bank_melal">مؤسسه اعتباری ملل</string>
+    <string name="bank_mellat">بانک ملت</string>
+    <string name="bank_melli">بانک ملی ایران</string>
+    <string name="bank_noor">مؤسسه اعتباری نور</string>
+    <string name="bank_parsian">بانک پارسیان</string>
+    <string name="bank_pasargad">بانک پاسارگاد</string>
+    <string name="bank_postbank">پست‌بانک</string>
+    <string name="bank_refah">بانک رفاه کارگران</string>
+    <string name="bank_resalat">بانک قرض‌الحسنه رسالت</string>
+    <string name="bank_saderat">بانک صادرات ایران</string>
+    <string name="bank_saman">بانک سامان</string>
+    <string name="bank_sanat_maadan">بانک صنعت و معدن</string>
+    <string name="bank_sarmayeh">بانک سرمایه</string>
+    <string name="bank_sepah">بانک سپه</string>
+    <string name="bank_shahr">بانک شهر</string>
+    <string name="bank_sina">بانک سینا</string>
+    <string name="bank_tejarat">بانک تجارت</string>
+    <string name="bank_tose_saderat">بانک توسعه صادرات ایران</string>
+    <string name="bank_tose_taavon">بانک توسعه تعاون</string>
+    <string name="bank_wepod">وی‌پاد</string>
+    <string name="bank_unknown">ناشناخته</string>
+</resources>

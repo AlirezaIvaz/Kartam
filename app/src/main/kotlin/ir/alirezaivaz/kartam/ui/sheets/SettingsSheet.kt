@@ -1,0 +1,344 @@
+package ir.alirezaivaz.kartam.ui.sheets
+
+
+import android.content.Intent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.dokar.sonner.ToasterState
+import com.dokar.sonner.rememberToasterState
+import ir.alirezaivaz.kartam.BuildConfig
+import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.Language
+import ir.alirezaivaz.kartam.dto.Theme
+import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
+import ir.alirezaivaz.kartam.ui.theme.KartamTheme
+import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
+import ir.alirezaivaz.kartam.utils.SettingsManager
+import ir.alirezaivaz.tablericons.TablerIcons
+import androidx.core.net.toUri
+import com.dokar.sonner.ToastType
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SettingsSheet(
+    onDismissRequest: () -> Unit,
+    onThemeChangedRequest: (theme: Theme) -> Unit,
+    onLanguageChangedRequest: (Language) -> Unit
+) {
+    val scope = rememberCoroutineScope()
+    val toaster = rememberToasterState()
+    val sheetState = rememberModalBottomSheetState()
+
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = onDismissRequest
+    ) {
+        KartamToaster(state = toaster)
+        SettingsSheetContent(
+            toaster = toaster,
+            onDismissRequest = onDismissRequest,
+            onThemeChangedRequest = onThemeChangedRequest,
+            onLanguageChangedRequest = onLanguageChangedRequest
+        )
+    }
+}
+
+@Composable
+fun SettingsSheetContent(
+    toaster: ToasterState,
+    onDismissRequest: () -> Unit,
+    onThemeChangedRequest: (theme: Theme) -> Unit,
+    onLanguageChangedRequest: (language: Language) -> Unit
+) {
+    val scope = rememberCoroutineScope()
+    val theme by SettingsManager.theme.collectAsState()
+    val language by SettingsManager.language.collectAsState()
+    val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
+    val themes = Theme.entries.map { it }
+    val languages = Language.entries.map { it }
+    var selectedThemeIndex by remember { mutableIntStateOf(themes.indexOf(theme)) }
+    var selectedLanguageIndex by remember { mutableIntStateOf(languages.indexOf(language)) }
+    val isDynamicColors by SettingsManager.isDynamicColors.collectAsState()
+
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(R.string.action_settings),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge,
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        if (isDynamicColorsSupported) {
+            SwitchItem(
+                title = stringResource(R.string.settings_dynamic_colors),
+                isChecked = isDynamicColors,
+                onCheckedChanged = {
+                    SettingsManager.setDynamicColors(it)
+                }
+            )
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        Text(
+            text = stringResource(R.string.settings_language),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+        ) {
+            languages.forEachIndexed { index, item ->
+                SegmentedButton(
+                    selected = index == selectedLanguageIndex,
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = languages.size
+                    ),
+                    onClick = {
+                        selectedLanguageIndex = index
+                        onDismissRequest()
+                        onLanguageChangedRequest(item)
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(item.title),
+                            fontFamily = item.typography.bodyMedium.fontFamily
+                        )
+                    }
+                )
+            }
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        Text(
+            text = stringResource(R.string.settings_theme),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+        ) {
+            themes.filter { it.isAvailable }.forEachIndexed { index, item ->
+                SegmentedButton(
+                    selected = index == selectedThemeIndex,
+                    icon = {
+                        Icon(
+                            painter = painterResource(item.icon),
+                            contentDescription = stringResource(item.title)
+                        )
+                    },
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = themes.size
+                    ),
+                    onClick = {
+                        selectedThemeIndex = index
+                        onDismissRequest()
+                        onThemeChangedRequest(item)
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(item.title)
+                        )
+                    }
+                )
+            }
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        HorizontalDivider(Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)))
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            FilledTonalButton(
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    try {
+                        if (BuildConfig.FLAVOR == "telegram") {
+                            uriHandler.openUri(BuildConfig.RATE_URL)
+                        } else {
+                            val intentAction = if (BuildConfig.FLAVOR == "cafebazaar") {
+                                Intent.ACTION_EDIT
+                            } else {
+                                Intent.ACTION_VIEW
+                            }
+                            context.startActivity(
+                                Intent(
+                                    intentAction,
+                                    BuildConfig.RATE_URL.toUri()
+                                )
+                            )
+                        }
+                    } catch (_: Exception) {
+                        toaster.show(
+                            message = context.getString(R.string.error_request_run_failed),
+                            type = ToastType.Error
+                        )
+                    }
+                },
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                ) {
+                    Icon(
+                        painter = painterResource(TablerIcons.Message),
+                        contentDescription = stringResource(R.string.action_rate)
+                    )
+                    Text(
+                        text = stringResource(R.string.action_rate)
+                    )
+                }
+            }
+            FilledTonalButton(
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    try {
+                        if (BuildConfig.FLAVOR == "telegram") {
+                            uriHandler.openUri(BuildConfig.APPS_URL)
+                        } else {
+                            val intentAction = Intent.ACTION_VIEW
+                            context.startActivity(
+                                Intent(
+                                    intentAction,
+                                    BuildConfig.APPS_URL.toUri()
+                                )
+                            )
+                        }
+                    } catch (_: Exception) {
+                        toaster.show(
+                            message = context.getString(R.string.error_request_run_failed),
+                            type = ToastType.Error
+                        )
+                    }
+                },
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                ) {
+                    Icon(
+                        painter = painterResource(TablerIcons.Apps),
+                        contentDescription = stringResource(R.string.action_more_apps)
+                    )
+                    Text(
+                        text = stringResource(R.string.action_more_apps)
+                    )
+                }
+            }
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        Text(
+            text = stringResource(R.string.settings_app_version).format(
+                stringResource(R.string.app_name),
+                BuildConfig.VERSION_NAME
+            ),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.labelMedium,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+        )
+        Spacer(Modifier.height(80.dp))
+    }
+}
+
+@Composable
+fun SwitchItem(
+    title: String,
+    isChecked: Boolean,
+    onCheckedChanged: (isChecked: Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onCheckedChanged(!isChecked)
+            },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            title,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(start = 16.dp)
+        )
+        Switch(
+            isChecked,
+            modifier = Modifier.padding(end = 16.dp),
+            onCheckedChange = {
+                onCheckedChanged(!isChecked)
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun SettingsSheetPreview() {
+    KartamTheme {
+        SettingsSheetContent(
+            toaster = rememberToasterState(),
+            onDismissRequest = {},
+            onThemeChangedRequest = {},
+            onLanguageChangedRequest = {}
+        )
+    }
+}
