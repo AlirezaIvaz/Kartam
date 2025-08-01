@@ -5,21 +5,21 @@
     android:viewportWidth="48.0"
     android:viewportHeight="48.0">
     <path
-        android:fillColor="@color/full_logo_eghtesad_novin_1"
+        android:fillColor="@color/logo_eghtesad_novin_1"
         android:pathData="M8.7443,16.4315C12.469,16.4315 15.4885,13.4248 15.4885,9.7158C15.4885,6.0068 12.469,3 8.7443,3C5.0195,3 2,6.0068 2,9.7158C2,13.4248 5.0195,16.4315 8.7443,16.4315Z" />
     <path
-        android:fillColor="@color/full_logo_eghtesad_novin_2"
+        android:fillColor="@color/logo_eghtesad_novin_2"
         android:pathData="M40.1223,46C43.8471,46 46.8666,42.9932 46.8666,39.2842C46.8666,35.5752 43.8471,32.5685 40.1223,32.5685C36.3976,32.5685 33.3781,35.5752 33.3781,39.2842C33.3781,42.9932 36.3976,46 40.1223,46Z" />
     <path
-        android:fillColor="@color/full_logo_eghtesad_novin_3"
+        android:fillColor="@color/logo_eghtesad_novin_3"
         android:fillType="evenOdd"
         android:pathData="M21.605,6.978L13.9151,45.9996H2L21.605,6.978Z" />
     <path
-        android:fillColor="@color/full_logo_eghtesad_novin_4"
+        android:fillColor="@color/logo_eghtesad_novin_4"
         android:fillType="evenOdd"
         android:pathData="M34.7722,3L26.8894,42.748C25.7772,44.7486 23.658,45.9999 21.3481,45.9999H13.9126L21.6025,6.9782L21.8501,6.4854C22.9233,4.3493 25.1163,3 27.515,3H34.7722Z" />
     <path
-        android:fillColor="@color/full_logo_eghtesad_novin_5"
+        android:fillColor="@color/logo_eghtesad_novin_5"
         android:fillType="evenOdd"
         android:pathData="M46.8695,3C46.8695,3 32.0379,32.5085 26.8934,42.748C26.8458,42.8427 34.7762,3 34.7762,3H46.8695Z" />
 </vector>
