@@ -20,6 +20,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +41,7 @@ import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.CardOptionItem
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
+import ir.alirezaivaz.kartam.utils.SettingsManager
 import ir.alirezaivaz.tablericons.TablerIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,6 +81,7 @@ fun CardOptionsSheetContent(
     onDeleteRequest: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
+    val isSecretCvv2InDetails by SettingsManager.isSecretCvv2InDetails.collectAsState()
     Column(
         modifier = Modifier
             .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
@@ -94,7 +98,7 @@ fun CardOptionsSheetContent(
         CardItem(
             card = card,
             showShabaNumber = true,
-            isCvv2VisibleByDefault = true
+            isCvv2VisibleByDefault = !isSecretCvv2InDetails
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
         HorizontalDivider()

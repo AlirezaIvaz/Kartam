@@ -1,7 +1,6 @@
 package ir.alirezaivaz.kartam.ui.screens
 
 import android.content.Intent
-import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -83,6 +82,7 @@ fun HomeScreen() {
     var showSettingsSheet by remember { mutableStateOf(false) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
     var showDeleteCardSheet by remember { mutableStateOf(false) }
+    val isSecretCvv2InList by SettingsManager.isSecretCvv2InList.collectAsState()
 
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == Lifecycle.State.RESUMED && loadingState != LoadingState.LOADING) {
@@ -168,6 +168,11 @@ fun HomeScreen() {
                     SettingsSheet(
                         onDismissRequest = {
                             showSettingsSheet = false
+                        },
+                        onRefreshRequest = {
+                            scope.launch {
+                                viewModel.loadCards()
+                            }
                         },
                         onThemeChangedRequest = { item ->
                             scope.launch {
@@ -263,6 +268,7 @@ fun HomeScreen() {
                                         CardItem(
                                             card = it,
                                             modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                                            isCvv2VisibleByDefault = !isSecretCvv2InList,
                                             onClick = {
                                                 selectedCard = it
                                                 showCardOptionsSheet = true

@@ -3,7 +3,9 @@ package ir.alirezaivaz.kartam.ui.sheets
 
 import android.content.Intent
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,14 +18,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.RichTooltip
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,6 +48,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.BuildConfig
@@ -52,13 +61,13 @@ import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import ir.alirezaivaz.tablericons.TablerIcons
-import androidx.core.net.toUri
-import com.dokar.sonner.ToastType
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsSheet(
     onDismissRequest: () -> Unit,
+    onRefreshRequest: () -> Unit,
     onThemeChangedRequest: (theme: Theme) -> Unit,
     onLanguageChangedRequest: (Language) -> Unit
 ) {
@@ -75,15 +84,18 @@ fun SettingsSheet(
             toaster = toaster,
             onDismissRequest = onDismissRequest,
             onThemeChangedRequest = onThemeChangedRequest,
+            onRefreshRequest = onRefreshRequest,
             onLanguageChangedRequest = onLanguageChangedRequest
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsSheetContent(
     toaster: ToasterState,
     onDismissRequest: () -> Unit,
+    onRefreshRequest: () -> Unit,
     onThemeChangedRequest: (theme: Theme) -> Unit,
     onLanguageChangedRequest: (language: Language) -> Unit
 ) {
@@ -94,9 +106,12 @@ fun SettingsSheetContent(
     val uriHandler = LocalUriHandler.current
     val themes = Theme.entries.map { it }
     val languages = Language.entries.map { it }
+    val tooltipState = rememberTooltipState(isPersistent = true)
     var selectedThemeIndex by remember { mutableIntStateOf(themes.indexOf(theme)) }
     var selectedLanguageIndex by remember { mutableIntStateOf(languages.indexOf(language)) }
     val isDynamicColors by SettingsManager.isDynamicColors.collectAsState()
+    val isSecretCvv2List by SettingsManager.isSecretCvv2InList.collectAsState()
+    val isSecretCvv2Details by SettingsManager.isSecretCvv2InDetails.collectAsState()
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -120,6 +135,81 @@ fun SettingsSheetContent(
                 }
             )
         }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .combinedClickable(
+                    onClick = {
+                        scope.launch {
+                            tooltipState.show()
+                        }
+                    },
+                    onLongClick = {
+                        scope.launch {
+                            tooltipState.show()
+                        }
+                    }
+                )
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_hide_cvv2),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Start,
+                )
+                TooltipBox(
+                    state = tooltipState,
+                    positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+                    tooltip = {
+                        RichTooltip(
+                            title = {
+                                Text(
+                                    text = stringResource(R.string.settings_hide_cvv2)
+                                )
+                            }
+                        ) {
+                            Text(
+                                text = stringResource(R.string.settings_hide_cvv2_description)
+                            )
+                        }
+                    }
+                ) {
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                tooltipState.show()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(TablerIcons.HelpCircle),
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+        }
+        SwitchItem(
+            title = stringResource(R.string.settings_hide_cvv2_list),
+            isChecked = isSecretCvv2List,
+            onCheckedChanged = {
+                SettingsManager.setSecretCvv2List(it)
+                onRefreshRequest()
+            }
+        )
+        SwitchItem(
+            title = stringResource(R.string.settings_hide_cvv2_details),
+            isChecked = isSecretCvv2Details,
+            onCheckedChanged = {
+                SettingsManager.setSecretCvv2Details(it)
+            }
+        )
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
         Text(
             text = stringResource(R.string.settings_language),
@@ -337,6 +427,7 @@ fun SettingsSheetPreview() {
         SettingsSheetContent(
             toaster = rememberToasterState(),
             onDismissRequest = {},
+            onRefreshRequest = {},
             onThemeChangedRequest = {},
             onLanguageChangedRequest = {}
         )
