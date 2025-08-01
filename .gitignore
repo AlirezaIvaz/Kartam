@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+*.apk
+*.aab
+/app/cafebazaar
+/app/myket
+/app/telegram
