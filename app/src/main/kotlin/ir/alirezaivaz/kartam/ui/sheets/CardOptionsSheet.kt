@@ -97,7 +97,6 @@ fun CardOptionsSheetContent(
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
         CardItem(
             card = card,
-            showShabaNumber = true,
             isCvv2VisibleByDefault = !isSecretCvv2InDetails
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))

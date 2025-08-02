@@ -18,6 +18,8 @@ object SettingsManager {
     private const val PREF_THEME = "pref_theme"
     private const val PREF_LANGUAGE = "pref_language"
     private const val PREF_DYNAMIC_COLORS = "pref_dynamic_colors"
+    private const val PREF_SHOW_SHABA_NUMBER = "pref_show_shaba_number"
+    private const val PREF_SHOW_SHABA_NUMBER_DEFAULT = true
     private const val PREF_SECRET_CVV2_LIST = "pref_secret_cvv2_list"
     private const val PREF_SECRET_CVV2_LIST_DEFAULT = true
     private const val PREF_SECRET_CVV2_DETAILS = "pref_secret_cvv2_details"
@@ -25,6 +27,8 @@ object SettingsManager {
 
     private val _isDynamicColors = MutableStateFlow(settings[PREF_DYNAMIC_COLORS, isDynamicColorsSupported])
     val isDynamicColors: StateFlow<Boolean> = _isDynamicColors
+    private val _isShowShabaNumberInCard = MutableStateFlow(settings[PREF_SHOW_SHABA_NUMBER, PREF_SHOW_SHABA_NUMBER_DEFAULT])
+    val isShowShabaNumberInCard: StateFlow<Boolean> = _isShowShabaNumberInCard
     private val _isSecretCvv2InList = MutableStateFlow(settings[PREF_SECRET_CVV2_LIST, PREF_SECRET_CVV2_LIST_DEFAULT])
     val isSecretCvv2InList: StateFlow<Boolean> = _isSecretCvv2InList
     private val _isSecretCvv2InDetails = MutableStateFlow(settings[PREF_SECRET_CVV2_DETAILS, PREF_SECRET_CVV2_DETAILS_DEFAULT])
@@ -53,6 +57,11 @@ object SettingsManager {
     fun setDynamicColors(value: Boolean) {
         _isDynamicColors.value = value
         settings[PREF_DYNAMIC_COLORS] = value
+    }
+
+    fun setShowShabaNumberInCard(value: Boolean) {
+        _isShowShabaNumberInCard.value = value
+        settings[PREF_SHOW_SHABA_NUMBER] = value
     }
 
     fun setSecretCvv2List(value: Boolean) {

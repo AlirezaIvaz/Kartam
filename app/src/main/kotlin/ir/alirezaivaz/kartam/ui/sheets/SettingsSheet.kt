@@ -110,6 +110,7 @@ fun SettingsSheetContent(
     var selectedThemeIndex by remember { mutableIntStateOf(themes.indexOf(theme)) }
     var selectedLanguageIndex by remember { mutableIntStateOf(languages.indexOf(language)) }
     val isDynamicColors by SettingsManager.isDynamicColors.collectAsState()
+    val isShowShabaNumberInCard by SettingsManager.isShowShabaNumberInCard.collectAsState()
     val isSecretCvv2List by SettingsManager.isSecretCvv2InList.collectAsState()
     val isSecretCvv2Details by SettingsManager.isSecretCvv2InDetails.collectAsState()
 
@@ -135,6 +136,13 @@ fun SettingsSheetContent(
                 }
             )
         }
+        SwitchItem(
+            title = stringResource(R.string.settings_show_shaba_number_in_card),
+            isChecked = isShowShabaNumberInCard,
+            onCheckedChanged = {
+                SettingsManager.setShowShabaNumberInCard(it)
+            }
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()

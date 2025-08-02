@@ -1,6 +1,7 @@
 package ir.alirezaivaz.kartam.ui.widgets
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -59,7 +60,6 @@ import java.util.Locale
 fun CardItem(
     card: CardInfo,
     modifier: Modifier = Modifier,
-    showShabaNumber: Boolean = false,
     isCvv2VisibleByDefault: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
@@ -67,6 +67,7 @@ fun CardItem(
     var isCvv2Visible by remember { mutableStateOf(isCvv2VisibleByDefault) }
     val foreignByDefault = language == Language.English && !card.englishName.isNullOrEmpty()
     var isForeignNameVisible by remember { mutableStateOf(foreignByDefault) }
+    val isShowShabaNumberInCard by SettingsManager.isShowShabaNumberInCard.collectAsState()
     DirectionLayout(LayoutDirection.Ltr) {
         Card(
             modifier = modifier
@@ -193,10 +194,10 @@ fun CardItem(
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
-                if (showShabaNumber && !card.shabaNumber.isNullOrEmpty()) {
+                AnimatedVisibility(isShowShabaNumberInCard && !card.shabaNumber.isNullOrEmpty()) {
                     Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                     Text(
-                        text = card.shabaNumber.formattedShabaNumber(),
+                        text = card.shabaNumber?.formattedShabaNumber() ?: "",
                         style = MaterialTheme.typography.titleSmall,
                         modifier = Modifier
                             .fillMaxWidth()

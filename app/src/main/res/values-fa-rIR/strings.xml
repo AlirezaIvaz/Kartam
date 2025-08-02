@@ -64,6 +64,7 @@
 
     <!-- Settings -->
     <string name="settings_dynamic_colors">رنگ‌بندی پویا</string>
+    <string name="settings_show_shaba_number_in_card">نمایش شمارهٔ شبا در کارت</string>
     <string name="settings_hide_cvv2">مخفی‌کردن CVV2</string>
     <string name="settings_hide_cvv2_description">CVV2 به‌صورت پیش‌فرض مخفی خواهد بود و برای دیدن آن باید چند ثانیه انگشت خود را روی کارت نگه‌دارید.</string>
     <string name="settings_hide_cvv2_list">در فهرست کارت‌ها</string>
