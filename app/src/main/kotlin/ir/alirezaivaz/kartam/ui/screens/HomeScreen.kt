@@ -3,16 +3,17 @@ package ir.alirezaivaz.kartam.ui.screens
 import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -36,7 +37,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -64,6 +67,8 @@ import ir.alirezaivaz.tablericons.TablerIcons
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,6 +77,7 @@ fun HomeScreen() {
     val toaster = rememberToasterState()
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val hapticFeedback = LocalHapticFeedback.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     val db = AppDatabase.getInstance(context)
     val viewModel = MainViewModel.getInstance(db)
@@ -83,6 +89,11 @@ fun HomeScreen() {
     var showCardOptionsSheet by remember { mutableStateOf(false) }
     var showDeleteCardSheet by remember { mutableStateOf(false) }
     val isSecretCvv2InList by SettingsManager.isSecretCvv2InList.collectAsState()
+    val lazyListState = rememberLazyListState()
+    val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
+        viewModel.onMove(from.index, to.index)
+        hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+    }
 
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == Lifecycle.State.RESUMED && loadingState != LoadingState.LOADING) {
@@ -258,25 +269,46 @@ fun HomeScreen() {
                                     }
                                 }
                             ) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .verticalScroll(rememberScrollState())
+                                LazyColumn(
+                                    state = lazyListState,
+                                    modifier = Modifier.fillMaxSize()
                                 ) {
-                                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-                                    cards.forEach {
-                                        CardItem(
-                                            card = it,
-                                            modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                                            isCvv2VisibleByDefault = !isSecretCvv2InList,
-                                            onClick = {
-                                                selectedCard = it
-                                                showCardOptionsSheet = true
-                                            }
-                                        )
+                                    item {
+                                        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                                    }
+                                    items(
+                                        items = cards,
+                                        key = { it.id }
+                                    ) { item ->
+                                        ReorderableItem(
+                                            state = reorderableLazyListState,
+                                            key = item.id
+                                        ) { isDragging ->
+                                            val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
+                                            CardItem(
+                                                card = item,
+                                                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                                                isCvv2VisibleByDefault = !isSecretCvv2InList,
+                                                cardElevation = elevation,
+                                                dragHandleModifier = Modifier.draggableHandle(
+                                                    onDragStarted = {
+                                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                                                    },
+                                                    onDragStopped = {
+                                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
+                                                    }
+                                                ),
+                                                onClick = {
+                                                    selectedCard = item
+                                                    showCardOptionsSheet = true
+                                                }
+                                            )
+                                        }
                                         Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                                     }
-                                    Spacer(Modifier.height(80.dp))
+                                    item {
+                                        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                                    }
                                 }
                             }
                         }

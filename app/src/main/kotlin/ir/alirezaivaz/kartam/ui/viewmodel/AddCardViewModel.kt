@@ -173,6 +173,7 @@ class AddCardViewModel(
         val isAllFieldsValid = validateFields()
         if (isAllFieldsValid.isSuccess) {
             withContext(Dispatchers.IO) {
+                val position = _cardDao.getMaxPosition() ?: 0
                 val card = CardInfo(
                     name = _ownerName.value.text,
                     englishName = _ownerEnglishName.value.text,
@@ -182,7 +183,8 @@ class AddCardViewModel(
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toIntOrNull(),
-                    bank = _bank.value
+                    bank = _bank.value,
+                    position = position + 1
                 )
                 _cardDao.insert(card)
             }

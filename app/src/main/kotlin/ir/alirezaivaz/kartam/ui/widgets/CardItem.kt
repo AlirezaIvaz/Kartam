@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,10 +40,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.dto.Language
@@ -60,6 +61,8 @@ import java.util.Locale
 fun CardItem(
     card: CardInfo,
     modifier: Modifier = Modifier,
+    dragHandleModifier: Modifier = Modifier,
+    cardElevation: Dp = 0.dp,
     isCvv2VisibleByDefault: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
@@ -71,18 +74,19 @@ fun CardItem(
     DirectionLayout(LayoutDirection.Ltr) {
         Card(
             modifier = modifier
+                .shadow(
+                    elevation = cardElevation,
+                    shape = CardDefaults.shape,
+                )
                 .clip(CardDefaults.shape)
                 .then(
-                    Modifier.combinedClickable(
-                        onClick = {
-                            onClick?.invoke()
-                        },
-                        onLongClick = {
-                            if (card.cvv2 != null) {
-                                isCvv2Visible = !isCvv2Visible
-                            }
+                    if (onClick != null) {
+                        Modifier.clickable {
+                            onClick.invoke()
                         }
-                    )
+                    } else {
+                        Modifier
+                    }
                 ),
         ) {
 //        Box {
@@ -116,7 +120,7 @@ fun CardItem(
                     ) { bank ->
                         Image(
                             painter = painterResource(bank.icon),
-                            modifier = Modifier
+                            modifier = dragHandleModifier
                                 .height(48.dp)
                                 .widthIn(max = 48.dp),
                             contentDescription = stringResource(bank.title)
@@ -170,7 +174,7 @@ fun CardItem(
                                     R.drawable.ic_logo_shetab
                                 }
                             ),
-                            modifier = Modifier
+                            modifier = dragHandleModifier
                                 .height(24.dp)
                                 .widthIn(min = 32.dp),
                             contentDescription = null
@@ -211,7 +215,7 @@ fun CardItem(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        .padding(horizontal = dimensionResource(R.dimen.padding_spacing)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
                 ) {
@@ -227,32 +231,49 @@ fun CardItem(
                         fontWeight = FontWeight.ExtraBold
                     )
                     Spacer(Modifier.weight(1f))
-                    Spacer(Modifier.weight(1f))
-                    Text(
-                        text = stringResource(R.string.label_cvv2),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.W300
-                    )
-                    AnimatedContent(
-                        targetState = isCvv2Visible,
-                        transitionSpec = {
-                            fadeIn(tween(300)) togetherWith fadeOut(tween(300))
-                        },
-                        label = "ObfuscationAnimation"
-                    ) { visible ->
-                        AnimatedContent(
-                            Utils.getCvv2(card.cvv2?.toString(), visible),
-                            transitionSpec = {
-                                fadeIn(tween(200)) togetherWith fadeOut(tween(200))
-                            },
-                            label = "Cvv2ChangeAnimation"
-                        ) { cvv2 ->
+                    AnimatedVisibility(
+                        visible = !card.cvv2?.toString().isNullOrBlank(),
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable {
+                                    isCvv2Visible = !isCvv2Visible
+                                },
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        ) {
                             Text(
-                                text = cvv2,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontFamily = kodeMonoFontFamily,
-                                fontWeight = FontWeight.ExtraBold
+                                text = stringResource(R.string.label_cvv2),
+                                style = MaterialTheme.typography.labelSmall,
+                                modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_spacing)),
+                                fontWeight = FontWeight.W300
                             )
+                            AnimatedContent(
+                                targetState = isCvv2Visible,
+                                transitionSpec = {
+                                    fadeIn(tween(300)) togetherWith fadeOut(tween(300))
+                                },
+                                label = "ObfuscationAnimation"
+                            ) { visible ->
+                                AnimatedContent(
+                                    Utils.getCvv2(card.cvv2?.toString(), visible),
+                                    transitionSpec = {
+                                        fadeIn(tween(200)) togetherWith fadeOut(tween(200))
+                                    },
+                                    label = "Cvv2ChangeAnimation"
+                                ) { cvv2 ->
+                                    Text(
+                                        text = cvv2,
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_spacing)),
+                                        fontFamily = kodeMonoFontFamily,
+                                        fontWeight = FontWeight.ExtraBold
+                                    )
+                                }
+                            }
                         }
                     }
                 }

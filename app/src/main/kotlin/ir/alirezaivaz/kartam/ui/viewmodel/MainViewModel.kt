@@ -60,6 +60,24 @@ class MainViewModel(db: AppDatabase) : ViewModel() {
         }
     }
 
+    fun onMove(from: Int, to: Int) {
+        val currentList = _cards.value.toMutableList()
+        try {
+            val item = currentList.removeAt(from -1)
+            currentList.add(to -1, item)
+            viewModelScope.launch {
+                currentList.forEachIndexed { index, card ->
+                    if (card.position != index) {
+                        _cardDao.update(card.copy(position = index))
+                    }
+                }
+                _cards.value = currentList
+            }
+        } catch (_: Exception) {
+            return
+        }
+    }
+
     suspend fun deleteCard(card: CardInfo) {
         updateIsRefreshing(true)
         _cardDao.delete(card)

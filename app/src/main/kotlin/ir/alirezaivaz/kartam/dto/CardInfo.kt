@@ -26,4 +26,6 @@ data class CardInfo(
     val cvv2: Int?,
     @ColumnInfo(name = "bank")
     val bank: Bank,
+    @ColumnInfo(name = "position")
+    val position: Int = 0,
 )
