@@ -155,23 +155,27 @@ fun HomeScreen() {
                     )
                 },
                 floatingActionButton = {
-                    ExtendedFloatingActionButton(
-                        text = {
-                            Text(
-                                text = stringResource(R.string.action_add_card)
-                            )
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = stringResource(R.string.action_add_card)
-                            )
-                        },
-                        onClick = {
-                            val intent = Intent(context, AddCardActivity::class.java)
-                            context.startActivity(intent)
-                        }
-                    )
+                    AnimatedVisibility(
+                        visible = loadingState != LoadingState.LOADING,
+                    ) {
+                        ExtendedFloatingActionButton(
+                            text = {
+                                Text(
+                                    text = stringResource(R.string.action_add_card)
+                                )
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = stringResource(R.string.action_add_card)
+                                )
+                            },
+                            onClick = {
+                                val intent = Intent(context, AddCardActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                        )
+                    }
                 }
             ) { innerPadding ->
                 KartamToaster(state = toaster)
