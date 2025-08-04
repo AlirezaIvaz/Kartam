@@ -199,79 +199,98 @@ fun CardItem(
                     )
                 }
                 AnimatedVisibility(isShowShabaNumberInCard && !card.shabaNumber.isNullOrEmpty()) {
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                     Text(
                         text = card.shabaNumber?.formattedShabaNumber() ?: "",
                         style = MaterialTheme.typography.titleSmall,
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(top = dimensionResource(R.dimen.padding_spacing))
                             .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                         textAlign = TextAlign.Start,
                         fontFamily = kodeMonoFontFamily,
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(R.dimen.padding_spacing)),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                AnimatedVisibility(
+                    visible = (!card.expirationMonth?.toString().isNullOrBlank() && !card.expirationYear?.toString().isNullOrBlank())
+                            || !card.cvv2?.toString().isNullOrBlank(),
                 ) {
-                    Text(
-                        text = stringResource(R.string.label_exp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.W300
-                    )
-                    Text(
-                        text = stringResource(R.string.formatter_exp_date).format(Locale.ENGLISH,card.expirationMonth ?: 0, card.expirationYear ?: 0),
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontFamily = kodeMonoFontFamily,
-                        fontWeight = FontWeight.ExtraBold
-                    )
-                    Spacer(Modifier.weight(1f))
-                    AnimatedVisibility(
-                        visible = !card.cvv2?.toString().isNullOrBlank(),
-                        enter = fadeIn(),
-                        exit = fadeOut()
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = dimensionResource(R.dimen.padding_spacing))
+                            .padding(horizontal = dimensionResource(R.dimen.padding_spacing)),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(12.dp))
-                                .clickable {
-                                    isCvv2Visible = !isCvv2Visible
-                                },
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        AnimatedVisibility(
+                            visible = !card.expirationMonth?.toString().isNullOrBlank() && !card.expirationYear?.toString().isNullOrBlank(),
+                            enter = fadeIn(),
+                            exit = fadeOut()
                         ) {
-                            Text(
-                                text = stringResource(R.string.label_cvv2),
-                                style = MaterialTheme.typography.labelSmall,
-                                modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_spacing)),
-                                fontWeight = FontWeight.W300
-                            )
-                            AnimatedContent(
-                                targetState = isCvv2Visible,
-                                transitionSpec = {
-                                    fadeIn(tween(300)) togetherWith fadeOut(tween(300))
-                                },
-                                label = "ObfuscationAnimation"
-                            ) { visible ->
-                                AnimatedContent(
-                                    Utils.getCvv2(card.cvv2?.toString(), visible),
-                                    transitionSpec = {
-                                        fadeIn(tween(200)) togetherWith fadeOut(tween(200))
+                            Row(
+                                modifier = Modifier.clip(RoundedCornerShape(12.dp)),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.label_exp),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_spacing)),
+                                    fontWeight = FontWeight.W300
+                                )
+                                Text(
+                                    text = stringResource(R.string.formatter_exp_date).format(Locale.ENGLISH,card.expirationMonth ?: 0, card.expirationYear ?: 0),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_spacing)),
+                                    fontFamily = kodeMonoFontFamily,
+                                    fontWeight = FontWeight.ExtraBold
+                                )
+                            }
+                        }
+                        Spacer(Modifier.weight(1f))
+                        AnimatedVisibility(
+                            visible = !card.cvv2?.toString().isNullOrBlank(),
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .clickable {
+                                        isCvv2Visible = !isCvv2Visible
                                     },
-                                    label = "Cvv2ChangeAnimation"
-                                ) { cvv2 ->
-                                    Text(
-                                        text = cvv2,
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_spacing)),
-                                        fontFamily = kodeMonoFontFamily,
-                                        fontWeight = FontWeight.ExtraBold
-                                    )
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.label_cvv2),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_spacing)),
+                                    fontWeight = FontWeight.W300
+                                )
+                                AnimatedContent(
+                                    targetState = isCvv2Visible,
+                                    transitionSpec = {
+                                        fadeIn(tween(300)) togetherWith fadeOut(tween(300))
+                                    },
+                                    label = "ObfuscationAnimation"
+                                ) { visible ->
+                                    AnimatedContent(
+                                        Utils.getCvv2(card.cvv2?.toString(), visible),
+                                        transitionSpec = {
+                                            fadeIn(tween(200)) togetherWith fadeOut(tween(200))
+                                        },
+                                        label = "Cvv2ChangeAnimation"
+                                    ) { cvv2 ->
+                                        Text(
+                                            text = cvv2,
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_spacing)),
+                                            fontFamily = kodeMonoFontFamily,
+                                            fontWeight = FontWeight.ExtraBold
+                                        )
+                                    }
                                 }
                             }
                         }

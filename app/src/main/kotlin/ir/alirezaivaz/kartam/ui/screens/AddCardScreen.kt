@@ -429,7 +429,7 @@ fun AddCardScreen(cardId: Int) {
                                     value = expirationMonth,
                                     modifier = Modifier.weight(1f),
                                     singleLine = true,
-                                    isError = !expirationMonth.text.isValidMonth(),
+                                    isError = expirationMonth.text.isNotEmpty() && !expirationMonth.text.isValidMonth(),
                                     label = {
                                         Text(
                                             text = stringResource(R.string.label_exp_month)
@@ -450,7 +450,7 @@ fun AddCardScreen(cardId: Int) {
                                     value = expirationYear,
                                     modifier = Modifier.weight(1f),
                                     singleLine = true,
-                                    isError = !expirationYear.text.isValidYear(),
+                                    isError = expirationYear.text.isNotEmpty() && !expirationYear.text.isValidYear(),
                                     label = {
                                         Text(
                                             text = stringResource(R.string.label_exp_year)

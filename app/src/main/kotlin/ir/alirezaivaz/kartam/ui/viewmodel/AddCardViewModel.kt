@@ -36,25 +36,23 @@ class AddCardViewModel(
     val isEdit: StateFlow<Boolean> = _isEdit
     private val _loadingState = MutableStateFlow(LoadingState.LOADING)
     val loadingState: StateFlow<LoadingState> = _loadingState
-    private val _cardNumber = MutableStateFlow(TextFieldValue(""))
+    private val _cardNumber = MutableStateFlow(TextFieldValue())
     val cardNumber: StateFlow<TextFieldValue> = _cardNumber
-    private val _ownerName = MutableStateFlow(TextFieldValue(""))
+    private val _ownerName = MutableStateFlow(TextFieldValue())
     val ownerName: StateFlow<TextFieldValue> = _ownerName
-    private val _ownerEnglishName = MutableStateFlow(TextFieldValue(""))
+    private val _ownerEnglishName = MutableStateFlow(TextFieldValue())
     val ownerEnglishName: StateFlow<TextFieldValue> = _ownerEnglishName
     private val _bank = MutableStateFlow(Bank.Unknown)
     val bank: StateFlow<Bank> = _bank
-    private val _shabaNumber = MutableStateFlow(TextFieldValue(""))
+    private val _shabaNumber = MutableStateFlow(TextFieldValue())
     val shabaNumber: StateFlow<TextFieldValue> = _shabaNumber
-    private val _accountNumber = MutableStateFlow(TextFieldValue(""))
+    private val _accountNumber = MutableStateFlow(TextFieldValue())
     val accountNumber: StateFlow<TextFieldValue> = _accountNumber
-    private val _expirationMonth =
-        MutableStateFlow(TextFieldValue(jalaliCalendar.month.formattedMonth()))
+    private val _expirationMonth = MutableStateFlow(TextFieldValue())
     val expirationMonth: StateFlow<TextFieldValue> = _expirationMonth
-    private val _expirationYear =
-        MutableStateFlow(TextFieldValue(jalaliCalendar.year.formattedYear()))
+    private val _expirationYear = MutableStateFlow(TextFieldValue())
     val expirationYear: StateFlow<TextFieldValue> = _expirationYear
-    private val _cvv2 = MutableStateFlow(TextFieldValue(""))
+    private val _cvv2 = MutableStateFlow(TextFieldValue())
     val cvv2: StateFlow<TextFieldValue> = _cvv2
 
     init {
@@ -157,13 +155,9 @@ class AddCardViewModel(
             return Result(errorCode = ErrorCode.InvalidAccountNumber)
         } else if (_cvv2.value.text.isNotEmpty() && !_cvv2.value.text.isValidCvv2()) {
             return Result(errorCode = ErrorCode.InvalidCvv2)
-        } else if (_expirationMonth.value.text.isEmpty()) {
-            return Result(errorCode = ErrorCode.EmptyExpirationMonth)
-        } else if (!_expirationMonth.value.text.isValidMonth()) {
+        } else if (_expirationMonth.value.text.isNotEmpty() && !_expirationMonth.value.text.isValidMonth()) {
             return Result(errorCode = ErrorCode.InvalidExpirationMonth)
-        } else if (_expirationYear.value.text.isEmpty()) {
-            return Result(errorCode = ErrorCode.EmptyExpirationYear)
-        } else if (!_expirationYear.value.text.isValidYear()) {
+        } else if (_expirationYear.value.text.isNotEmpty() && !_expirationYear.value.text.isValidYear()) {
             return Result(errorCode = ErrorCode.InvalidExpirationYear)
         }
         return Result(isSuccess = true)

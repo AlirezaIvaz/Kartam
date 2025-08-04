@@ -20,12 +20,6 @@ enum class ErrorCode(
     EmptyCardOwnerName(
         message = R.string.error_empty_owner_name
     ),
-    EmptyExpirationMonth(
-        message = R.string.error_empty_exp_month
-    ),
-    EmptyExpirationYear(
-        message = R.string.error_empty_exp_year
-    ),
     InvalidCardNumber(
         message = R.string.error_invalid_card_number
     ),
