@@ -9,6 +9,10 @@ plugins {
 
 val isBundleBuild = gradle.startParameter.taskNames.any { it.contains("bundle", ignoreCase = true) }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 android {
     namespace = "ir.alirezaivaz.kartam"
     compileSdk = 36
