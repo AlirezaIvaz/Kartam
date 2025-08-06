@@ -97,6 +97,7 @@
     <string name="bank_day">Day Bank</string>
     <string name="bank_eghtesad_novin">Eghtesad Novin Bank</string>
     <string name="bank_gardeshgari">Gardeshgari Bank</string>
+    <string name="bank_hibank">HiBank</string>
     <string name="bank_iran_venezuela">Iran-Venezuela BiNational Bank</string>
     <string name="bank_iranzamin">Iranzamin Bank</string>
     <string name="bank_karafarin">Karafarin Bank</string>
@@ -107,6 +108,7 @@
     <string name="bank_melal">Melal Credit Institution</string>
     <string name="bank_mellat">Mellat Bank</string>
     <string name="bank_melli">Bank Melli Iran</string>
+    <string name="bank_metabank">MetaBank</string>
     <string name="bank_noor">Noor Credit Institution</string>
     <string name="bank_parsian">Parsian Bank</string>
     <string name="bank_pasargad">Pasargad Bank</string>

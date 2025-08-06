@@ -29,6 +29,20 @@ enum class Bank(
         isNeo = true,
         prefixes = listOf("62198618", "62198619")
     ),
+    HiBank(
+        logo = R.drawable.full_logo_hibank,
+        icon = R.drawable.ic_logo_hibank,
+        title = R.string.bank_hibank,
+        isNeo = true,
+        prefixes = listOf(),
+    ),
+    MetaBank(
+        logo = R.drawable.full_logo_metabank,
+        icon = R.drawable.ic_logo_metabank,
+        title = R.string.bank_metabank,
+        isNeo = true,
+        prefixes = listOf(),
+    ),
     Wepod(
         logo = R.drawable.full_logo_wepod,
         icon = R.drawable.ic_logo_wepod,
@@ -270,8 +284,12 @@ val Bank.relatedBank: Bank?
         Bank.Ansar -> Bank.Sepah
         Bank.Bankino -> Bank.Khavarmianeh
         Bank.BluBank -> Bank.Saman
+        Bank.HiBank -> Bank.Karafarin
+        Bank.Karafarin -> Bank.HiBank
         Bank.Khavarmianeh -> Bank.Bankino
+        Bank.Melal -> Bank.MetaBank
         Bank.Melli -> Bank.Noor
+        Bank.MetaBank -> Bank.Melal
         Bank.Noor -> Bank.Melli
         Bank.Pasargad -> Bank.Wepod
         Bank.Saman -> Bank.BluBank

@@ -86,6 +86,7 @@
     <string name="bank_day">بانک دی</string>
     <string name="bank_eghtesad_novin">بانک اقتصاد نوین</string>
     <string name="bank_gardeshgari">بانک گردشگری</string>
+    <string name="bank_hibank">های‌بانک</string>
     <string name="bank_iran_venezuela">بانک مشترک ایران و ونزوئلا</string>
     <string name="bank_iranzamin">بانک ایران‌زمین</string>
     <string name="bank_karafarin">بانک کارآفرین</string>
@@ -96,6 +97,7 @@
     <string name="bank_melal">مؤسسه اعتباری ملل</string>
     <string name="bank_mellat">بانک ملت</string>
     <string name="bank_melli">بانک ملی ایران</string>
+    <string name="bank_metabank">متابانک</string>
     <string name="bank_noor">مؤسسه اعتباری نور</string>
     <string name="bank_parsian">بانک پارسیان</string>
     <string name="bank_pasargad">بانک پاسارگاد</string>
