@@ -147,7 +147,7 @@ fun HomeScreen() {
                                 ) {
                                     Icon(
                                         painter = painterResource(TablerIcons.Settings),
-                                        contentDescription = stringResource(R.string.action_reload)
+                                        contentDescription = stringResource(R.string.action_settings)
                                     )
                                 }
                             }
