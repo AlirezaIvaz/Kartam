@@ -109,8 +109,8 @@ fun AddCardScreen(cardId: Int) {
     val expirationMonth by viewModel.expirationMonth.collectAsState()
     val expirationYear by viewModel.expirationYear.collectAsState()
     val cvv2 by viewModel.cvv2.collectAsState()
-    val initialMonth = jalaliCalendar.month + 3
-    val initialYear = jalaliCalendar.year + 2
+    val initialMonth = jalaliCalendar.month
+    val initialYear = jalaliCalendar.year
 
 //    LaunchedEffect(Unit) {
 //        scope.launch(Dispatchers.IO) {
