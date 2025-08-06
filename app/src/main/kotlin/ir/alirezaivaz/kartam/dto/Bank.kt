@@ -16,238 +16,238 @@ enum class Bank(
     val nonPrefixes: List<String> = emptyList(),
 ) {
     Bankino(
-        logo = R.drawable.full_logo_bankino,
-        icon = R.drawable.ic_logo_bankino,
+        icon = R.drawable.ic_bank_bankino,
+        logo = R.drawable.ic_bank_bankino_logo,
         title = R.string.bank_bankino,
         isNeo = true,
         prefixes = listOf("58594710"),
     ),
     BluBank(
-        logo = R.drawable.full_logo_blu,
-        icon = R.drawable.ic_logo_blu,
+        icon = R.drawable.ic_bank_blu,
+        logo = R.drawable.ic_bank_blu_logo,
         title = R.string.bank_blu,
         isNeo = true,
         prefixes = listOf("62198618", "62198619")
     ),
     HiBank(
-        logo = R.drawable.full_logo_hibank,
-        icon = R.drawable.ic_logo_hibank,
+        icon = R.drawable.ic_bank_hibank,
+        logo = R.drawable.ic_bank_hibank_logo,
         title = R.string.bank_hibank,
         isNeo = true,
         prefixes = listOf(),
     ),
     MetaBank(
-        logo = R.drawable.full_logo_metabank,
-        icon = R.drawable.ic_logo_metabank,
+        icon = R.drawable.ic_bank_metabank,
+        logo = R.drawable.ic_bank_metabank_logo,
         title = R.string.bank_metabank,
         isNeo = true,
         prefixes = listOf(),
     ),
     Wepod(
-        logo = R.drawable.full_logo_wepod,
-        icon = R.drawable.ic_logo_wepod,
+        icon = R.drawable.ic_bank_wepod,
+        logo = R.drawable.ic_bank_wepod_logo,
         title = R.string.bank_wepod,
         isNeo = true,
         prefixes = listOf("50222915"),
     ),
     Ansar(
-        logo = R.drawable.ic_logo_ansar,
-        icon = R.drawable.ic_logo_ansar,
+        icon = R.drawable.ic_bank_ansar,
+        logo = R.drawable.ic_bank_ansar,
         title = R.string.bank_ansar,
         prefixes = listOf("627381")
     ),
     Ayandeh(
-        logo = R.drawable.full_logo_ayandeh,
-        icon = R.drawable.ic_logo_ayandeh,
+        icon = R.drawable.ic_bank_ayandeh,
+        logo = R.drawable.ic_bank_ayandeh_logo,
         title = R.string.bank_ayandeh,
         prefixes = listOf("636214")
     ),
     Central(
-        logo = R.drawable.full_logo_central,
-        icon = R.drawable.ic_logo_central,
+        icon = R.drawable.ic_bank_central,
+        logo = R.drawable.ic_bank_central_logo,
         title = R.string.bank_central,
         prefixes = listOf("636795")
     ),
     Day(
-        logo = R.drawable.full_logo_day,
-        icon = R.drawable.ic_logo_day,
+        icon = R.drawable.ic_bank_day,
+        logo = R.drawable.ic_bank_day_logo,
         title = R.string.bank_day,
         prefixes = listOf("502938")
     ),
     EghtesadNovin(
-        logo = R.drawable.full_logo_eghtesad_novin,
-        icon = R.drawable.ic_logo_eghtesad_novin,
+        icon = R.drawable.ic_bank_eghtesad_novin,
+        logo = R.drawable.ic_bank_eghtesad_novin_logo,
         title = R.string.bank_eghtesad_novin,
         prefixes = listOf("627412")
     ),
     Gardeshgari(
-        logo = R.drawable.full_logo_gardeshgari,
-        icon = R.drawable.ic_logo_gardeshgari,
+        icon = R.drawable.ic_bank_gardeshgari,
+        logo = R.drawable.ic_bank_gardeshgari_logo,
         title = R.string.bank_gardeshgari,
         prefixes = listOf("505416")
     ),
     IranVenezuelaBiNationalBank(
-        logo = R.drawable.full_logo_iran_venezuela,
-        icon = R.drawable.ic_logo_iran_venezuela,
+        icon = R.drawable.ic_bank_iran_venezuela,
+        logo = R.drawable.ic_bank_iran_venezuela_logo,
         title = R.string.bank_iran_venezuela,
         prefixes = listOf("581874")
     ),
     IranZamin(
-        logo = R.drawable.full_logo_iranzamin,
-        icon = R.drawable.ic_logo_iranzamin,
+        icon = R.drawable.ic_bank_iranzamin,
+        logo = R.drawable.ic_bank_iranzamin_logo,
         title = R.string.bank_iran_venezuela,
         prefixes = listOf("505785")
     ),
     Karafarin(
-        logo = R.drawable.full_logo_karafarin,
-        icon = R.drawable.ic_logo_karafarin,
+        icon = R.drawable.ic_bank_karafarin,
+        logo = R.drawable.ic_bank_karafarin_logo,
         title = R.string.bank_karafarin,
         prefixes = listOf("502910", "627488")
     ),
     Keshavarzi(
-        logo = R.drawable.full_logo_keshavarzi,
-        icon = R.drawable.ic_logo_keshavarzi,
+        icon = R.drawable.ic_bank_keshavarzi,
+        logo = R.drawable.ic_bank_keshavarzi_logo,
         title = R.string.bank_keshavarzi,
         prefixes = listOf("603770", "639217")
     ),
     Khavarmianeh(
-        logo = R.drawable.full_logo_khavarmianeh,
-        icon = R.drawable.ic_logo_khavarmianeh,
+        icon = R.drawable.ic_bank_khavarmianeh,
+        logo = R.drawable.ic_bank_khavarmianeh_logo,
         title = R.string.bank_khavarmianeh,
         prefixes = listOf("585947"),
         nonPrefixes = Bankino.prefixes
     ),
     Maskan(
-        logo = R.drawable.full_logo_maskan,
-        icon = R.drawable.ic_logo_maskan,
+        icon = R.drawable.ic_bank_maskan,
+        logo = R.drawable.ic_bank_maskan_logo,
         title = R.string.bank_maskan,
         prefixes = listOf("628023")
     ),
     Mehr(
-        logo = R.drawable.full_logo_mehr,
-        icon = R.drawable.ic_logo_mehr,
+        icon = R.drawable.ic_bank_mehr,
+        logo = R.drawable.ic_bank_mehr_logo,
         title = R.string.bank_mehr,
         prefixes = listOf("606373")
     ),
     Melal(
-        logo = R.drawable.full_logo_melal,
-        icon = R.drawable.ic_logo_melal,
+        icon = R.drawable.ic_bank_melal,
+        logo = R.drawable.ic_bank_melal_logo,
         title = R.string.bank_melal,
         prefixes = listOf("606256")
     ),
     Mellat(
-        logo = R.drawable.full_logo_mellat,
-        icon = R.drawable.ic_logo_mellat,
+        icon = R.drawable.ic_bank_mellat,
+        logo = R.drawable.ic_bank_mellat_logo,
         title = R.string.bank_mellat,
         prefixes = listOf("610433", "991975")
     ),
     Melli(
-        logo = R.drawable.full_logo_melli,
-        icon = R.drawable.ic_logo_melli,
+        icon = R.drawable.ic_bank_melli,
+        logo = R.drawable.ic_bank_melli_logo,
         title = R.string.bank_melli,
         prefixes = listOf("603799")
     ),
     Noor(
-        logo = R.drawable.full_logo_noor,
-        icon = R.drawable.ic_logo_noor,
+        icon = R.drawable.ic_bank_noor,
+        logo = R.drawable.ic_bank_noor_logo,
         title = R.string.bank_noor,
         prefixes = listOf("507677")
     ),
     Parsian(
-        logo = R.drawable.full_logo_parsian,
-        icon = R.drawable.ic_logo_parsian,
+        icon = R.drawable.ic_bank_parsian,
+        logo = R.drawable.ic_bank_parsian_logo,
         title = R.string.bank_parsian,
         prefixes = listOf("622106", "627884", "639194")
     ),
     Pasargad(
-        logo = R.drawable.full_logo_pasargad,
-        icon = R.drawable.ic_logo_pasargad,
+        icon = R.drawable.ic_bank_pasargad,
+        logo = R.drawable.ic_bank_pasargad_logo,
         title = R.string.bank_pasargad,
         prefixes = listOf("502229", "639347"),
         nonPrefixes = Wepod.prefixes
     ),
     PostBank(
-        logo = R.drawable.full_logo_postbank,
-        icon = R.drawable.ic_logo_postbank,
+        icon = R.drawable.ic_bank_postbank,
+        logo = R.drawable.ic_bank_postbank_logo,
         title = R.string.bank_postbank,
         prefixes = listOf("627760")
     ),
     Refah(
-        logo = R.drawable.full_logo_refah,
-        icon = R.drawable.ic_logo_refah,
+        icon = R.drawable.ic_bank_refah,
+        logo = R.drawable.ic_bank_refah_logo,
         title = R.string.bank_refah,
         prefixes = listOf("589463")
     ),
     Resalat(
-        logo = R.drawable.full_logo_resalat,
-        icon = R.drawable.ic_logo_resalat_icon,
+        icon = R.drawable.ic_bank_resalat_icon,
+        logo = R.drawable.ic_bank_resalat_logo,
         title = R.string.bank_resalat,
         prefixes = listOf("504172")
     ),
     Saderat(
-        logo = R.drawable.full_logo_saderat,
-        icon = R.drawable.ic_logo_saderat,
+        icon = R.drawable.ic_bank_saderat,
+        logo = R.drawable.ic_bank_saderat_logo,
         title = R.string.bank_saderat,
         prefixes = listOf("603769"),
     ),
     Saman(
-        logo = R.drawable.full_logo_saman,
-        icon = R.drawable.ic_logo_saman,
+        icon = R.drawable.ic_bank_saman,
+        logo = R.drawable.ic_bank_saman_logo,
         title = R.string.bank_saman,
         prefixes = listOf("621986"),
         nonPrefixes = BluBank.prefixes
     ),
     SanatVaMaadan( // Rename to Sanat va Madan
-        logo = R.drawable.full_logo_sanat_maadan,
-        icon = R.drawable.ic_logo_sanat_maadan,
+        icon = R.drawable.ic_bank_sanat_maadan,
+        logo = R.drawable.ic_bank_sanat_maadan_logo,
         title = R.string.bank_sanat_maadan,
         prefixes = listOf("627961")
     ),
     Sarmayeh(
-        logo = R.drawable.full_logo_sarmayeh,
-        icon = R.drawable.ic_logo_sarmayeh,
+        icon = R.drawable.ic_bank_sarmayeh,
+        logo = R.drawable.ic_bank_sarmayeh_logo,
         title = R.string.bank_sarmayeh,
         prefixes = listOf("639607")
     ),
     Sepah(
-        logo = R.drawable.full_logo_sepah,
-        icon = R.drawable.ic_logo_sepah,
+        icon = R.drawable.ic_bank_sepah,
+        logo = R.drawable.ic_bank_sepah_logo,
         title = R.string.bank_sepah,
         prefixes = listOf("589210")
     ),
     Shahr(
-        logo = R.drawable.full_logo_shahr,
-        icon = R.drawable.ic_logo_shahr,
+        icon = R.drawable.ic_bank_shahr,
+        logo = R.drawable.ic_bank_shahr_logo,
         title = R.string.bank_shahr,
         prefixes = listOf("502806", "504706")
     ),
     Sina(
-        logo = R.drawable.full_logo_sina,
-        icon = R.drawable.ic_logo_sina,
+        icon = R.drawable.ic_bank_sina,
+        logo = R.drawable.ic_bank_sina_logo,
         title = R.string.bank_sina,
         prefixes = listOf("639346")
     ),
     Tejarat(
-        logo = R.drawable.full_logo_tejarat,
-        icon = R.drawable.ic_logo_tejarat,
+        icon = R.drawable.ic_bank_tejarat,
+        logo = R.drawable.ic_bank_tejarat_logo,
         title = R.string.bank_tejarat,
         prefixes = listOf("585983", "627353")
     ),
     ToseSaderat(
-        logo = R.drawable.full_logo_tose_saderat,
-        icon = R.drawable.ic_logo_tose_saderat,
+        icon = R.drawable.ic_bank_tose_saderat,
+        logo = R.drawable.ic_bank_tose_saderat_logo,
         title = R.string.bank_tose_saderat,
         prefixes = listOf("627648")
     ),
     ToseTaavon(
-        logo = R.drawable.full_logo_tose_taavon,
-        icon = R.drawable.ic_logo_tose_taavon,
+        icon = R.drawable.ic_bank_tose_taavon,
+        logo = R.drawable.ic_bank_tose_taavon_logo,
         title = R.string.bank_tose_taavon,
         prefixes = listOf("502908")
     ),
     Unknown(
-        logo = R.drawable.logo_unknown,
-        icon = R.drawable.logo_unknown,
+        icon = R.drawable.ic_bank_unknown,
+        logo = R.drawable.ic_bank_unknown,
         title = R.string.bank_unknown,
     );
 

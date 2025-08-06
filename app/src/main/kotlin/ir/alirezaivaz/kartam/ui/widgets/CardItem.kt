@@ -169,9 +169,9 @@ fun CardItem(
                         Image(
                             painter = painterResource(
                                 if (isNeo) {
-                                    R.drawable.ic_logo_shetab_neo
+                                    R.drawable.ic_shetab_neo
                                 } else {
-                                    R.drawable.ic_logo_shetab
+                                    R.drawable.ic_shetab
                                 }
                             ),
                             modifier = dragHandleModifier
