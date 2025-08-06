@@ -55,7 +55,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sonner.ToastType
-import com.dokar.sonner.listen
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
@@ -77,9 +76,9 @@ import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.utils.AppDatabase
+import ir.huri.jcal.JalaliCalendar
 import ir.mehrafzoon.composedatepicker.core.component.rememberDialogDatePicker
 import ir.mehrafzoon.composedatepicker.sheet.DatePickerModalBottomSheet
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,6 +89,7 @@ fun AddCardScreen(cardId: Int) {
     val context = LocalContext.current
     val activity = LocalActivity.current
     val focusManager = LocalFocusManager.current
+    val jalaliCalendar = JalaliCalendar()
     val db = AppDatabase.getInstance(context)
     val factory = remember { AddCardViewModelFactory(db, cardId) }
     val viewModel: AddCardViewModel = viewModel(factory = factory)
@@ -109,6 +109,8 @@ fun AddCardScreen(cardId: Int) {
     val expirationMonth by viewModel.expirationMonth.collectAsState()
     val expirationYear by viewModel.expirationYear.collectAsState()
     val cvv2 by viewModel.cvv2.collectAsState()
+    val initialMonth = jalaliCalendar.month + 3
+    val initialYear = jalaliCalendar.year + 2
 
 //    LaunchedEffect(Unit) {
 //        scope.launch(Dispatchers.IO) {
@@ -228,6 +230,13 @@ fun AddCardScreen(cardId: Int) {
                 )
             }
             if (bottomSheetState.isVisible) {
+                val month = expirationMonth.text.toIntOrNull() ?: initialMonth
+                val expYear = expirationYear.text.toIntOrNull() ?: initialYear
+                val year = expYear.takeIf { it.toString().length == 4 } ?: expYear.let {
+                    val prefix = initialYear.toString().dropLast(2).toInt()
+                    it.plus(prefix * 100)
+                }
+                val initialDate = Triple(year, month, 1)
                 DatePickerModalBottomSheet(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -247,6 +256,8 @@ fun AddCardScreen(cardId: Int) {
                     },
                     textButtonStyle = MaterialTheme.typography.bodyMedium,
                     datePickerWithoutDay = true,
+                    useInitialDate = true,
+                    initialDate = initialDate,
                     titleBottomSheet = stringResource(R.string.action_choose_exp)
                 )
             }

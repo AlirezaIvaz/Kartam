@@ -18,7 +18,6 @@ import ir.alirezaivaz.kartam.extensions.isValidName
 import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
 import ir.alirezaivaz.kartam.extensions.isValidYear
 import ir.alirezaivaz.kartam.utils.AppDatabase
-import ir.huri.jcal.JalaliCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,7 +28,6 @@ class AddCardViewModel(
     db: AppDatabase,
     private val cardId: Int
 ) : ViewModel() {
-    private val jalaliCalendar = JalaliCalendar()
     private val _cardDao = db.cardDao()
 
     private val _isEdit = MutableStateFlow(false)
