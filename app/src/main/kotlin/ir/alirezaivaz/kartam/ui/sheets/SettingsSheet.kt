@@ -304,7 +304,7 @@ fun SettingsSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                .padding(horizontal = dimensionResource(R.dimen.padding_spacing)),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
