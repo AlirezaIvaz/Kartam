@@ -9,6 +9,7 @@
 - **Fixed:** Eghtesad Novin bank icon
 - **Fixed:** Pasting non-digit characters
 - **Fixed:** Resetting the expiration date in the picker sheet
+- **Improved:** App size
 - Expiration date is no longer required
 
 ## v1.0.0 (2 August 2025)
