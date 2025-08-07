@@ -50,8 +50,9 @@ android {
     applicationVariants.all {
         val variant = this
         val versionCodes = mapOf(
-            "armeabi-v7a" to 1,
-            "arm64-v8a" to 2,
+            "all" to 0,
+            "arm64-v8a" to 1,
+            "armeabi-v7a" to 2,
             "x86" to 3,
             "x86_64" to 4
         )
@@ -61,7 +62,9 @@ android {
                 val abi = output.getFilter("ABI") ?: "all"
                 output.outputFileName = "Kartam_${variant.versionName}_${abi}.apk"
                 if (versionCodes.containsKey(abi)) {
-                    output.versionCodeOverride = (1000000 * versionCodes[abi]!!).plus(variant.versionCode)
+                    val abiCode = versionCodes[abi]!! * 10
+                    val versionCode = variant.versionCode * 100
+                    output.versionCodeOverride = abiCode.plus(versionCode)
                 }
             }
     }
