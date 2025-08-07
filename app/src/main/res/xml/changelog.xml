@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <version name="1.1.0" date="2025-08-07">
+        <new>Move cards with drag and drop</new>
+        <new>Support for HiBank and MetaBank</new>
+        <new>Predictive back gesture support</new>
+        <new>More customization options in settings</new>
+        <fixed>Eghtesad Novin bank icon</fixed>
+        <fixed>Pasting non-digit characters</fixed>
+        <fixed>Resetting the expiration date in the picker sheet</fixed>
+        <improved>App size</improved>
+        <info>Expiration date is no longer required</info>
+    </version>
+    <version name="1.0.0" date="2025-08-01">
+        <info>First release.</info>
+    </version>
+</changelog>

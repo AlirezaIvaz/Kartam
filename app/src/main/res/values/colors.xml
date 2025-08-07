@@ -49,4 +49,9 @@
     <color name="surfaceContainer">#ECEEF4</color>
     <color name="surfaceContainerHigh">#E6E8EE</color>
     <color name="surfaceContainerHighest">#E1E2E8</color>
+
+    <color name="changelog_type_new">#4CAF50</color>
+    <color name="changelog_type_fixed">#F44336</color>
+    <color name="changelog_type_improved">#2196F3</color>
+    <color name="changelog_type_info">#757575</color>
 </resources>

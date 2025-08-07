@@ -5,6 +5,7 @@
     <string name="action_back">Back</string>
     <string name="action_confirm">Confirm</string>
     <string name="action_dismiss">Dismiss</string>
+    <string name="action_i_got_it">I got it</string>
     <string name="action_add_card">Add Card</string>
     <string name="action_stay_here">Stay here</string>
     <string name="action_edit_card">Edit Card</string>
@@ -87,6 +88,14 @@
     <string name="theme_day">Day</string>
     <string name="theme_night">Night</string>
     <string name="theme_system">System</string>
+
+    <!-- Changelog -->
+    <string name="changelog">Changelog</string>
+    <string name="changelog_version">v%s - %s</string>
+    <string name="changelog_type_new">**• New:** %s</string>
+    <string name="changelog_type_fixed">**• Fixed:** %s</string>
+    <string name="changelog_type_improved">**• Improved:** %s</string>
+    <string name="changelog_type_info" translatable="false">• %s</string>
 
     <!-- Banks -->
     <string name="bank_ansar">Ansar Bank</string>

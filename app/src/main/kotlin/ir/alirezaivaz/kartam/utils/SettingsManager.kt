@@ -5,6 +5,7 @@ import androidx.core.os.LocaleListCompat
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.get
 import com.russhwolf.settings.set
+import ir.alirezaivaz.kartam.BuildConfig
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
@@ -15,6 +16,7 @@ object SettingsManager {
 
     private val settings = Settings()
 
+    private const val PREF_VERSION = "pref_version"
     private const val PREF_THEME = "pref_theme"
     private const val PREF_LANGUAGE = "pref_language"
     private const val PREF_DYNAMIC_COLORS = "pref_dynamic_colors"
@@ -25,6 +27,8 @@ object SettingsManager {
     private const val PREF_SECRET_CVV2_DETAILS = "pref_secret_cvv2_details"
     private const val PREF_SECRET_CVV2_DETAILS_DEFAULT = false
 
+    private val _version = MutableStateFlow(settings[PREF_VERSION, 0])
+    val version: StateFlow<Int> = _version
     private val _isDynamicColors = MutableStateFlow(settings[PREF_DYNAMIC_COLORS, isDynamicColorsSupported])
     val isDynamicColors: StateFlow<Boolean> = _isDynamicColors
     private val _isShowShabaNumberInCard = MutableStateFlow(settings[PREF_SHOW_SHABA_NUMBER, PREF_SHOW_SHABA_NUMBER_DEFAULT])
@@ -40,6 +44,16 @@ object SettingsManager {
 
     fun isDarkMode(isSystemInDarkTheme: Boolean): Boolean {
         return _theme.value == Theme.Night || (_theme.value == Theme.System && isSystemInDarkTheme)
+    }
+
+    fun isAppUpdated(): Boolean {
+        return BuildConfig.VERSION_CODE > _version.value
+    }
+
+    fun setLastVersion() {
+        val value = BuildConfig.VERSION_CODE
+        _version.value = value
+        settings[PREF_VERSION] = value
     }
 
     fun setTheme(value: Theme) {

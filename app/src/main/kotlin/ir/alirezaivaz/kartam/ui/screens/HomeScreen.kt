@@ -55,6 +55,7 @@ import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.LoadingState
 import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.dialogs.DeleteCardDialog
+import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
 import ir.alirezaivaz.kartam.ui.sheets.SettingsSheet
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
@@ -86,6 +87,7 @@ fun HomeScreen() {
     val cards by viewModel.cards.collectAsState()
     var selectedCard by remember { mutableStateOf<CardInfo?>(null) }
     var showSettingsSheet by remember { mutableStateOf(false) }
+    var showChangelogSheet by remember { mutableStateOf(SettingsManager.isAppUpdated()) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
     var showDeleteCardSheet by remember { mutableStateOf(false) }
     val isSecretCvv2InList by SettingsManager.isSecretCvv2InList.collectAsState()
@@ -179,6 +181,14 @@ fun HomeScreen() {
                 }
             ) { innerPadding ->
                 KartamToaster(state = toaster)
+                if (showChangelogSheet) {
+                    ChangelogSheet(
+                        onDismissRequest = {
+                            SettingsManager.setLastVersion()
+                            showChangelogSheet = false
+                        }
+                    )
+                }
                 if (showSettingsSheet) {
                     SettingsSheet(
                         onDismissRequest = {

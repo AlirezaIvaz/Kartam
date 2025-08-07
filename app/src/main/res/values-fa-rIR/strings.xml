@@ -5,6 +5,7 @@
     <string name="action_back">بازگشت</string>
     <string name="action_confirm">تایید</string>
     <string name="action_dismiss">انصراف</string>
+    <string name="action_i_got_it">فهمیدم</string>
     <string name="action_add_card">افزودن کارت</string>
     <string name="action_stay_here">همینجا بمان</string>
     <string name="action_edit_card">ویرایش کارت</string>
@@ -76,6 +77,13 @@
     <string name="theme_day">روز</string>
     <string name="theme_night">شب</string>
     <string name="theme_system">سامانه</string>
+
+    <!-- Changelog -->
+    <string name="changelog">گزارش تغییرات</string>
+    <string name="changelog_version">نسخه %s - %s</string>
+    <string name="changelog_type_new">**• جدید:** %s</string>
+    <string name="changelog_type_fixed">**• حل‌شده:** %s</string>
+    <string name="changelog_type_improved">**• بهبود یافته:** %s</string>
 
     <!-- Banks -->
     <string name="bank_ansar">بانک انصار</string>
