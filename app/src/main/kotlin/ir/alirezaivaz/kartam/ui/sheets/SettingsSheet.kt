@@ -68,6 +68,7 @@ import kotlinx.coroutines.launch
 fun SettingsSheet(
     onDismissRequest: () -> Unit,
     onRefreshRequest: () -> Unit,
+    onChangelogRequest: () -> Unit,
     onThemeChangedRequest: (theme: Theme) -> Unit,
     onLanguageChangedRequest: (Language) -> Unit
 ) {
@@ -83,6 +84,7 @@ fun SettingsSheet(
         SettingsSheetContent(
             toaster = toaster,
             onDismissRequest = onDismissRequest,
+            onChangelogRequest = onChangelogRequest,
             onThemeChangedRequest = onThemeChangedRequest,
             onRefreshRequest = onRefreshRequest,
             onLanguageChangedRequest = onLanguageChangedRequest
@@ -96,6 +98,7 @@ fun SettingsSheetContent(
     toaster: ToasterState,
     onDismissRequest: () -> Unit,
     onRefreshRequest: () -> Unit,
+    onChangelogRequest: () -> Unit,
     onThemeChangedRequest: (theme: Theme) -> Unit,
     onLanguageChangedRequest: (language: Language) -> Unit
 ) {
@@ -382,6 +385,26 @@ fun SettingsSheetContent(
                 }
             }
         }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        FilledTonalButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_spacing)),
+            onClick = onChangelogRequest,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+            ) {
+                Icon(
+                    painter = painterResource(TablerIcons.List),
+                    contentDescription = stringResource(R.string.changelog)
+                )
+                Text(
+                    text = stringResource(R.string.changelog)
+                )
+            }
+        }
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
         Text(
             text = stringResource(R.string.settings_app_version).format(
@@ -436,6 +459,7 @@ fun SettingsSheetPreview() {
             toaster = rememberToasterState(),
             onDismissRequest = {},
             onRefreshRequest = {},
+            onChangelogRequest = {},
             onThemeChangedRequest = {},
             onLanguageChangedRequest = {}
         )

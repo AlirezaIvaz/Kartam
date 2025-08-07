@@ -199,6 +199,9 @@ fun HomeScreen() {
                                 viewModel.loadCards()
                             }
                         },
+                        onChangelogRequest = {
+                            showChangelogSheet = true
+                        },
                         onThemeChangedRequest = { item ->
                             scope.launch {
                                 delay(500)
