@@ -18,6 +18,7 @@ import ir.alirezaivaz.kartam.extensions.isValidName
 import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
 import ir.alirezaivaz.kartam.extensions.isValidYear
 import ir.alirezaivaz.kartam.utils.AppDatabase
+import ir.alirezaivaz.kartam.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +31,8 @@ class AddCardViewModel(
 ) : ViewModel() {
     private val _cardDao = db.cardDao()
 
+    private val _card = MutableStateFlow<CardInfo?>(null)
+    val card: StateFlow<CardInfo?> = _card
     private val _isEdit = MutableStateFlow(false)
     val isEdit: StateFlow<Boolean> = _isEdit
     private val _loadingState = MutableStateFlow(LoadingState.LOADING)
@@ -66,27 +69,29 @@ class AddCardViewModel(
             _loadingState.value = LoadingState.LOADED
         } else {
             _isEdit.value = true
-            val card = _cardDao.getCard(cardId)
-            if (card != null) {
-                updateCardNumber(TextFieldValue(card.number))
-                updateOwnerName(TextFieldValue(card.name))
-                if (!card.englishName.isNullOrEmpty()) {
-                    updateOwnerEnglishName(TextFieldValue(card.englishName))
+            _card.value = _cardDao.getCard(cardId)
+            if (_card.value != null) {
+                val currentCard = _card.value!!
+                updateCardNumber(TextFieldValue(currentCard.number))
+                updateOwnerName(TextFieldValue(currentCard.name))
+                if (!currentCard.englishName.isNullOrEmpty()) {
+                    updateOwnerEnglishName(TextFieldValue(currentCard.englishName))
                 }
-                if (!card.shabaNumber.isNullOrEmpty()) {
-                    updateShabaNumber(TextFieldValue(card.shabaNumber))
+                if (!currentCard.shabaNumber.isNullOrEmpty()) {
+                    updateShabaNumber(TextFieldValue(currentCard.shabaNumber))
                 }
-                if (!card.accountNumber.isNullOrEmpty()) {
-                    updateAccountNumber(TextFieldValue(card.accountNumber))
+                if (!currentCard.accountNumber.isNullOrEmpty()) {
+                    updateAccountNumber(TextFieldValue(currentCard.accountNumber))
                 }
-                if (card.cvv2 != null) {
-                    updateCvv2(TextFieldValue(card.cvv2.toString()))
+                if (currentCard.cvv2 != null) {
+                    val cvv2 = Utils.getCvv2(currentCard.cvv2.toString(), true)
+                    updateCvv2(TextFieldValue(cvv2))
                 }
-                if (card.expirationMonth != null) {
-                    updateExpirationMonth(TextFieldValue(card.expirationMonth.formattedMonth()))
+                if (currentCard.expirationMonth != null) {
+                    updateExpirationMonth(TextFieldValue(currentCard.expirationMonth.formattedMonth()))
                 }
-                if (card.expirationYear != null) {
-                    updateExpirationYear(TextFieldValue(card.expirationYear.formattedMonth()))
+                if (currentCard.expirationYear != null) {
+                    updateExpirationYear(TextFieldValue(currentCard.expirationYear.formattedMonth()))
                 }
                 _loadingState.value = LoadingState.LOADED
             } else {
@@ -188,10 +193,9 @@ class AddCardViewModel(
 
     suspend fun updateCard(): Result {
         val isAllFieldsValid = validateFields()
-        if (isAllFieldsValid.isSuccess) {
+        if (_card.value != null && isAllFieldsValid.isSuccess) {
             withContext(Dispatchers.IO) {
-                val card = CardInfo(
-                    id = cardId,
+                val card = _card.value!!.copy(
                     name = _ownerName.value.text,
                     englishName = _ownerEnglishName.value.text,
                     number = _cardNumber.value.text,
