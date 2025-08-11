@@ -324,7 +324,7 @@ fun HomeScreen() {
                                         Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                                     }
                                     item {
-                                        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                                        Spacer(Modifier.height(80.dp))
                                     }
                                 }
                             }
