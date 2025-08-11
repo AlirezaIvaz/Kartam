@@ -304,9 +304,9 @@ fun SettingsSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.padding_spacing)),
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
         ) {
             FilledTonalButton(
                 modifier = Modifier.weight(1f),
