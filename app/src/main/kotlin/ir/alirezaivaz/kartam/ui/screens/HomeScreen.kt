@@ -4,8 +4,6 @@ import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +15,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -86,6 +86,7 @@ fun HomeScreen() {
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val cards by viewModel.cards.collectAsState()
     var selectedCard by remember { mutableStateOf<CardInfo?>(null) }
+    var showOptionsMenu by remember { mutableStateOf(false) }
     var showSettingsSheet by remember { mutableStateOf(false) }
     var showChangelogSheet by remember { mutableStateOf(SettingsManager.isAppUpdated()) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
@@ -119,39 +120,59 @@ fun HomeScreen() {
                             titleContentColor = MaterialTheme.colorScheme.primary,
                         ),
                         actions = {
-                            AnimatedVisibility(
-                                visible = loadingState != LoadingState.LOADING,
-                                enter = fadeIn(),
-                                exit = fadeOut()
+                            IconButton(
+                                enabled = loadingState != LoadingState.LOADING,
+                                onClick = {
+                                    showOptionsMenu = true
+                                }
                             ) {
-                                IconButton(
+                                Icon(
+                                    painter = painterResource(TablerIcons.DotsVertical),
+                                    contentDescription = stringResource(R.string.action_more_options)
+                                )
+                            }
+                            DropdownMenu(
+                                expanded = showOptionsMenu,
+                                onDismissRequest = {
+                                    showOptionsMenu = false
+                                }
+                            ) {
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            text = stringResource(R.string.action_reload)
+                                        )
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(TablerIcons.Reload),
+                                            contentDescription = stringResource(R.string.action_reload)
+                                        )
+                                    },
                                     onClick = {
+                                        showOptionsMenu = false
                                         scope.launch(Dispatchers.IO) {
                                             viewModel.loadCards(isRefreshing = loadingState == LoadingState.LOADED)
                                         }
                                     }
-                                ) {
-                                    Icon(
-                                        painter = painterResource(TablerIcons.Reload),
-                                        contentDescription = stringResource(R.string.action_reload)
-                                    )
-                                }
-                            }
-                            AnimatedVisibility(
-                                visible = loadingState != LoadingState.LOADING,
-                                enter = fadeIn(),
-                                exit = fadeOut()
-                            ) {
-                                IconButton(
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            text = stringResource(R.string.action_settings)
+                                        )
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(TablerIcons.Settings),
+                                            contentDescription = stringResource(R.string.action_settings)
+                                        )
+                                    },
                                     onClick = {
+                                        showOptionsMenu = false
                                         showSettingsSheet = true
                                     }
-                                ) {
-                                    Icon(
-                                        painter = painterResource(TablerIcons.Settings),
-                                        contentDescription = stringResource(R.string.action_settings)
-                                    )
-                                }
+                                )
                             }
                         }
                     )
