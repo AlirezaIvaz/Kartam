@@ -40,16 +40,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.AddCardActivity
+import ir.alirezaivaz.kartam.BuildConfig
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.LoadingState
@@ -77,6 +80,7 @@ fun HomeScreen() {
     val scope = rememberCoroutineScope()
     val toaster = rememberToasterState()
     val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val hapticFeedback = LocalHapticFeedback.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
@@ -159,6 +163,95 @@ fun HomeScreen() {
                                 DropdownMenuItem(
                                     text = {
                                         Text(
+                                            text = stringResource(R.string.action_rate)
+                                        )
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(TablerIcons.Message),
+                                            contentDescription = stringResource(R.string.action_rate)
+                                        )
+                                    },
+                                    onClick = {
+                                        showOptionsMenu = false
+                                        try {
+                                            if (BuildConfig.FLAVOR == "telegram") {
+                                                uriHandler.openUri(BuildConfig.RATE_URL)
+                                            } else {
+                                                val intentAction = if (BuildConfig.FLAVOR == "cafebazaar") {
+                                                    Intent.ACTION_EDIT
+                                                } else {
+                                                    Intent.ACTION_VIEW
+                                                }
+                                                context.startActivity(
+                                                    Intent(
+                                                        intentAction,
+                                                        BuildConfig.RATE_URL.toUri()
+                                                    )
+                                                )
+                                            }
+                                        } catch (_: Exception) {
+                                            toaster.show(
+                                                message = context.getString(R.string.error_request_run_failed),
+                                                type = ToastType.Error
+                                            )
+                                        }
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            text = stringResource(R.string.action_more_apps)
+                                        )
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(TablerIcons.Apps),
+                                            contentDescription = stringResource(R.string.action_more_apps)
+                                        )
+                                    },
+                                    onClick = {
+                                        showOptionsMenu = false
+                                        try {
+                                            if (BuildConfig.FLAVOR == "telegram") {
+                                                uriHandler.openUri(BuildConfig.APPS_URL)
+                                            } else {
+                                                val intentAction = Intent.ACTION_VIEW
+                                                context.startActivity(
+                                                    Intent(
+                                                        intentAction,
+                                                        BuildConfig.APPS_URL.toUri()
+                                                    )
+                                                )
+                                            }
+                                        } catch (_: Exception) {
+                                            toaster.show(
+                                                message = context.getString(R.string.error_request_run_failed),
+                                                type = ToastType.Error
+                                            )
+                                        }
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            text = stringResource(R.string.changelog)
+                                        )
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(TablerIcons.List),
+                                            contentDescription = stringResource(R.string.changelog)
+                                        )
+                                    },
+                                    onClick = {
+                                        showOptionsMenu = false
+                                        showChangelogSheet = true
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
                                             text = stringResource(R.string.action_settings)
                                         )
                                     },
@@ -219,9 +312,6 @@ fun HomeScreen() {
                             scope.launch {
                                 viewModel.loadCards()
                             }
-                        },
-                        onChangelogRequest = {
-                            showChangelogSheet = true
                         },
                         onThemeChangedRequest = { item ->
                             scope.launch {
