@@ -92,7 +92,7 @@
 
     <!-- Changelog -->
     <string name="changelog">Changelog</string>
-    <string name="changelog_version">v%s - %s</string>
+    <string name="changelog_version">v%s</string>
     <string name="changelog_type_new">**• New:** %s</string>
     <string name="changelog_type_fixed">**• Fixed:** %s</string>
     <string name="changelog_type_improved">**• Improved:** %s</string>

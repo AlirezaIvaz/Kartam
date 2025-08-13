@@ -81,7 +81,7 @@
 
     <!-- Changelog -->
     <string name="changelog">گزارش تغییرات</string>
-    <string name="changelog_version">نسخه %s - %s</string>
+    <string name="changelog_version">نسخه %s</string>
     <string name="changelog_type_new">**• جدید:** %s</string>
     <string name="changelog_type_fixed">**• حل‌شده:** %s</string>
     <string name="changelog_type_improved">**• بهبود یافته:** %s</string>
