@@ -120,7 +120,7 @@ fun CardItem(
                     ) { bank ->
                         Image(
                             painter = painterResource(bank.icon),
-                            modifier = dragHandleModifier
+                            modifier = Modifier
                                 .height(48.dp)
                                 .widthIn(max = 48.dp),
                             contentDescription = stringResource(bank.title)
