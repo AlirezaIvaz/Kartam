@@ -29,6 +29,8 @@
     <string name="label_card_owner">Owner name</string>
     <string name="label_card_owner_en">Owner name (English)</string>
     <string name="label_expiration_date">Expiration date</string>
+    <string name="label_branch_code">Branch Code</string>
+    <string name="label_branch_name">Branch Name</string>
     <string name="label_exp" translatable="false">Exp.</string>
     <string name="label_exp_month">Exp. Month</string>
     <string name="label_exp_year">Exp. Year</string>

@@ -53,6 +53,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.rememberToasterState
@@ -106,6 +107,8 @@ fun AddCardScreen(cardId: Int) {
     val bank by viewModel.bank.collectAsState()
     val shabaNumber by viewModel.shabaNumber.collectAsState()
     val accountNumber by viewModel.accountNumber.collectAsState()
+    val branchCode by viewModel.branchCode.collectAsState()
+    val branchName by viewModel.branchName.collectAsState()
     val expirationMonth by viewModel.expirationMonth.collectAsState()
     val expirationYear by viewModel.expirationYear.collectAsState()
     val cvv2 by viewModel.cvv2.collectAsState()
@@ -298,6 +301,8 @@ fun AddCardScreen(cardId: Int) {
                                     number = cardNumber.text,
                                     shabaNumber = shabaNumber.text,
                                     accountNumber = accountNumber.text,
+                                    branchCode = branchCode.text.toIntOrNull(),
+                                    branchName = branchName.text,
                                     expirationMonth = expirationMonth.text.toIntOrNull(),
                                     expirationYear = expirationYear.text.toIntOrNull(),
                                     cvv2 = cvv2.text.toIntOrNull(),
@@ -431,6 +436,51 @@ fun AddCardScreen(cardId: Int) {
                                     }
                                 }
                             )
+                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                            ) {
+                                TextField(
+                                    value = branchCode,
+                                    modifier = Modifier.weight(1f),
+                                    singleLine = true,
+                                    enabled = !bank.isNeo,
+                                    isError = branchCode.text.isNotEmpty() && !branchCode.text.isDigitsOnly(),
+                                    label = {
+                                        Text(
+                                            text = stringResource(R.string.label_branch_code)
+                                        )
+                                    },
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Number,
+                                        imeAction = ImeAction.Next
+                                    ),
+                                    onValueChange = { input ->
+                                        val number = input.copy(input.text.filter { it.isDigit() })
+                                        viewModel.updateBranchCode(number)
+                                    }
+                                )
+                                TextField(
+                                    value = branchName,
+                                    modifier = Modifier.weight(1f),
+                                    singleLine = true,
+                                    enabled = !bank.isNeo,
+                                    isError = branchName.text.isNotEmpty() && !branchName.text.isValidName(),
+                                    label = {
+                                        Text(
+                                            text = stringResource(R.string.label_branch_name)
+                                        )
+                                    },
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Text,
+                                        imeAction = ImeAction.Next
+                                    ),
+                                    onValueChange = { input ->
+                                        viewModel.updateBranchName(input)
+                                    }
+                                )
+                            }
                             Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,

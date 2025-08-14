@@ -18,6 +18,10 @@ data class CardInfo(
     val shabaNumber: String?,
     @ColumnInfo(name = "account_number")
     val accountNumber: String?,
+    @ColumnInfo(name = "branch_code")
+    val branchCode: Int? = null,
+    @ColumnInfo(name = "branch_name")
+    val branchName: String? = null,
     @ColumnInfo(name = "exp_month")
     val expirationMonth: Int?,
     @ColumnInfo(name = "exp_year")

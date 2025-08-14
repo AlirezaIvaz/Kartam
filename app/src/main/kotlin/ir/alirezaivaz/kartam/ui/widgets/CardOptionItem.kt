@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,6 +41,7 @@ import kotlinx.coroutines.launch
 fun CardOptionItem(
     title: String,
     subtitle: String,
+    subtitleFont: FontFamily? = kodeMonoFontFamily,
     toaster: ToasterState
 ) {
     val scope = rememberCoroutineScope()
@@ -70,7 +72,7 @@ fun CardOptionItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = kodeMonoFontFamily
+                    fontFamily = subtitleFont
                 )
             }
             Spacer(Modifier.width(dimensionResource(R.dimen.padding_spacing)))

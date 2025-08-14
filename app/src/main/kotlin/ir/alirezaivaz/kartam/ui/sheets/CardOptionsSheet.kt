@@ -126,6 +126,23 @@ fun CardOptionsSheetContent(
             )
             Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
         }
+        if (card.branchCode != null && card.branchCode > 0) {
+            CardOptionItem(
+                title = stringResource(R.string.label_branch_code),
+                subtitle = card.branchCode.toString(),
+                toaster = toaster
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        }
+        if (!card.branchName.isNullOrEmpty()) {
+            CardOptionItem(
+                title = stringResource(R.string.label_branch_name),
+                subtitle = card.branchName,
+                subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                toaster = toaster
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        }
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
         HorizontalDivider()
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))

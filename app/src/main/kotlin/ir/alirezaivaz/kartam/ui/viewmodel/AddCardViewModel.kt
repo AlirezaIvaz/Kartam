@@ -87,6 +87,12 @@ class AddCardViewModel(
                     val cvv2 = Utils.getCvv2(currentCard.cvv2.toString(), true)
                     updateCvv2(TextFieldValue(cvv2))
                 }
+                if (currentCard.branchCode != null) {
+                    updateBranchCode(TextFieldValue(currentCard.branchCode.toString()))
+                }
+                if (currentCard.branchName != null) {
+                    updateBranchName(TextFieldValue(currentCard.branchName))
+                }
                 if (currentCard.expirationMonth != null) {
                     updateExpirationMonth(TextFieldValue(currentCard.expirationMonth.formattedMonth()))
                 }
@@ -115,10 +121,18 @@ class AddCardViewModel(
 
     fun updateBank(cardNumber: String) {
         _bank.value = Bank.fromCardNumber(cardNumber)
+        if (_bank.value.isNeo) {
+            updateBranchCode(TextFieldValue())
+            updateBranchName(TextFieldValue())
+        }
     }
 
     fun updateBank(bank: Bank) {
         _bank.value = bank
+        if (_bank.value.isNeo) {
+            updateBranchCode(TextFieldValue())
+            updateBranchName(TextFieldValue())
+        }
     }
 
     fun updateShabaNumber(shabaNumber: TextFieldValue) {
@@ -127,6 +141,14 @@ class AddCardViewModel(
 
     fun updateAccountNumber(accountNumber: TextFieldValue) {
         _accountNumber.value = accountNumber
+    }
+
+    fun updateBranchCode(branchCode: TextFieldValue) {
+        _branchCode.value = branchCode
+    }
+
+    fun updateBranchName(branchName: TextFieldValue) {
+        _branchName.value = branchName
     }
 
     fun updateExpirationMonth(expirationMonth: TextFieldValue) {
@@ -177,6 +199,8 @@ class AddCardViewModel(
                     number = _cardNumber.value.text,
                     shabaNumber = _shabaNumber.value.text,
                     accountNumber = _accountNumber.value.text,
+                    branchCode = _branchCode.value.text.toIntOrNull(),
+                    branchName = _branchName.value.text.ifEmpty { null },
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toIntOrNull(),
@@ -201,6 +225,8 @@ class AddCardViewModel(
                     number = _cardNumber.value.text,
                     shabaNumber = _shabaNumber.value.text,
                     accountNumber = _accountNumber.value.text,
+                    branchCode = _branchCode.value.text.toIntOrNull(),
+                    branchName = _branchName.value.text.ifEmpty { null },
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toIntOrNull(),

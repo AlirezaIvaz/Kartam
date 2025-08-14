@@ -29,6 +29,8 @@
     <string name="label_card_owner">نام صاحب کارت</string>
     <string name="label_card_owner_en">نام صاحب کارت (انگلیسی)</string>
     <string name="label_expiration_date">تاریخ انقضا</string>
+    <string name="label_branch_code">شمارهٔ شعبه</string>
+    <string name="label_branch_name">نام شعبه</string>
     <string name="label_exp_month">ماه انقضا</string>
     <string name="label_exp_year">سال انقضا</string>
     <string name="label_cvv2_placeholder">CVV2 (اختیاری)</string>

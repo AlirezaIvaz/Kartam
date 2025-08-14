@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import ir.alirezaivaz.kartam.dao.CardDao
 import ir.alirezaivaz.kartam.dto.CardInfo
 
-@Database(entities = [CardInfo::class], version = 3)
+@Database(entities = [CardInfo::class], version = 4)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
@@ -37,6 +37,12 @@ abstract class AppDatabase : RoomDatabase() {
                 cursor.close()
             }
         }
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE cards ADD COLUMN branch_code INT")
+                db.execSQL("ALTER TABLE cards ADD COLUMN branch_name TEXT")
+            }
+        }
 
         fun getInstance(context: Context): AppDatabase {
             return instance ?: buildDatabase(context).also { instance = it }
@@ -55,7 +61,8 @@ abstract class AppDatabase : RoomDatabase() {
             ).openHelperFactory(sqlCipherKeyManager.getSupportFactory())
                 .addMigrations(
                     MIGRATION_1_2,
-                    MIGRATION_2_3
+                    MIGRATION_2_3,
+                    MIGRATION_3_4
                 )
                 .build()
         }
