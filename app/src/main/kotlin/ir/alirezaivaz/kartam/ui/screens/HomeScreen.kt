@@ -99,7 +99,7 @@ fun HomeScreen() {
     var showChangelogSheet by remember { mutableStateOf(SettingsManager.isAppUpdated()) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
     var showSupportedBanksSheet by remember { mutableStateOf(false) }
-    var showDeleteCardSheet by remember { mutableStateOf(false) }
+    var showDeleteCardDialog by remember { mutableStateOf(false) }
     val isSecretCvv2InList by SettingsManager.isSecretCvv2InList.collectAsState()
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
@@ -364,7 +364,7 @@ fun HomeScreen() {
                         },
                         onDeleteRequest = {
                             showCardOptionsSheet = false
-                            showDeleteCardSheet = true
+                            showDeleteCardDialog = true
                         },
                         onSnapshotReady = {
                             selectedCardSnapshot = it
@@ -383,11 +383,11 @@ fun HomeScreen() {
                         }
                     )
                 }
-                if (showDeleteCardSheet) {
+                if (showDeleteCardDialog) {
                     DeleteCardDialog(
                         snapshot = selectedCardSnapshot,
                         onDeleteRequest = {
-                            showDeleteCardSheet = false
+                            showDeleteCardDialog = false
                             showCardOptionsSheet = false
                             scope.launch(Dispatchers.IO) {
                                 if (selectedCard != null) {
@@ -407,7 +407,7 @@ fun HomeScreen() {
                             }
                         },
                         onDismissRequest = {
-                            showDeleteCardSheet = false
+                            showDeleteCardDialog = false
                             selectedCard = null
                             selectedCardSnapshot = null
                         }
