@@ -101,6 +101,7 @@ class AddCardViewModel(
                     updateExpirationMonth(TextFieldValue(currentCard.expirationMonth.formattedMonth()))
                 }
                 if (currentCard.expirationYear != null) {
+                    // Year was saved as a 2-digit number previously
                     updateExpirationYear(TextFieldValue(currentCard.expirationYear.formattedMonth()))
                 }
                 _loadingState.value = LoadingState.LOADED
