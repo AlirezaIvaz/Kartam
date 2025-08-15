@@ -37,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -91,6 +92,7 @@ fun HomeScreen() {
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val cards by viewModel.cards.collectAsState()
     var selectedCard by remember { mutableStateOf<CardInfo?>(null) }
+    var selectedCardSnapshot by remember { mutableStateOf<ImageBitmap?>(null) }
     var showOptionsMenu by remember { mutableStateOf(false) }
     var showSettingsSheet by remember { mutableStateOf(false) }
     var showChangelogSheet by remember { mutableStateOf(SettingsManager.isAppUpdated()) }
@@ -345,20 +347,27 @@ fun HomeScreen() {
                             showCardOptionsSheet = false
                             showDeleteCardSheet = true
                         },
+                        onSnapshotReady = {
+                            selectedCardSnapshot = it
+                        },
                         onDismissRequest = {
+                            selectedCard = null
+                            selectedCardSnapshot = null
                             showCardOptionsSheet = false
                         }
                     )
                 }
                 if (showDeleteCardSheet) {
                     DeleteCardDialog(
-                        card = selectedCard,
+                        snapshot = selectedCardSnapshot,
                         onDeleteRequest = {
                             showDeleteCardSheet = false
                             showCardOptionsSheet = false
                             scope.launch(Dispatchers.IO) {
                                 if (selectedCard != null) {
                                     viewModel.deleteCard(selectedCard!!)
+                                    selectedCard = null
+                                    selectedCardSnapshot = null
                                     toaster.show(
                                         message = "Card deleted successfully!",
                                         type = ToastType.Success
@@ -373,6 +382,8 @@ fun HomeScreen() {
                         },
                         onDismissRequest = {
                             showDeleteCardSheet = false
+                            selectedCard = null
+                            selectedCardSnapshot = null
                         }
                     )
                 }

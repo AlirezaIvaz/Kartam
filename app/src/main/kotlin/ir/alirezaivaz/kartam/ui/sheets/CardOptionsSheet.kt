@@ -2,9 +2,11 @@ package ir.alirezaivaz.kartam.ui.sheets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -25,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -34,13 +37,13 @@ import androidx.compose.ui.unit.dp
 import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.CardOptionItem
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
+import ir.alirezaivaz.kartam.ui.widgets.SnapshotableCard
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import ir.alirezaivaz.tablericons.TablerIcons
 
@@ -50,6 +53,7 @@ fun CardOptionsSheet(
     card: CardInfo?,
     onEditRequest: () -> Unit,
     onDeleteRequest: () -> Unit,
+    onSnapshotReady: (ImageBitmap) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -67,6 +71,7 @@ fun CardOptionsSheet(
                 toaster = toaster,
                 onEditRequest = onEditRequest,
                 onDeleteRequest = onDeleteRequest,
+                onSnapshotReady = onSnapshotReady,
                 onDismissRequest = onDismissRequest
             )
         }
@@ -79,14 +84,15 @@ fun CardOptionsSheetContent(
     toaster: ToasterState,
     onEditRequest: () -> Unit,
     onDeleteRequest: () -> Unit,
+    onSnapshotReady: (ImageBitmap) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     val isSecretCvv2InDetails by SettingsManager.isSecretCvv2InDetails.collectAsState()
-    Column(
+    Box(
         modifier = Modifier
-            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth()
+            .padding(bottom = dimensionResource(R.dimen.padding_vertical)),
+        contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(card.bank.logo),
@@ -94,11 +100,22 @@ fun CardOptionsSheetContent(
             contentScale = ContentScale.Crop,
             modifier = Modifier.heightIn(min = 50.dp)
         )
+    }
+    Column(
+        modifier = Modifier
+            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-        CardItem(
-            card = card,
-            isCvv2VisibleByDefault = !isSecretCvv2InDetails
-        )
+        SnapshotableCard(
+            onSnapshotReady = onSnapshotReady
+        ) {
+            CardItem(
+                card = card,
+                isCvv2VisibleByDefault = !isSecretCvv2InDetails
+            )
+        }
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
         HorizontalDivider()
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
@@ -203,6 +220,7 @@ fun CardOptionsSheetPreview() {
                 toaster = rememberToasterState(),
                 onEditRequest = {},
                 onDeleteRequest = {},
+                onSnapshotReady = {},
                 onDismissRequest = {}
             )
         }
