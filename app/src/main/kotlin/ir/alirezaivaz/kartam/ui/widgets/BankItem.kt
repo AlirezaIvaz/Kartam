@@ -52,7 +52,6 @@ fun BankItem(
                 }
             },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_horizontal))
     ) {
         Image(
             painter = painterResource(bank.icon),
@@ -63,11 +62,13 @@ fun BankItem(
                 .width(48.dp),
             contentDescription = stringResource(bank.title)
         )
+        Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
         Text(
             text = stringResource(bank.title),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.weight(1f)
         )
+        Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
         if (bank.prefixes.isEmpty()) {
             TooltipBox(
                 state = tooltipState,
@@ -125,5 +126,16 @@ fun BankItem(
                 )
             }
         }
+        if (bank.relatedBank != null && bank.type == BankType.NeoBank) {
+            Image(
+                painter = painterResource(bank.relatedBank!!.icon),
+                modifier = Modifier
+                    .padding(start = dimensionResource(R.dimen.padding_spacing))
+                    .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                    .size(24.dp),
+                contentDescription = stringResource(bank.title)
+            )
+        }
+        Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
     }
 }
