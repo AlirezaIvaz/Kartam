@@ -4,13 +4,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RichTooltip
 import androidx.compose.material3.Text
@@ -27,6 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Bank
+import ir.alirezaivaz.kartam.dto.BankType
+import ir.alirezaivaz.kartam.dto.relatedBank
 import ir.alirezaivaz.tablericons.TablerIcons
 import kotlinx.coroutines.launch
 
@@ -73,29 +76,52 @@ fun BankItem(
                     RichTooltip(
                         modifier = Modifier.padding(end = 16.dp)
                     ) {
-                        Text(
-                            text = stringResource(
-                                R.string.supported_bank_no_auto_detect,
-                                stringResource(bank.title)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        ) {
+                            if (bank.isMerged && bank.relatedBank != null) {
+                                Image(
+                                    painter = painterResource(bank.relatedBank!!.icon),
+                                    modifier = Modifier
+                                        .padding(start = dimensionResource(R.dimen.padding_spacing))
+                                        .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                                        .size(24.dp),
+                                    contentDescription = stringResource(bank.title)
+                                )
+                            }
+                            Text(
+                                text = if (bank.isMerged && bank.relatedBank != null) {
+                                    stringResource(
+                                        R.string.supported_bank_merged,
+                                        stringResource(bank.title),
+                                        stringResource(bank.relatedBank!!.title)
+                                    )
+                                } else {
+                                    stringResource(
+                                        R.string.supported_bank_no_auto_detect,
+                                        stringResource(bank.title)
+                                    )
+                                }
                             )
-                        )
+                        }
                     }
                 }
             ) {
-                IconButton(
-                    modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_spacing)),
-                    content = {
-                        Icon(
-                            painter = painterResource(TablerIcons.ProgressCheck),
-                            tint = MaterialTheme.colorScheme.tertiary,
-                            contentDescription = null
-                        )
-                    },
-                    onClick = {
-                        scope.launch {
-                            tooltipState.show()
+                Icon(
+                    painter = painterResource(
+                        if (bank.isMerged) {
+                            TablerIcons.ProgressAlert
+                        } else {
+                            TablerIcons.ProgressCheck
                         }
-                    }
+                    ),
+                    tint = if (bank.isMerged) {
+                        MaterialTheme.colorScheme.secondary
+                    } else {
+                        MaterialTheme.colorScheme.tertiary
+                    },
+                    contentDescription = null
                 )
             }
         }

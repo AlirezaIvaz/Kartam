@@ -13,6 +13,7 @@ enum class Bank(
     @param:StringRes
     val title: Int,
     val isNeo: Boolean = false,
+    val isMerged: Boolean = false,
     val prefixes: List<String> = emptyList(),
     val nonPrefixes: List<String> = emptyList(),
 ) {
@@ -61,7 +62,7 @@ enum class Bank(
         icon = R.drawable.ic_bank_ansar,
         logo = R.drawable.ic_bank_ansar,
         title = R.string.bank_ansar,
-        prefixes = listOf("627381")
+        isMerged = true
     ),
     Ayandeh(
         icon = R.drawable.ic_bank_ayandeh,
@@ -153,14 +154,14 @@ enum class Bank(
         icon = R.drawable.ic_bank_melli,
         logo = R.drawable.ic_bank_melli_logo,
         title = R.string.bank_melli,
-        prefixes = listOf("603799")
+        prefixes = listOf("603799", "507677")
     ),
     Noor(
         type = BankType.CreditInstitution,
         icon = R.drawable.ic_bank_noor,
         logo = R.drawable.ic_bank_noor_logo,
         title = R.string.bank_noor,
-        prefixes = listOf("507677")
+        isMerged = true
     ),
     Parsian(
         icon = R.drawable.ic_bank_parsian,
@@ -222,7 +223,7 @@ enum class Bank(
         icon = R.drawable.ic_bank_sepah,
         logo = R.drawable.ic_bank_sepah_logo,
         title = R.string.bank_sepah,
-        prefixes = listOf("589210")
+        prefixes = listOf("589210", "627381")
     ),
     Shahr(
         icon = R.drawable.ic_bank_shahr,

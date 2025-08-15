@@ -107,6 +107,7 @@
     <string name="supported_banks_normal">Banks</string>
     <string name="supported_banks_neo">Neobanks</string>
     <string name="supported_banks_credit_institutions">Credit Institutions</string>
+    <string name="supported_bank_merged">%s has merged to %s.</string>
     <string name="supported_bank_no_auto_detect">Unfortunately, it is currently not possible to automatically detect %s cards.</string>
 
     <!-- Banks -->
