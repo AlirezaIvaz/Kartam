@@ -62,6 +62,7 @@ import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.dialogs.DeleteCardDialog
 import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
 import ir.alirezaivaz.kartam.ui.sheets.SettingsSheet
+import ir.alirezaivaz.kartam.ui.sheets.SupportedBanksSheet
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
@@ -97,6 +98,7 @@ fun HomeScreen() {
     var showSettingsSheet by remember { mutableStateOf(false) }
     var showChangelogSheet by remember { mutableStateOf(SettingsManager.isAppUpdated()) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
+    var showSupportedBanksSheet by remember { mutableStateOf(false) }
     var showDeleteCardSheet by remember { mutableStateOf(false) }
     val isSecretCvv2InList by SettingsManager.isSecretCvv2InList.collectAsState()
     val lazyListState = rememberLazyListState()
@@ -259,6 +261,23 @@ fun HomeScreen() {
                                 DropdownMenuItem(
                                     text = {
                                         Text(
+                                            text = stringResource(R.string.supported_banks)
+                                        )
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(TablerIcons.BuildingBank),
+                                            contentDescription = stringResource(R.string.supported_banks)
+                                        )
+                                    },
+                                    onClick = {
+                                        showOptionsMenu = false
+                                        showSupportedBanksSheet = true
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
                                             text = stringResource(R.string.action_settings)
                                         )
                                     },
@@ -354,6 +373,13 @@ fun HomeScreen() {
                             selectedCard = null
                             selectedCardSnapshot = null
                             showCardOptionsSheet = false
+                        }
+                    )
+                }
+                if (showSupportedBanksSheet) {
+                    SupportedBanksSheet(
+                        onDismissRequest = {
+                            showSupportedBanksSheet = false
                         }
                     )
                 }

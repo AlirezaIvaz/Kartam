@@ -3,6 +3,7 @@
 
     <!-- Actions -->
     <string name="action_back">Back</string>
+    <string name="action_close">Close</string>
     <string name="action_confirm">Confirm</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_i_got_it">I got it</string>
@@ -99,6 +100,14 @@
     <string name="changelog_type_fixed">**• Fixed:** %s</string>
     <string name="changelog_type_improved">**• Improved:** %s</string>
     <string name="changelog_type_info" translatable="false">• %s</string>
+
+    <!-- Supported Banks -->
+    <string name="supported_banks">Supported Banks</string>
+    <string name="supported_banks_description">We\'re supporting 37 Iranian banks, neobanks and organizations.</string>
+    <string name="supported_banks_normal">Banks</string>
+    <string name="supported_banks_neo">Neobanks</string>
+    <string name="supported_banks_credit_institutions">Credit Institutions</string>
+    <string name="supported_bank_no_auto_detect">Unfortunately, it is currently not possible to automatically detect %s cards.</string>
 
     <!-- Banks -->
     <string name="bank_ansar">Ansar Bank</string>

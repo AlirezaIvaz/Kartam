@@ -3,6 +3,7 @@
 
     <!-- Actions -->
     <string name="action_back">بازگشت</string>
+    <string name="action_close">بستن</string>
     <string name="action_confirm">تایید</string>
     <string name="action_dismiss">انصراف</string>
     <string name="action_i_got_it">فهمیدم</string>
@@ -87,6 +88,14 @@
     <string name="changelog_type_new">**• جدید:** %s</string>
     <string name="changelog_type_fixed">**• حل‌شده:** %s</string>
     <string name="changelog_type_improved">**• بهبود یافته:** %s</string>
+
+    <!-- Supported Banks -->
+    <string name="supported_banks">بانک‌های پشتیبانی‌شده</string>
+    <string name="supported_banks_description">ما از ۳۷ بانک، نئوبانک و موسسهٔ اعتباری ایرانی پشتیبانی می‌کنیم.</string>
+    <string name="supported_banks_normal">بانک‌ها</string>
+    <string name="supported_banks_neo">نئوبانک‌ها</string>
+    <string name="supported_banks_credit_institutions">مؤسسه‌های اعتباری</string>
+    <string name="supported_bank_no_auto_detect">متاسفانه در حال حاضر امکان تشخیص خودکار کارت‌های %s وجود ندارد.</string>
 
     <!-- Banks -->
     <string name="bank_ansar">بانک انصار</string>

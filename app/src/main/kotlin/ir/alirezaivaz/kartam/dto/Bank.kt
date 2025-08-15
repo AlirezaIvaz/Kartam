@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import ir.alirezaivaz.kartam.R
 
 enum class Bank(
+    val type: BankType = BankType.Bank,
     @param:DrawableRes
     val icon: Int,
     @param:DrawableRes
@@ -16,6 +17,7 @@ enum class Bank(
     val nonPrefixes: List<String> = emptyList(),
 ) {
     Bankino(
+        type = BankType.NeoBank,
         icon = R.drawable.ic_bank_bankino,
         logo = R.drawable.ic_bank_bankino_logo,
         title = R.string.bank_bankino,
@@ -23,6 +25,7 @@ enum class Bank(
         prefixes = listOf("58594710"),
     ),
     BluBank(
+        type = BankType.NeoBank,
         icon = R.drawable.ic_bank_blu,
         logo = R.drawable.ic_bank_blu_logo,
         title = R.string.bank_blu,
@@ -30,6 +33,7 @@ enum class Bank(
         prefixes = listOf("62198618", "62198619")
     ),
     HiBank(
+        type = BankType.NeoBank,
         icon = R.drawable.ic_bank_hibank,
         logo = R.drawable.ic_bank_hibank_logo,
         title = R.string.bank_hibank,
@@ -37,6 +41,7 @@ enum class Bank(
         prefixes = listOf(),
     ),
     MetaBank(
+        type = BankType.NeoBank,
         icon = R.drawable.ic_bank_metabank,
         logo = R.drawable.ic_bank_metabank_logo,
         title = R.string.bank_metabank,
@@ -44,6 +49,7 @@ enum class Bank(
         prefixes = listOf(),
     ),
     Wepod(
+        type = BankType.NeoBank,
         icon = R.drawable.ic_bank_wepod,
         logo = R.drawable.ic_bank_wepod_logo,
         title = R.string.bank_wepod,
@@ -51,6 +57,7 @@ enum class Bank(
         prefixes = listOf("50222915"),
     ),
     Ansar(
+        type = BankType.Bank,
         icon = R.drawable.ic_bank_ansar,
         logo = R.drawable.ic_bank_ansar,
         title = R.string.bank_ansar,
@@ -130,6 +137,7 @@ enum class Bank(
         prefixes = listOf("606373")
     ),
     Melal(
+        type = BankType.CreditInstitution,
         icon = R.drawable.ic_bank_melal,
         logo = R.drawable.ic_bank_melal_logo,
         title = R.string.bank_melal,
@@ -148,6 +156,7 @@ enum class Bank(
         prefixes = listOf("603799")
     ),
     Noor(
+        type = BankType.CreditInstitution,
         icon = R.drawable.ic_bank_noor,
         logo = R.drawable.ic_bank_noor_logo,
         title = R.string.bank_noor,
