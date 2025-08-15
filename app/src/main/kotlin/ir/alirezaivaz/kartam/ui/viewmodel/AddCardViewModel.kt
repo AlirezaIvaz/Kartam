@@ -200,12 +200,12 @@ class AddCardViewModel(
                 val position = _cardDao.getMaxPosition() ?: 0
                 val card = CardInfo(
                     name = _ownerName.value.text,
-                    englishName = _ownerEnglishName.value.text,
+                    englishName = _ownerEnglishName.value.text.ifBlank { null },
                     number = _cardNumber.value.text,
-                    shabaNumber = _shabaNumber.value.text,
-                    accountNumber = _accountNumber.value.text,
+                    shabaNumber = _shabaNumber.value.text.ifBlank { null },
+                    accountNumber = _accountNumber.value.text.ifBlank { null },
                     branchCode = _branchCode.value.text.toIntOrNull(),
-                    branchName = _branchName.value.text.ifEmpty { null },
+                    branchName = _branchName.value.text.ifBlank { null },
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toIntOrNull(),
@@ -226,12 +226,12 @@ class AddCardViewModel(
             withContext(Dispatchers.IO) {
                 val card = _card.value!!.copy(
                     name = _ownerName.value.text,
-                    englishName = _ownerEnglishName.value.text,
+                    englishName = _ownerEnglishName.value.text.ifBlank { null },
                     number = _cardNumber.value.text,
-                    shabaNumber = _shabaNumber.value.text,
-                    accountNumber = _accountNumber.value.text,
+                    shabaNumber = _shabaNumber.value.text.ifBlank { null },
+                    accountNumber = _accountNumber.value.text.ifBlank { null },
                     branchCode = _branchCode.value.text.toIntOrNull(),
-                    branchName = _branchName.value.text.ifEmpty { null },
+                    branchName = _branchName.value.text.ifBlank { null },
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toIntOrNull(),
