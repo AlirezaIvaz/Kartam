@@ -223,7 +223,7 @@ enum class Bank(
         icon = R.drawable.ic_bank_sepah,
         logo = R.drawable.ic_bank_sepah_logo,
         title = R.string.bank_sepah,
-        prefixes = listOf("589210", "627381")
+        prefixes = listOf("589210", "627381", "636949", "639599", "639370")
     ),
     Shahr(
         icon = R.drawable.ic_bank_shahr,
