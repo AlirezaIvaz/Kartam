@@ -49,6 +49,10 @@ class AddCardViewModel(
     val shabaNumber: StateFlow<TextFieldValue> = _shabaNumber
     private val _accountNumber = MutableStateFlow(TextFieldValue())
     val accountNumber: StateFlow<TextFieldValue> = _accountNumber
+    private val _branchCode = MutableStateFlow(TextFieldValue())
+    val branchCode: StateFlow<TextFieldValue> = _branchCode
+    private val _branchName = MutableStateFlow(TextFieldValue())
+    val branchName: StateFlow<TextFieldValue> = _branchName
     private val _expirationMonth = MutableStateFlow(TextFieldValue())
     val expirationMonth: StateFlow<TextFieldValue> = _expirationMonth
     private val _expirationYear = MutableStateFlow(TextFieldValue())
