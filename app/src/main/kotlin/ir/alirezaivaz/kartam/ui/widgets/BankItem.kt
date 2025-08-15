@@ -44,6 +44,7 @@ fun BankItem(
     TooltipBox(
         state = tooltipState,
         positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+        enableUserInput = bank.prefixes.isEmpty(),
         tooltip = {
             RichTooltip(
                 modifier = Modifier.padding(horizontal = 16.dp)
