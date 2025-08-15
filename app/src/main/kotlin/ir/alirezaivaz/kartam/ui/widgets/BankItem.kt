@@ -41,74 +41,74 @@ fun BankItem(
 ) {
     val scope = rememberCoroutineScope()
     val tooltipState = rememberTooltipState(isPersistent = true)
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable {
-                if (bank.prefixes.isEmpty()) {
-                    scope.launch {
-                        tooltipState.show()
+    TooltipBox(
+        state = tooltipState,
+        positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+        tooltip = {
+            RichTooltip(
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                ) {
+                    if (bank.isMerged && bank.relatedBank != null) {
+                        Image(
+                            painter = painterResource(bank.relatedBank!!.icon),
+                            modifier = Modifier
+                                .padding(start = dimensionResource(R.dimen.padding_spacing))
+                                .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                                .size(24.dp),
+                            contentDescription = stringResource(bank.title)
+                        )
                     }
-                }
-            },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Image(
-            painter = painterResource(bank.icon),
-            modifier = Modifier
-                .padding(start = dimensionResource(R.dimen.padding_horizontal))
-                .padding(vertical = dimensionResource(R.dimen.padding_spacing))
-                .height(48.dp)
-                .width(48.dp),
-            contentDescription = stringResource(bank.title)
-        )
-        Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
-        Text(
-            text = stringResource(bank.title),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.weight(1f)
-        )
-        Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
-        if (bank.prefixes.isEmpty()) {
-            TooltipBox(
-                state = tooltipState,
-                positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-                tooltip = {
-                    RichTooltip(
-                        modifier = Modifier.padding(end = 16.dp)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
-                        ) {
-                            if (bank.isMerged && bank.relatedBank != null) {
-                                Image(
-                                    painter = painterResource(bank.relatedBank!!.icon),
-                                    modifier = Modifier
-                                        .padding(start = dimensionResource(R.dimen.padding_spacing))
-                                        .padding(vertical = dimensionResource(R.dimen.padding_spacing))
-                                        .size(24.dp),
-                                    contentDescription = stringResource(bank.title)
-                                )
-                            }
-                            Text(
-                                text = if (bank.isMerged && bank.relatedBank != null) {
-                                    stringResource(
-                                        R.string.supported_bank_merged,
-                                        stringResource(bank.title),
-                                        stringResource(bank.relatedBank!!.title)
-                                    )
-                                } else {
-                                    stringResource(
-                                        R.string.supported_bank_no_auto_detect,
-                                        stringResource(bank.title)
-                                    )
-                                }
+                    Text(
+                        text = if (bank.isMerged && bank.relatedBank != null) {
+                            stringResource(
+                                R.string.supported_bank_merged,
+                                stringResource(bank.title),
+                                stringResource(bank.relatedBank!!.title)
+                            )
+                        } else {
+                            stringResource(
+                                R.string.supported_bank_no_auto_detect,
+                                stringResource(bank.title)
                             )
                         }
-                    }
+                    )
                 }
-            ) {
+            }
+        }
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .clickable {
+                    if (bank.prefixes.isEmpty()) {
+                        scope.launch {
+                            tooltipState.show()
+                        }
+                    }
+                },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                painter = painterResource(bank.icon),
+                modifier = Modifier
+                    .padding(start = dimensionResource(R.dimen.padding_horizontal))
+                    .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                    .height(48.dp)
+                    .width(48.dp),
+                contentDescription = stringResource(bank.title)
+            )
+            Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
+            Text(
+                text = stringResource(bank.title),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
+            if (bank.prefixes.isEmpty()) {
                 Icon(
                     painter = painterResource(
                         if (bank.isMerged) {
@@ -125,17 +125,17 @@ fun BankItem(
                     contentDescription = null
                 )
             }
+            if (bank.relatedBank != null && bank.type == BankType.NeoBank) {
+                Image(
+                    painter = painterResource(bank.relatedBank!!.icon),
+                    modifier = Modifier
+                        .padding(start = dimensionResource(R.dimen.padding_spacing))
+                        .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                        .size(24.dp),
+                    contentDescription = stringResource(bank.title)
+                )
+            }
+            Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
         }
-        if (bank.relatedBank != null && bank.type == BankType.NeoBank) {
-            Image(
-                painter = painterResource(bank.relatedBank!!.icon),
-                modifier = Modifier
-                    .padding(start = dimensionResource(R.dimen.padding_spacing))
-                    .padding(vertical = dimensionResource(R.dimen.padding_spacing))
-                    .size(24.dp),
-                contentDescription = stringResource(bank.title)
-            )
-        }
-        Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
     }
 }
