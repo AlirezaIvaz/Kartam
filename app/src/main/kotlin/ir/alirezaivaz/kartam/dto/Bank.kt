@@ -103,7 +103,7 @@ enum class Bank(
     IranZamin(
         icon = R.drawable.ic_bank_iranzamin,
         logo = R.drawable.ic_bank_iranzamin_logo,
-        title = R.string.bank_iran_venezuela,
+        title = R.string.bank_iranzamin,
         prefixes = listOf("505785")
     ),
     Karafarin(
