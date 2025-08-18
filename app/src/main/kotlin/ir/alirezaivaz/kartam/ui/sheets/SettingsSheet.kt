@@ -112,6 +112,83 @@ fun SettingsSheetContent(
             style = MaterialTheme.typography.titleLarge,
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        Text(
+            text = stringResource(R.string.settings_theme),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+        ) {
+            themes.filter { it.isAvailable }.forEachIndexed { index, item ->
+                SegmentedButton(
+                    selected = index == selectedThemeIndex,
+                    icon = {
+                        Icon(
+                            painter = painterResource(item.icon),
+                            contentDescription = stringResource(item.title)
+                        )
+                    },
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = themes.size
+                    ),
+                    onClick = {
+                        selectedThemeIndex = index
+                        onDismissRequest()
+                        onThemeChangedRequest(item)
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(item.title)
+                        )
+                    }
+                )
+            }
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        Text(
+            text = stringResource(R.string.settings_language),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+        ) {
+            languages.forEachIndexed { index, item ->
+                SegmentedButton(
+                    selected = index == selectedLanguageIndex,
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = languages.size
+                    ),
+                    onClick = {
+                        selectedLanguageIndex = index
+                        onDismissRequest()
+                        onLanguageChangedRequest(item)
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(item.title),
+                            fontFamily = item.typography.bodyMedium.fontFamily
+                        )
+                    }
+                )
+            }
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
         if (isDynamicColorsSupported) {
             SwitchItem(
                 title = stringResource(R.string.settings_dynamic_colors),
@@ -203,83 +280,6 @@ fun SettingsSheetContent(
                 SettingsManager.setSecretCvv2Details(it)
             }
         )
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-        Text(
-            text = stringResource(R.string.settings_language),
-            style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
-        )
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-        SingleChoiceSegmentedButtonRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-        ) {
-            languages.forEachIndexed { index, item ->
-                SegmentedButton(
-                    selected = index == selectedLanguageIndex,
-                    shape = SegmentedButtonDefaults.itemShape(
-                        index = index,
-                        count = languages.size
-                    ),
-                    onClick = {
-                        selectedLanguageIndex = index
-                        onDismissRequest()
-                        onLanguageChangedRequest(item)
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(item.title),
-                            fontFamily = item.typography.bodyMedium.fontFamily
-                        )
-                    }
-                )
-            }
-        }
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-        Text(
-            text = stringResource(R.string.settings_theme),
-            style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
-        )
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-        SingleChoiceSegmentedButtonRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-        ) {
-            themes.filter { it.isAvailable }.forEachIndexed { index, item ->
-                SegmentedButton(
-                    selected = index == selectedThemeIndex,
-                    icon = {
-                        Icon(
-                            painter = painterResource(item.icon),
-                            contentDescription = stringResource(item.title)
-                        )
-                    },
-                    shape = SegmentedButtonDefaults.itemShape(
-                        index = index,
-                        count = themes.size
-                    ),
-                    onClick = {
-                        selectedThemeIndex = index
-                        onDismissRequest()
-                        onThemeChangedRequest(item)
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(item.title)
-                        )
-                    }
-                )
-            }
-        }
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
         HorizontalDivider(Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)))
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
