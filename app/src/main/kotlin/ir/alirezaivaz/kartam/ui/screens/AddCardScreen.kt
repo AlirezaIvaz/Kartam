@@ -58,8 +58,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.CardItem
 import ir.alirezaivaz.kartam.dto.LoadingState
+import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.extensions.formattedMonth
 import ir.alirezaivaz.kartam.extensions.formattedYear
 import ir.alirezaivaz.kartam.extensions.isValidAccountNumber
@@ -76,7 +77,7 @@ import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModelFactory
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
-import ir.alirezaivaz.kartam.utils.AppDatabase
+import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.huri.jcal.JalaliCalendar
 import ir.mehrafzoon.composedatepicker.core.component.rememberDialogDatePicker
 import ir.mehrafzoon.composedatepicker.sheet.DatePickerModalBottomSheet
@@ -91,7 +92,7 @@ fun AddCardScreen(cardId: Int) {
     val activity = LocalActivity.current
     val focusManager = LocalFocusManager.current
     val jalaliCalendar = JalaliCalendar()
-    val db = AppDatabase.getInstance(context)
+    val db = KartamDatabase.getInstance(context)
     val factory = remember { AddCardViewModelFactory(db, cardId) }
     val viewModel: AddCardViewModel = viewModel(factory = factory)
     val scrollState = rememberScrollState()
@@ -295,7 +296,7 @@ fun AddCardScreen(cardId: Int) {
                         ) {
                             Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
                             CardItem(
-                                card = CardInfo(
+                                card = CardItem(
                                     name = ownerName.text,
                                     englishName = ownerEnglishName.text,
                                     number = cardNumber.text,
@@ -305,7 +306,7 @@ fun AddCardScreen(cardId: Int) {
                                     branchName = branchName.text,
                                     expirationMonth = expirationMonth.text.toIntOrNull(),
                                     expirationYear = expirationYear.text.toIntOrNull(),
-                                    cvv2 = cvv2.text.toIntOrNull(),
+                                    cvv2 = cvv2.text.toSensitive(),
                                     bank = bank
                                 ),
                                 isCvv2VisibleByDefault = true

@@ -57,9 +57,10 @@ import ir.alirezaivaz.kartam.AddCardActivity
 import ir.alirezaivaz.kartam.BuildConfig
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.CardItem
 import ir.alirezaivaz.kartam.dto.LoadingState
-import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.dialogs.DeleteCardDialog
+import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
 import ir.alirezaivaz.kartam.ui.sheets.SettingsSheet
 import ir.alirezaivaz.kartam.ui.sheets.SupportedBanksSheet
@@ -69,6 +70,7 @@ import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.utils.AppDatabase
+import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -86,12 +88,13 @@ fun HomeScreen() {
     val lifecycleOwner = LocalLifecycleOwner.current
     val hapticFeedback = LocalHapticFeedback.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
-    val db = AppDatabase.getInstance(context)
-    val viewModel = MainViewModel.getInstance(db)
+    val db = KartamDatabase.getInstance(context)
+    val oldDb = AppDatabase.getInstance(context)
+    val viewModel = MainViewModel.getInstance(context, db, oldDb)
     val loadingState by viewModel.loadingState.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val cards by viewModel.cards.collectAsState()
-    var selectedCard by remember { mutableStateOf<CardInfo?>(null) }
+    var selectedCard by remember { mutableStateOf<CardItem?>(null) }
     var selectedCardSnapshot by remember { mutableStateOf<ImageBitmap?>(null) }
     var showOptionsMenu by remember { mutableStateOf(false) }
     var showSettingsSheet by remember { mutableStateOf(false) }

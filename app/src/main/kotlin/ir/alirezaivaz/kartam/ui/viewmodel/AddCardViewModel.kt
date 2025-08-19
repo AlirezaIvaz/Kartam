@@ -4,12 +4,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.dto.Bank
-import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.CardItem
 import ir.alirezaivaz.kartam.dto.ErrorCode
 import ir.alirezaivaz.kartam.dto.LoadingState
 import ir.alirezaivaz.kartam.dto.Result
+import ir.alirezaivaz.kartam.dto.toSensitive
+import ir.alirezaivaz.kartam.dto.toStringOrNull
 import ir.alirezaivaz.kartam.extensions.formattedMonth
-import ir.alirezaivaz.kartam.extensions.formattedYear
 import ir.alirezaivaz.kartam.extensions.isValidAccountNumber
 import ir.alirezaivaz.kartam.extensions.isValidCardNumber
 import ir.alirezaivaz.kartam.extensions.isValidCvv2
@@ -17,7 +18,7 @@ import ir.alirezaivaz.kartam.extensions.isValidMonth
 import ir.alirezaivaz.kartam.extensions.isValidName
 import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
 import ir.alirezaivaz.kartam.extensions.isValidYear
-import ir.alirezaivaz.kartam.utils.AppDatabase
+import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,13 +27,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddCardViewModel(
-    db: AppDatabase,
+    db: KartamDatabase,
     private val cardId: Int
 ) : ViewModel() {
     private val _cardDao = db.cardDao()
 
-    private val _card = MutableStateFlow<CardInfo?>(null)
-    val card: StateFlow<CardInfo?> = _card
+    private val _card = MutableStateFlow<CardItem?>(null)
+    val card: StateFlow<CardItem?> = _card
     private val _isEdit = MutableStateFlow(false)
     val isEdit: StateFlow<Boolean> = _isEdit
     private val _loadingState = MutableStateFlow(LoadingState.LOADING)
@@ -198,7 +199,7 @@ class AddCardViewModel(
         if (isAllFieldsValid.isSuccess) {
             withContext(Dispatchers.IO) {
                 val position = _cardDao.getMaxPosition() ?: 0
-                val card = CardInfo(
+                val card = CardItem(
                     name = _ownerName.value.text,
                     englishName = _ownerEnglishName.value.text.ifBlank { null },
                     number = _cardNumber.value.text,
@@ -208,7 +209,7 @@ class AddCardViewModel(
                     branchName = _branchName.value.text.ifBlank { null },
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
-                    cvv2 = _cvv2.value.text.toIntOrNull(),
+                    cvv2 = _cvv2.value.text.toSensitive(),
                     bank = _bank.value,
                     position = position + 1
                 )
@@ -234,7 +235,7 @@ class AddCardViewModel(
                     branchName = _branchName.value.text.ifBlank { null },
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
-                    cvv2 = _cvv2.value.text.toIntOrNull(),
+                    cvv2 = _cvv2.value.text.toSensitive(),
                     bank = _bank.value
                 )
                 _cardDao.update(card)

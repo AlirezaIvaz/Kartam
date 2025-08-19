@@ -9,6 +9,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import ir.alirezaivaz.kartam.dao.CardDao
 import ir.alirezaivaz.kartam.dto.CardInfo
+import java.io.File
 
 @Database(entities = [CardInfo::class], version = 4)
 @TypeConverters(Converters::class)
@@ -18,6 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var instance: AppDatabase? = null
+        private const val DATABASE_FILE_NAME = "kartam.db"
 
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
@@ -48,11 +50,15 @@ abstract class AppDatabase : RoomDatabase() {
             return instance ?: buildDatabase(context).also { instance = it }
         }
 
+        fun getDatabaseFile(context: Context): File {
+            return context.getDatabasePath(DATABASE_FILE_NAME)
+        }
+
         private fun buildDatabase(context: Context): AppDatabase {
             System.loadLibrary("sqlcipher")
             val sharedPreferences = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
             val sqlCipherKeyManager = SqlCipherKeyManager(sharedPreferences)
-            val dbFile = context.getDatabasePath("kartam.db")
+            val dbFile = getDatabaseFile(context)
 
             return Room.databaseBuilder(
                 context = context,

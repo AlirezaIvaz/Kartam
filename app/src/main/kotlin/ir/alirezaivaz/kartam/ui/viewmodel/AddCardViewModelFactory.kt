@@ -2,10 +2,10 @@ package ir.alirezaivaz.kartam.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ir.alirezaivaz.kartam.utils.AppDatabase
+import ir.alirezaivaz.kartam.utils.KartamDatabase
 
 class AddCardViewModelFactory(
-    private val db: AppDatabase,
+    private val db: KartamDatabase,
     private val cardId: Int
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

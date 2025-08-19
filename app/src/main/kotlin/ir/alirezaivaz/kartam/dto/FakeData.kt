@@ -15,14 +15,14 @@ object FakeData {
     val cvv2 = 123
     val bank = Bank.fromCardNumber(numberBlu)
 
-    val bluCard = CardInfo(
+    val bluCard = CardItem(
         name = name,
         number = numberBlu,
         shabaNumber = shabaNumber,
         accountNumber = accountNumber,
         expirationMonth = expirationMonth,
         expirationYear = expirationYear,
-        cvv2 = cvv2,
+        cvv2 = cvv2.toString().toSensitive(),
         bank = bank
     )
     val cards = listOf(
@@ -34,7 +34,7 @@ object FakeData {
         bluCard.copy(
             number = numberSaderat,
             bank = Bank.fromCardNumber(numberSaderat),
-            cvv2 = 2116
+            cvv2 = 2116.toString().toSensitive()
         ),
         bluCard.copy(
             number = numberBankino,

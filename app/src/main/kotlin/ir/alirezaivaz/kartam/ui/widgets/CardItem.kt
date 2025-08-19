@@ -44,9 +44,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.CardItem
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.dto.Language
+import ir.alirezaivaz.kartam.dto.toStringOrNull
 import ir.alirezaivaz.kartam.extensions.formattedShabaNumber
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.aradFontFamily
@@ -59,7 +60,7 @@ import java.util.Locale
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CardItem(
-    card: CardInfo,
+    card: CardItem,
     modifier: Modifier = Modifier,
     dragHandleModifier: Modifier = Modifier,
     cardElevation: Dp = 0.dp,
@@ -213,7 +214,7 @@ fun CardItem(
                 }
                 AnimatedVisibility(
                     visible = (!card.expirationMonth?.toString().isNullOrBlank() && !card.expirationYear?.toString().isNullOrBlank())
-                            || !card.cvv2?.toString().isNullOrBlank(),
+                            || !card.cvv2?.toStringOrNull().isNullOrBlank(),
                 ) {
                     Row(
                         modifier = Modifier
@@ -250,7 +251,7 @@ fun CardItem(
                         }
                         Spacer(Modifier.weight(1f))
                         AnimatedVisibility(
-                            visible = !card.cvv2?.toString().isNullOrBlank(),
+                            visible = !card.cvv2?.toStringOrNull().isNullOrBlank(),
                             enter = fadeIn(),
                             exit = fadeOut()
                         ) {
@@ -277,7 +278,7 @@ fun CardItem(
                                     label = "ObfuscationAnimation"
                                 ) { visible ->
                                     AnimatedContent(
-                                        Utils.getCvv2(card.cvv2?.toString(), visible),
+                                        Utils.getCvv2(card.cvv2?.toStringOrNull(), visible),
                                         transitionSpec = {
                                             fadeIn(tween(200)) togetherWith fadeOut(tween(200))
                                         },
