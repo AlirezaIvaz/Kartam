@@ -68,10 +68,10 @@ class AddCardViewModel(
     }
 
     suspend fun loadCardDetails() {
-        _loadingState.value = LoadingState.LOADING
+        updateLoadingState(LoadingState.LOADING)
         if (cardId == -1) {
             _isEdit.value = false
-            _loadingState.value = LoadingState.LOADED
+            updateLoadingState(LoadingState.LOADED)
         } else {
             _isEdit.value = true
             _card.value = _cardDao.getCard(cardId)
@@ -89,7 +89,7 @@ class AddCardViewModel(
                     updateAccountNumber(TextFieldValue(currentCard.accountNumber))
                 }
                 if (currentCard.cvv2 != null) {
-                    val cvv2 = Utils.getCvv2(currentCard.cvv2.toString(), true)
+                    val cvv2 = Utils.getCvv2(currentCard.cvv2.toStringOrNull(), true)
                     updateCvv2(TextFieldValue(cvv2))
                 }
                 if (currentCard.branchCode != null) {
@@ -105,11 +105,15 @@ class AddCardViewModel(
                     // Year was saved as a 2-digit number previously
                     updateExpirationYear(TextFieldValue(currentCard.expirationYear.formattedMonth()))
                 }
-                _loadingState.value = LoadingState.LOADED
+                updateLoadingState(LoadingState.LOADED)
             } else {
-                _loadingState.value = LoadingState.EMPTY
+                updateLoadingState(LoadingState.EMPTY)
             }
         }
+    }
+
+    fun updateLoadingState(state: LoadingState) {
+        _loadingState.value = state
     }
 
     fun updateCardNumber(cardNumber: TextFieldValue) {

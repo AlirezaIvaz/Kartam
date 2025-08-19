@@ -81,6 +81,7 @@ import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.huri.jcal.JalaliCalendar
 import ir.mehrafzoon.composedatepicker.core.component.rememberDialogDatePicker
 import ir.mehrafzoon.composedatepicker.sheet.DatePickerModalBottomSheet
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -179,8 +180,12 @@ fun AddCardScreen(cardId: Int) {
                             IconButton(
                                 onClick = {
                                     scope.launch {
+                                        viewModel.updateLoadingState(LoadingState.LOADING)
+                                        focusManager.clearFocus(true)
+                                        delay(300)
                                         if (isEdit) {
                                             val result = viewModel.updateCard()
+                                            viewModel.updateLoadingState(LoadingState.LOADED)
                                             if (result.isSuccess) {
                                                 toaster.show(
                                                     message = context.getString(R.string.message_card_updated),
@@ -194,6 +199,7 @@ fun AddCardScreen(cardId: Int) {
                                             }
                                         } else {
                                             val result = viewModel.addCard()
+                                            viewModel.updateLoadingState(LoadingState.LOADED)
                                             if (result.isSuccess) {
                                                 showCardAddedDialog = true
                                             } else if (result.errorCode != null) {
