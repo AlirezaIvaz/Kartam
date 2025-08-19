@@ -103,8 +103,8 @@ class MainViewModel(
     fun onMove(from: Int, to: Int) {
         val currentList = _cards.value.toMutableList()
         try {
-            val item = currentList.removeAt(from -1)
-            currentList.add(to -1, item)
+            val item = currentList.removeAt(from - 1)
+            currentList.add(to - 1, item)
             viewModelScope.launch {
                 currentList.forEachIndexed { index, card ->
                     if (card.position != index) {
