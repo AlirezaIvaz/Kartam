@@ -45,7 +45,6 @@ import ir.alirezaivaz.kartam.ui.widgets.CardOptionItem
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.ui.widgets.SnapshotableCard
 import ir.alirezaivaz.kartam.utils.SettingsManager
-import ir.alirezaivaz.tablericons.TablerIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -178,7 +177,7 @@ fun CardOptionsSheetContent(
                 },
                 icon = {
                     Icon(
-                        painter = painterResource(TablerIcons.Edit),
+                        painter = painterResource(R.drawable.ic_edit),
                         contentDescription = stringResource(R.string.action_edit_card)
                     )
                 },
@@ -197,7 +196,7 @@ fun CardOptionsSheetContent(
                 },
                 icon = {
                     Icon(
-                        painter = painterResource(TablerIcons.Trash),
+                        painter = painterResource(R.drawable.ic_trash),
                         contentDescription = stringResource(R.string.action_delete_card)
                     )
                 },

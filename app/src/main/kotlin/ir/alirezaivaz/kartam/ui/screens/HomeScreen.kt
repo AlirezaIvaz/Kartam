@@ -70,7 +70,6 @@ import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.utils.AppDatabase
 import ir.alirezaivaz.kartam.utils.SettingsManager
-import ir.alirezaivaz.tablericons.TablerIcons
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -136,7 +135,7 @@ fun HomeScreen() {
                                 }
                             ) {
                                 Icon(
-                                    painter = painterResource(TablerIcons.DotsVertical),
+                                    painter = painterResource(R.drawable.ic_dots_vertical),
                                     contentDescription = stringResource(R.string.action_more_options)
                                 )
                             }
@@ -158,7 +157,7 @@ fun HomeScreen() {
                                     },
                                     leadingIcon = {
                                         Icon(
-                                            painter = painterResource(TablerIcons.Reload),
+                                            painter = painterResource(R.drawable.ic_reload),
                                             contentDescription = stringResource(R.string.action_reload)
                                         )
                                     },
@@ -177,7 +176,7 @@ fun HomeScreen() {
                                     },
                                     leadingIcon = {
                                         Icon(
-                                            painter = painterResource(TablerIcons.Message),
+                                            painter = painterResource(R.drawable.ic_message),
                                             contentDescription = stringResource(R.string.action_rate)
                                         )
                                     },
@@ -215,7 +214,7 @@ fun HomeScreen() {
                                     },
                                     leadingIcon = {
                                         Icon(
-                                            painter = painterResource(TablerIcons.Apps),
+                                            painter = painterResource(R.drawable.ic_apps),
                                             contentDescription = stringResource(R.string.action_more_apps)
                                         )
                                     },
@@ -249,7 +248,7 @@ fun HomeScreen() {
                                     },
                                     leadingIcon = {
                                         Icon(
-                                            painter = painterResource(TablerIcons.List),
+                                            painter = painterResource(R.drawable.ic_list),
                                             contentDescription = stringResource(R.string.changelog)
                                         )
                                     },
@@ -266,7 +265,7 @@ fun HomeScreen() {
                                     },
                                     leadingIcon = {
                                         Icon(
-                                            painter = painterResource(TablerIcons.BuildingBank),
+                                            painter = painterResource(R.drawable.ic_building_bank),
                                             contentDescription = stringResource(R.string.supported_banks)
                                         )
                                     },
@@ -283,7 +282,7 @@ fun HomeScreen() {
                                     },
                                     leadingIcon = {
                                         Icon(
-                                            painter = painterResource(TablerIcons.Settings),
+                                            painter = painterResource(R.drawable.ic_settings),
                                             contentDescription = stringResource(R.string.action_settings)
                                         )
                                     },

@@ -124,7 +124,6 @@ dependencies {
     implementation(libs.sqlcipher.android)
     implementation(libs.jalalicalendar)
     implementation(libs.sonner)
-    implementation(libs.tablericons)
     implementation(libs.multiplatform.settings.noargs)
     implementation(project(":composedatepicker"))
     androidTestImplementation(platform(libs.androidx.compose.bom))

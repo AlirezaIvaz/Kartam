@@ -12,7 +12,6 @@ androidx-material = "1.12.0"
 sqlcipher-android = "4.9.0"
 jalalicalendar = "1.3.3"
 sonner = "0.3.8"
-tablericons = "1.12.0"
 multiplatform-settings = "1.3.0"
 reorderable = "2.5.1"
 
@@ -38,7 +37,6 @@ reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reo
 sqlcipher-android = { group = "net.zetetic", name = "sqlcipher-android", version.ref = "sqlcipher-android" }
 jalalicalendar = { group = "ir.huri", name = "JalaliCalendar", version.ref = "jalalicalendar" }
 sonner = { group = "io.github.dokar3", name = "sonner", version.ref = "sonner" }
-tablericons = { group = "ir.alirezaivaz", name = "tablericons", version.ref = "tablericons"  }
 multiplatform-settings-noargs = { group = "com.russhwolf", name = "multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
 
 [plugins]

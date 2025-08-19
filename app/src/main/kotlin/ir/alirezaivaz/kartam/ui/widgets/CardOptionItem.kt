@@ -34,7 +34,6 @@ import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
-import ir.alirezaivaz.tablericons.TablerIcons
 import kotlinx.coroutines.launch
 
 @Composable
@@ -93,7 +92,7 @@ fun CardOptionItem(
                 },
             ) {
                 Icon(
-                    painter = painterResource(TablerIcons.Copy),
+                    painter = painterResource(R.drawable.ic_copy),
                     contentDescription = stringResource(R.string.action_copy)
                 )
             }
@@ -115,7 +114,7 @@ fun CardOptionItem(
                 },
             ) {
                 Icon(
-                    painter = painterResource(TablerIcons.Share),
+                    painter = painterResource(R.drawable.ic_share),
                     contentDescription = stringResource(R.string.action_share_via)
                 )
             }

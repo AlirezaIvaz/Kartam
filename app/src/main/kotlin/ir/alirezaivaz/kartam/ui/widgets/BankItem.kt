@@ -30,7 +30,6 @@ import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.BankType
 import ir.alirezaivaz.kartam.dto.relatedBank
-import ir.alirezaivaz.tablericons.TablerIcons
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -113,9 +112,9 @@ fun BankItem(
                 Icon(
                     painter = painterResource(
                         if (bank.isMerged) {
-                            TablerIcons.ProgressAlert
+                            R.drawable.ic_progress_alert
                         } else {
-                            TablerIcons.ProgressCheck
+                            R.drawable.ic_progress_check
                         }
                     ),
                     tint = if (bank.isMerged) {

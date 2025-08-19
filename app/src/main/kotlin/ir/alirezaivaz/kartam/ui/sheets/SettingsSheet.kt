@@ -51,7 +51,6 @@ import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.utils.SettingsManager
-import ir.alirezaivaz.tablericons.TablerIcons
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -131,7 +130,13 @@ fun SettingsSheetContent(
                     selected = index == selectedThemeIndex,
                     icon = {
                         Icon(
-                            painter = painterResource(item.icon),
+                            painter = painterResource(
+                                if (index == selectedThemeIndex) {
+                                    item.iconFilled
+                                } else {
+                                    item.icon
+                                }
+                            ),
                             contentDescription = stringResource(item.title)
                         )
                     },
@@ -258,7 +263,7 @@ fun SettingsSheetContent(
                         }
                     ) {
                         Icon(
-                            painter = painterResource(TablerIcons.HelpCircle),
+                            painter = painterResource(R.drawable.ic_help_circle),
                             contentDescription = null
                         )
                     }

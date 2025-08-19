@@ -6,27 +6,30 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.tablericons.TablerIcons
 
 enum class Theme(
     val icon: Int,
+    val iconFilled: Int,
     @get:StringRes
     val title: Int,
     val nightMode: Int,
     val isAvailable: Boolean = true
 ) {
     Day(
-        icon = TablerIcons.Sun,
+        icon = R.drawable.ic_sun,
+        iconFilled = R.drawable.ic_sun_filled,
         title = R.string.theme_day,
         nightMode = AppCompatDelegate.MODE_NIGHT_NO
     ),
     Night(
-        icon = TablerIcons.MoonStars,
+        icon = R.drawable.ic_moon_stars,
+        iconFilled = R.drawable.ic_moon_stars_filled,
         title = R.string.theme_night,
         nightMode = AppCompatDelegate.MODE_NIGHT_YES
     ),
     System(
-        icon = TablerIcons.BrightnessHalf,
+        icon = R.drawable.ic_brightness_half,
+        iconFilled = R.drawable.ic_brightness_half_filled,
         title = R.string.theme_system,
         nightMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
         isAvailable = isSystemNightModeSupported
