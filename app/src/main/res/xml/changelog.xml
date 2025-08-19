@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="1.2.0" date="2025-08-19">
+        <new>Supported banks sheet</new>
+        <new>Branch code and name fields for cards</new>
+        <fixed>Card position would change after editing</fixed>
+        <fixed>Some minor bugs</fixed>
+        <improved>App size</improved>
+        <improved>App UI</improved>
+    </version>
     <version name="1.1.0" date="2025-08-07">
         <new>Move cards with drag and drop</new>
         <new>Support for HiBank and MetaBank</new>

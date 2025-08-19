@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.2.0 (19 August 2025)
+
+- **New:** Supported banks sheet
+- **New:** Branch code and name fields for cards
+- **Fixed:** Card position would change after editing
+- **Fixed:** Some minor bugs
+- **Improved:** App size
+- **Improved:** App UI
+
 ## v1.1.0 (7 August 2025)
 
 - **New:** Move cards with drag and drop

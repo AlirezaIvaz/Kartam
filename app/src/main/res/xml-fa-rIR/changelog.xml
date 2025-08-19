@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="۱٫۲٫۰" date="۲۸ مرداد ۱۴۰۴">
+        <new>صفحهٔ بانک‌های پشتیبانی‌شده</new>
+        <new>امکان ثبت شماره و نام شعبهٔ کارت</new>
+        <fixed>جایگاه کارت بعد از ویرایش تغییر می‌کرد</fixed>
+        <fixed>برخی مشکلات جزئی</fixed>
+        <improved>حجم برنامه</improved>
+        <improved>رابط کاربری برنامه</improved>
+    </version>
     <version name="۱٫۱٫۰" date="۱۶ مرداد ۱۴۰۴">
         <new>پشتیبانی از های‌بانک و متابانک</new>
         <new>پشتیبانی از ژست برگشت پیش‌بینانه</new>
