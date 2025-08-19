@@ -117,26 +117,6 @@ fun AddCardScreen(cardId: Int) {
     val initialMonth = jalaliCalendar.month
     val initialYear = jalaliCalendar.year
 
-//    LaunchedEffect(Unit) {
-//        scope.launch(Dispatchers.IO) {
-//            viewModel.loadCardDetails(
-//                cardId = cardId,
-//                onCardLoaded = {
-//                    toaster.show(
-//                        message = "Card loaded!",
-//                        type = ToastType.Success
-//                    )
-//                },
-//                onCardLoadFailed = {
-//                    toaster.show(
-//                        message = "Card not found to edit!",
-//                        type = ToastType.Error
-//                    )
-//                }
-//            )
-//        }
-//    }
-
     KartamTheme {
         Scaffold(
             modifier = Modifier
