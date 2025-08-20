@@ -58,7 +58,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.kartam.dto.CardItem
+import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.LoadingState
 import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.extensions.formattedMonth
@@ -282,7 +282,7 @@ fun AddCardScreen(cardId: Int) {
                         ) {
                             Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
                             CardItem(
-                                card = CardItem(
+                                card = CardInfo(
                                     name = ownerName.text,
                                     englishName = ownerEnglishName.text,
                                     number = cardNumber.text,

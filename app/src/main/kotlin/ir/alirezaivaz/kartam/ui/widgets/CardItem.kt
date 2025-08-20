@@ -9,7 +9,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,7 +43,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.kartam.dto.CardItem
+import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.toStringOrNull
@@ -60,7 +59,7 @@ import java.util.Locale
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CardItem(
-    card: CardItem,
+    card: CardInfo,
     modifier: Modifier = Modifier,
     dragHandleModifier: Modifier = Modifier,
     cardElevation: Dp = 0.dp,

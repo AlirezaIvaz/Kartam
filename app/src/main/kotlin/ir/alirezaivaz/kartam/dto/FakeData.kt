@@ -15,7 +15,7 @@ object FakeData {
     val cvv2 = 123
     val bank = Bank.fromCardNumber(numberBlu)
 
-    val bluCard = CardItem(
+    val bluCard = CardInfo(
         name = name,
         number = numberBlu,
         shabaNumber = shabaNumber,

@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.kartam.dto.CardItem
+import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
@@ -49,7 +49,7 @@ import ir.alirezaivaz.kartam.utils.SettingsManager
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardOptionsSheet(
-    card: CardItem?,
+    card: CardInfo?,
     onEditRequest: () -> Unit,
     onDeleteRequest: () -> Unit,
     onSnapshotReady: (ImageBitmap) -> Unit,
@@ -79,7 +79,7 @@ fun CardOptionsSheet(
 
 @Composable
 fun CardOptionsSheetContent(
-    card: CardItem,
+    card: CardInfo,
     toaster: ToasterState,
     onEditRequest: () -> Unit,
     onDeleteRequest: () -> Unit,

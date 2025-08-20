@@ -4,7 +4,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.dto.Bank
-import ir.alirezaivaz.kartam.dto.CardItem
+import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.ErrorCode
 import ir.alirezaivaz.kartam.dto.LoadingState
 import ir.alirezaivaz.kartam.dto.Result
@@ -32,8 +32,8 @@ class AddCardViewModel(
 ) : ViewModel() {
     private val _cardDao = db.cardDao()
 
-    private val _card = MutableStateFlow<CardItem?>(null)
-    val card: StateFlow<CardItem?> = _card
+    private val _card = MutableStateFlow<CardInfo?>(null)
+    val card: StateFlow<CardInfo?> = _card
     private val _isEdit = MutableStateFlow(false)
     val isEdit: StateFlow<Boolean> = _isEdit
     private val _loadingState = MutableStateFlow(LoadingState.LOADING)
@@ -203,7 +203,7 @@ class AddCardViewModel(
         if (isAllFieldsValid.isSuccess) {
             withContext(Dispatchers.IO) {
                 val position = _cardDao.getMaxPosition() ?: 0
-                val card = CardItem(
+                val card = CardInfo(
                     name = _ownerName.value.text,
                     englishName = _ownerEnglishName.value.text.ifBlank { null },
                     number = _cardNumber.value.text,

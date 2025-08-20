@@ -27,7 +27,7 @@ data class CardInfo(
     @ColumnInfo(name = "exp_year")
     val expirationYear: Int?,
     @ColumnInfo(name = "cvv2")
-    val cvv2: Int?,
+    val cvv2: SensitiveString?,
     @ColumnInfo(name = "bank")
     val bank: Bank,
     @ColumnInfo(name = "position")

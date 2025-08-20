@@ -5,14 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import ir.alirezaivaz.kartam.dto.CardItem
-import ir.alirezaivaz.kartam.dto.CardsDao
+import ir.alirezaivaz.kartam.dao.CardDao
+import ir.alirezaivaz.kartam.dto.CardInfo
 import java.io.File
 
-@Database(entities = [CardItem::class], version = 1)
+@Database(entities = [CardInfo::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class KartamDatabase : RoomDatabase() {
-    abstract fun cardDao(): CardsDao
+    abstract fun cardDao(): CardDao
 
     companion object {
         @Volatile

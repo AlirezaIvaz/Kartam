@@ -121,7 +121,6 @@ dependencies {
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.material)
     implementation(libs.reorderable)
-    implementation(libs.sqlcipher.android)
     implementation(libs.jalalicalendar)
     implementation(libs.sonner)
     implementation(libs.multiplatform.settings.noargs)
