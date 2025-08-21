@@ -1,5 +1,6 @@
 package ir.alirezaivaz.kartam.ui.screens
 
+import android.app.Activity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -167,6 +168,7 @@ fun AddCardScreen(cardId: Int) {
                                             val result = viewModel.updateCard()
                                             viewModel.updateLoadingState(LoadingState.LOADED)
                                             if (result.isSuccess) {
+                                                activity?.setResult(Activity.RESULT_OK)
                                                 toaster.show(
                                                     message = context.getString(R.string.message_card_updated),
                                                     type = ToastType.Success
@@ -181,6 +183,7 @@ fun AddCardScreen(cardId: Int) {
                                             val result = viewModel.addCard()
                                             viewModel.updateLoadingState(LoadingState.LOADED)
                                             if (result.isSuccess) {
+                                                activity?.setResult(Activity.RESULT_OK)
                                                 showCardAddedDialog = true
                                             } else if (result.errorCode != null) {
                                                 toaster.show(

@@ -2,6 +2,7 @@
     <string name="app_name">کارتام</string>
 
     <!-- Actions -->
+    <string name="action_home">خانه</string>
     <string name="action_back">بازگشت</string>
     <string name="action_close">بستن</string>
     <string name="action_confirm">تایید</string>

@@ -2,6 +2,7 @@
     <string name="app_name">Kartam</string>
 
     <!-- Actions -->
+    <string name="action_home">Home</string>
     <string name="action_back">Back</string>
     <string name="action_close">Close</string>
     <string name="action_confirm">Confirm</string>

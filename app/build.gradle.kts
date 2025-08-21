@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 val isBundleBuild = gradle.startParameter.taskNames.any { it.contains("bundle", ignoreCase = true) }
@@ -120,6 +121,11 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.material)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+    implementation(libs.androidx.navigation.dff)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.reorderable)
     implementation(libs.jalalicalendar)
     implementation(libs.sonner)

@@ -1,6 +1,7 @@
-package ir.alirezaivaz.kartam.ui.sheets
+package ir.alirezaivaz.kartam.ui.screens
 
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,11 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RichTooltip
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -27,7 +28,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,54 +38,39 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import com.dokar.sonner.ToastType
+import com.dokar.sonner.ToasterState
+import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.BuildConfig
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
+import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsSheet(
-    onDismissRequest: () -> Unit,
-    onRefreshRequest: () -> Unit,
-    onThemeChangedRequest: (theme: Theme) -> Unit,
-    onLanguageChangedRequest: (Language) -> Unit
-) {
-    val scope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState()
-
-    ModalBottomSheet(
-        sheetState = sheetState,
-        onDismissRequest = onDismissRequest
-    ) {
-        SettingsSheetContent(
-            onDismissRequest = onDismissRequest,
-            onThemeChangedRequest = onThemeChangedRequest,
-            onRefreshRequest = onRefreshRequest,
-            onLanguageChangedRequest = onLanguageChangedRequest
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SettingsSheetContent(
-    onDismissRequest: () -> Unit,
-    onRefreshRequest: () -> Unit,
+fun SettingsScreen(
+    toaster: ToasterState,
+    onChangelogRequest: () -> Unit,
     onThemeChangedRequest: (theme: Theme) -> Unit,
     onLanguageChangedRequest: (language: Language) -> Unit
 ) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
     val theme by SettingsManager.theme.collectAsState()
     val language by SettingsManager.language.collectAsState()
     val themes = Theme.entries.map { it }
@@ -102,14 +87,6 @@ fun SettingsSheetContent(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(R.string.action_settings),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
-        )
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
         Text(
             text = stringResource(R.string.settings_theme),
@@ -146,7 +123,6 @@ fun SettingsSheetContent(
                     ),
                     onClick = {
                         selectedThemeIndex = index
-                        onDismissRequest()
                         onThemeChangedRequest(item)
                     },
                     label = {
@@ -181,7 +157,6 @@ fun SettingsSheetContent(
                     ),
                     onClick = {
                         selectedLanguageIndex = index
-                        onDismissRequest()
                         onLanguageChangedRequest(item)
                     },
                     label = {
@@ -275,7 +250,6 @@ fun SettingsSheetContent(
             isChecked = isSecretCvv2List,
             onCheckedChanged = {
                 SettingsManager.setSecretCvv2List(it)
-                onRefreshRequest()
             }
         )
         SwitchItem(
@@ -287,6 +261,112 @@ fun SettingsSheetContent(
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
         HorizontalDivider(Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)))
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+        ) {
+            FilledTonalButton(
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    try {
+                        if (BuildConfig.FLAVOR == "telegram") {
+                            uriHandler.openUri(BuildConfig.RATE_URL)
+                        } else {
+                            val intentAction = if (BuildConfig.FLAVOR == "cafebazaar") {
+                                Intent.ACTION_EDIT
+                            } else {
+                                Intent.ACTION_VIEW
+                            }
+                            context.startActivity(
+                                Intent(
+                                    intentAction,
+                                    BuildConfig.RATE_URL.toUri()
+                                )
+                            )
+                        }
+                    } catch (_: Exception) {
+                        toaster.show(
+                            message = context.getString(R.string.error_request_run_failed),
+                            type = ToastType.Error
+                        )
+                    }
+                },
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_message),
+                        contentDescription = stringResource(R.string.action_rate)
+                    )
+                    Text(
+                        text = stringResource(R.string.action_rate)
+                    )
+                }
+            }
+            FilledTonalButton(
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    try {
+                        if (BuildConfig.FLAVOR == "telegram") {
+                            uriHandler.openUri(BuildConfig.APPS_URL)
+                        } else {
+                            val intentAction = Intent.ACTION_VIEW
+                            context.startActivity(
+                                Intent(
+                                    intentAction,
+                                    BuildConfig.APPS_URL.toUri()
+                                )
+                            )
+                        }
+                    } catch (_: Exception) {
+                        toaster.show(
+                            message = context.getString(R.string.error_request_run_failed),
+                            type = ToastType.Error
+                        )
+                    }
+                },
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_apps),
+                        contentDescription = stringResource(R.string.action_more_apps)
+                    )
+                    Text(
+                        text = stringResource(R.string.action_more_apps)
+                    )
+                }
+            }
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        FilledTonalButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+            onClick = onChangelogRequest,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_list),
+                    contentDescription = stringResource(R.string.changelog)
+                )
+                Text(
+                    text = stringResource(R.string.changelog)
+                )
+            }
+        }
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
         Text(
             text = stringResource(R.string.settings_app_version).format(
@@ -337,9 +417,9 @@ fun SwitchItem(
 @Composable
 fun SettingsSheetPreview() {
     KartamTheme {
-        SettingsSheetContent(
-            onDismissRequest = {},
-            onRefreshRequest = {},
+        SettingsScreen(
+            toaster = rememberToasterState(),
+            onChangelogRequest = {},
             onThemeChangedRequest = {},
             onLanguageChangedRequest = {}
         )

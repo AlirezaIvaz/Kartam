@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Kartam"
         tools:targetApi="33">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.ActivityMain"
             android:exported="true"
             android:theme="@style/Theme.Kartam"
             android:windowSoftInputMode="adjustResize">
