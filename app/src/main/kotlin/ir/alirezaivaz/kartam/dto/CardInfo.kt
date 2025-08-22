@@ -30,6 +30,8 @@ data class CardInfo(
     val cvv2: SensitiveString?,
     @ColumnInfo(name = "bank")
     val bank: Bank,
+    @ColumnInfo(name = "owned")
+    val isOwned: Boolean = true,
     @ColumnInfo(name = "position")
     val position: Int = 0,
 )

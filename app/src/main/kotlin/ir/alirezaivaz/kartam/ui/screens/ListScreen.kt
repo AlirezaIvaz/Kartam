@@ -50,7 +50,8 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+fun ListScreen(
+    isOwned: Boolean,
     toaster: ToasterState,
     viewModel: MainViewModel,
     onEditRequest: (id: Int?) -> Unit
@@ -157,7 +158,7 @@ fun HomeScreen(
                             Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
                         }
                         items(
-                            items = cards,
+                            items = cards.filter { it.isOwned == isOwned },
                             key = { it.id }
                         ) { item ->
                             ReorderableItem(
@@ -202,7 +203,8 @@ fun HomeScreenPreview() {
     val context = LocalContext.current
     val db = KartamDatabase.getInstance(context)
     val viewModel = MainViewModel.getInstance(db)
-    HomeScreen(
+    ListScreen(
+        isOwned = true,
         viewModel = viewModel,
         toaster = rememberToasterState(),
         onEditRequest = {}

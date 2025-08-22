@@ -43,8 +43,10 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.dokar.sonner.ToastType
@@ -386,11 +388,15 @@ fun SettingsScreen(
 @Composable
 fun SwitchItem(
     title: String,
+    titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
     isChecked: Boolean,
-    onCheckedChanged: (isChecked: Boolean) -> Unit
+    onCheckedChanged: (isChecked: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    paddingStart: Dp = dimensionResource(R.dimen.padding_horizontal),
+    paddingEnd: Dp = dimensionResource(R.dimen.padding_horizontal),
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable {
                 onCheckedChanged(!isChecked)
@@ -400,12 +406,12 @@ fun SwitchItem(
     ) {
         Text(
             title,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(start = 16.dp)
+            style = titleStyle,
+            modifier = Modifier.padding(start = paddingStart)
         )
         Switch(
             isChecked,
-            modifier = Modifier.padding(end = 16.dp),
+            modifier = Modifier.padding(end = paddingEnd),
             onCheckedChange = {
                 onCheckedChanged(!isChecked)
             }

@@ -43,7 +43,7 @@ import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.AddCardActivity
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.LoadingState
-import ir.alirezaivaz.kartam.ui.screens.HomeScreen
+import ir.alirezaivaz.kartam.ui.screens.ListScreen
 import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
 import ir.alirezaivaz.kartam.ui.screens.SettingsScreen
 import ir.alirezaivaz.kartam.ui.screens.SupportedBanksScreen
@@ -99,7 +99,7 @@ class ActivityMain : AppCompatActivity() {
                             },
                             actions = {
                                 AnimatedVisibility(
-                                    visible = currentDestination == Destination.HOME
+                                    visible = currentDestination == Destination.MY_CARDS || currentDestination == Destination.OTHERS_CARDS
                                 ) {
                                     IconButton(
                                         onClick = {
@@ -165,6 +165,7 @@ class ActivityMain : AppCompatActivity() {
                             },
                             onClick = {
                                 val intent = Intent(context, AddCardActivity::class.java)
+                                intent.putExtra("owned", navController.currentDestination?.route == Destination.MY_CARDS.route)
                                 addEditCardLauncher.launch(intent)
                             }
                         )
@@ -184,8 +185,21 @@ class ActivityMain : AppCompatActivity() {
                         startDestination = Destination.DEFAULT_DESTINATION.route,
                         modifier = Modifier.padding(contentPadding)
                     ) {
-                        composable(Destination.HOME.route) { backStackEntry ->
-                            HomeScreen(
+                        composable(Destination.MY_CARDS.route) { backStackEntry ->
+                            ListScreen(
+                                isOwned = true,
+                                toaster = toaster,
+                                viewModel = viewModel,
+                                onEditRequest = {
+                                    val intent = Intent(context, AddCardActivity::class.java)
+                                    intent.putExtra("id", it)
+                                    addEditCardLauncher.launch(intent)
+                                }
+                            )
+                        }
+                        composable(Destination.OTHERS_CARDS.route) { backStackEntry ->
+                            ListScreen(
+                                isOwned = false,
                                 toaster = toaster,
                                 viewModel = viewModel,
                                 onEditRequest = {
@@ -232,11 +246,17 @@ enum class Destination(
     @param:DrawableRes
     val filledIcon: Int,
 ) {
-    HOME(
-        route = "home",
-        label = R.string.action_home,
-        icon = R.drawable.ic_home,
-        filledIcon = R.drawable.ic_home_filled,
+    MY_CARDS(
+        route = "my_cards",
+        label = R.string.action_my_cards,
+        icon = R.drawable.ic_credit_card,
+        filledIcon = R.drawable.ic_credit_card_filled,
+    ),
+    OTHERS_CARDS(
+        route = "others_cards",
+        label = R.string.action_others_cards,
+        icon = R.drawable.ic_cards,
+        filledIcon = R.drawable.ic_cards_filled,
     ),
     SUPPORTED_BANKS(
         route = "supported_banks",
@@ -252,7 +272,7 @@ enum class Destination(
     );
 
     companion object {
-        val DEFAULT_DESTINATION = HOME
+        val DEFAULT_DESTINATION = MY_CARDS
         fun findBy(route: String?): Destination {
             return entries.find { it.route == route } ?: DEFAULT_DESTINATION
         }

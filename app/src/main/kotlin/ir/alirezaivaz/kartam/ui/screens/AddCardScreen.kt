@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,10 +14,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -44,6 +47,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
@@ -87,7 +91,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddCardScreen(cardId: Int) {
+fun AddCardScreen(
+    cardId: Int,
+    isOwned: Boolean
+) {
     val scope = rememberCoroutineScope()
     val toaster = rememberToasterState()
     val context = LocalContext.current
@@ -95,7 +102,7 @@ fun AddCardScreen(cardId: Int) {
     val focusManager = LocalFocusManager.current
     val jalaliCalendar = JalaliCalendar()
     val db = KartamDatabase.getInstance(context)
-    val factory = remember { AddCardViewModelFactory(db, cardId) }
+    val factory = remember { AddCardViewModelFactory(db, cardId, isOwned) }
     val viewModel: AddCardViewModel = viewModel(factory = factory)
     val scrollState = rememberScrollState()
     val datePickerController = rememberDialogDatePicker()
@@ -115,6 +122,7 @@ fun AddCardScreen(cardId: Int) {
     val expirationMonth by viewModel.expirationMonth.collectAsState()
     val expirationYear by viewModel.expirationYear.collectAsState()
     val cvv2 by viewModel.cvv2.collectAsState()
+    val isOthersCard by viewModel.isOthersCard.collectAsState()
     val initialMonth = jalaliCalendar.month
     val initialYear = jalaliCalendar.year
 
@@ -323,6 +331,20 @@ fun AddCardScreen(cardId: Int) {
                                 }
                             )
                             Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                            SwitchItem(
+                                title = stringResource(R.string.label_others_card),
+                                titleStyle = MaterialTheme.typography.bodyLarge,
+                                isChecked = isOthersCard,
+                                modifier = Modifier
+                                    .heightIn(min = 56.dp)
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+                                paddingEnd = dimensionResource(R.dimen.padding_spacing),
+                                onCheckedChanged = {
+                                    viewModel.updateIsOthersCard(it)
+                                }
+                            )
+                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                             TextField(
                                 value = ownerName,
                                 modifier = Modifier.fillMaxWidth(),
@@ -409,6 +431,7 @@ fun AddCardScreen(cardId: Int) {
                                 value = cvv2,
                                 modifier = Modifier.fillMaxWidth(),
                                 singleLine = true,
+                                enabled = !isOthersCard,
                                 isError = cvv2.text.isNotEmpty() && !cvv2.text.isValidCvv2(),
                                 label = {
                                     Text(
@@ -480,6 +503,7 @@ fun AddCardScreen(cardId: Int) {
                                     value = expirationMonth,
                                     modifier = Modifier.weight(1f),
                                     singleLine = true,
+                                    enabled = !isOthersCard,
                                     isError = expirationMonth.text.isNotEmpty() && !expirationMonth.text.isValidMonth(),
                                     label = {
                                         Text(
@@ -501,6 +525,7 @@ fun AddCardScreen(cardId: Int) {
                                     value = expirationYear,
                                     modifier = Modifier.weight(1f),
                                     singleLine = true,
+                                    enabled = !isOthersCard,
                                     isError = expirationYear.text.isNotEmpty() && !expirationYear.text.isValidYear(),
                                     label = {
                                         Text(
@@ -526,8 +551,15 @@ fun AddCardScreen(cardId: Int) {
                                         )
                                     },
                                     onClick = {
-                                        scope.launch {
-                                            bottomSheetState.show()
+                                        if (isOthersCard) {
+                                            toaster.show(
+                                                message = context.getString(R.string.message_went_wrong),
+                                                type = ToastType.Error
+                                            )
+                                        } else {
+                                            scope.launch {
+                                                bottomSheetState.show()
+                                            }
                                         }
                                     }
                                 )
@@ -545,5 +577,5 @@ fun AddCardScreen(cardId: Int) {
 @Preview
 @Composable
 fun AddCardScreenPreview() {
-    AddCardScreen(-1)
+    AddCardScreen(-1, true)
 }

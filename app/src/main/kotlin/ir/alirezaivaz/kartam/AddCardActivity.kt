@@ -16,8 +16,12 @@ class AddCardActivity : ComponentActivity() {
             navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
         )
         val cardId = intent.getIntExtra("id", -1)
+        val isOwned = intent.getBooleanExtra("owned", true)
         setContent {
-            AddCardScreen(cardId = cardId)
+            AddCardScreen(
+                cardId = cardId,
+                isOwned = isOwned
+            )
         }
     }
 }

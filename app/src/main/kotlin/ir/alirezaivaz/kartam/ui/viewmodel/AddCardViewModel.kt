@@ -28,7 +28,8 @@ import kotlinx.coroutines.withContext
 
 class AddCardViewModel(
     db: KartamDatabase,
-    private val cardId: Int
+    private val cardId: Int,
+    private val isOwned: Boolean,
 ) : ViewModel() {
     private val _cardDao = db.cardDao()
 
@@ -60,6 +61,8 @@ class AddCardViewModel(
     val expirationYear: StateFlow<TextFieldValue> = _expirationYear
     private val _cvv2 = MutableStateFlow(TextFieldValue())
     val cvv2: StateFlow<TextFieldValue> = _cvv2
+    private val _isOthersCard = MutableStateFlow(!isOwned)
+    val isOthersCard: StateFlow<Boolean> = _isOthersCard
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -105,6 +108,7 @@ class AddCardViewModel(
                     // Year was saved as a 2-digit number previously
                     updateExpirationYear(TextFieldValue(currentCard.expirationYear.formattedMonth()))
                 }
+                updateIsOthersCard(!currentCard.isOwned)
                 updateLoadingState(LoadingState.LOADED)
             } else {
                 updateLoadingState(LoadingState.EMPTY)
@@ -173,6 +177,10 @@ class AddCardViewModel(
         _cvv2.value = cvv2
     }
 
+    fun updateIsOthersCard(value: Boolean) {
+        _isOthersCard.value = value
+    }
+
     fun validateFields(): Result {
         if (_cardNumber.value.text.isEmpty()) {
             return Result(errorCode = ErrorCode.EmptyCardNumber)
@@ -215,6 +223,7 @@ class AddCardViewModel(
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toSensitive(),
                     bank = _bank.value,
+                    isOwned = !_isOthersCard.value,
                     position = position + 1
                 )
                 _cardDao.insert(card)
@@ -240,7 +249,8 @@ class AddCardViewModel(
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toSensitive(),
-                    bank = _bank.value
+                    bank = _bank.value,
+                    isOwned = !_isOthersCard.value
                 )
                 _cardDao.update(card)
             }

@@ -5,11 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import ir.alirezaivaz.kartam.dao.CardDao
 import ir.alirezaivaz.kartam.dto.CardInfo
 import java.io.File
 
-@Database(entities = [CardInfo::class], version = 1)
+@Database(entities = [CardInfo::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class KartamDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
@@ -18,6 +20,11 @@ abstract class KartamDatabase : RoomDatabase() {
         @Volatile
         private var instance: KartamDatabase? = null
         private const val DATABASE_FILE_NAME = "kartam"
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE cards ADD COLUMN owned INTEGER NOT NULL DEFAULT 1")
+            }
+        }
 
         fun getInstance(context: Context): KartamDatabase {
             return instance ?: buildDatabase(context).also { instance = it }
@@ -30,11 +37,14 @@ abstract class KartamDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context): KartamDatabase {
             val dbFile = getDatabaseFile(context)
 
-            return Room.databaseBuilder(
-                context = context,
-                klass = KartamDatabase::class.java,
-                name = dbFile.absolutePath
-            ).build()
+            return Room
+                .databaseBuilder(
+                    context = context,
+                    klass = KartamDatabase::class.java,
+                    name = dbFile.absolutePath
+                )
+                .addMigrations(MIGRATION_1_2)
+                .build()
         }
     }
 }

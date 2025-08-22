@@ -6,28 +6,21 @@
     android:viewportHeight="24">
     <path
         android:fillColor="#00000000"
-        android:pathData="M3,5m0,3a3,3 0,0 1,3 -3h12a3,3 0,0 1,3 3v8a3,3 0,0 1,-3 3h-12a3,3 0,0 1,-3 -3z"
+        android:pathData="M3.604,7.197l7.138,-3.109a0.96,0.96 0,0 1,1.27 0.527l4.924,11.902a1,1 0,0 1,-0.514 1.304l-7.137,3.109a0.96,0.96 0,0 1,-1.271 -0.527l-4.924,-11.903a1,1 0,0 1,0.514 -1.304z"
         android:strokeWidth="2"
         android:strokeColor="@color/tabler_icon"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />
     <path
         android:fillColor="#00000000"
-        android:pathData="M3,10l18,0"
+        android:pathData="M15,4h1a1,1 0,0 1,1 1v3.5"
         android:strokeWidth="2"
         android:strokeColor="@color/tabler_icon"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />
     <path
         android:fillColor="#00000000"
-        android:pathData="M7,15l0.01,0"
-        android:strokeWidth="2"
-        android:strokeColor="@color/tabler_icon"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M11,15l2,0"
+        android:pathData="M20,6c0.264,0.112 0.52,0.217 0.768,0.315a1,1 0,0 1,0.53 1.311l-2.298,5.374"
         android:strokeWidth="2"
         android:strokeColor="@color/tabler_icon"
         android:strokeLineCap="round"

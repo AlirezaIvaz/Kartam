@@ -3,6 +3,8 @@
 
     <!-- Actions -->
     <string name="action_home">خانه</string>
+    <string name="action_my_cards">کارت‌های من</string>
+    <string name="action_others_cards">کارت‌های دیگران</string>
     <string name="action_back">بازگشت</string>
     <string name="action_close">بستن</string>
     <string name="action_confirm">تایید</string>
@@ -24,6 +26,7 @@
 
     <!-- Labels -->
     <string name="label_card_number">شمارهٔ کارت</string>
+    <string name="label_others_card">کارت دیگران</string>
     <string name="label_shaba_number">شمارهٔ شبا</string>
     <string name="label_shaba_number_placeholder">شمارهٔ شبا (اختیاری)</string>
     <string name="label_account_number">شمارهٔ حساب</string>

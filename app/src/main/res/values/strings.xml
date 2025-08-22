@@ -3,6 +3,8 @@
 
     <!-- Actions -->
     <string name="action_home">Home</string>
+    <string name="action_my_cards">My cards</string>
+    <string name="action_others_cards">Others\' cards</string>
     <string name="action_back">Back</string>
     <string name="action_close">Close</string>
     <string name="action_confirm">Confirm</string>
@@ -24,6 +26,7 @@
 
     <!-- Labels -->
     <string name="label_card_number">Card number</string>
+    <string name="label_others_card">Others\' card</string>
     <string name="label_shaba_number">Shaba number</string>
     <string name="label_shaba_number_placeholder">Shaba number (Optional)</string>
     <string name="label_account_number">Account number</string>
