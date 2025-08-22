@@ -18,8 +18,10 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
     val loadingState: StateFlow<LoadingState> = _loadingState
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
-    private val _cards = MutableStateFlow(emptyList<CardInfo>())
-    val cards: StateFlow<List<CardInfo>> = _cards
+    private val _ownedCards = MutableStateFlow(emptyList<CardInfo>())
+    val ownedCards: StateFlow<List<CardInfo>> = _ownedCards
+    private val _othersCards = MutableStateFlow(emptyList<CardInfo>())
+    val othersCards: StateFlow<List<CardInfo>> = _othersCards
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -36,7 +38,8 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
     }
 
     fun updateCards(cards: List<CardInfo>) {
-        _cards.value = cards
+        _ownedCards.value = cards.filter { it.isOwned }
+        _othersCards.value = cards.filter { !it.isOwned }
     }
 
     suspend fun loadCards(isRefreshing: Boolean = false) {
@@ -60,8 +63,12 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
         }
     }
 
-    fun onMove(from: Int, to: Int) {
-        val currentList = _cards.value.toMutableList()
+    fun onMove(from: Int, to: Int, isOwned: Boolean) {
+        val currentList = if (isOwned) {
+            _ownedCards.value
+        } else {
+            _othersCards.value
+        }.toMutableList()
         try {
             val item = currentList.removeAt(from - 1)
             currentList.add(to - 1, item)
@@ -71,7 +78,11 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
                         _cardDao.update(card.copy(position = index))
                     }
                 }
-                _cards.value = currentList
+                if (isOwned) {
+                    _ownedCards.value = currentList
+                } else {
+                    _othersCards.value = currentList
+                }
             }
         } catch (_: Exception) {
             return

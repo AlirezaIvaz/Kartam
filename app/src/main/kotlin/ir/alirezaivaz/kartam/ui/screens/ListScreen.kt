@@ -51,6 +51,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(
+    cards: List<CardInfo>,
     isOwned: Boolean,
     toaster: ToasterState,
     viewModel: MainViewModel,
@@ -61,7 +62,6 @@ fun ListScreen(
     val hapticFeedback = LocalHapticFeedback.current
     val loadingState by viewModel.loadingState.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
-    val cards by viewModel.cards.collectAsState()
     var selectedCard by remember { mutableStateOf<CardInfo?>(null) }
     var selectedCardSnapshot by remember { mutableStateOf<ImageBitmap?>(null) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
@@ -69,7 +69,7 @@ fun ListScreen(
     val isSecretCvv2InList by SettingsManager.isSecretCvv2InList.collectAsState()
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
-        viewModel.onMove(from.index, to.index)
+        viewModel.onMove(from.index, to.index, isOwned)
         hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
     }
 
@@ -204,6 +204,7 @@ fun HomeScreenPreview() {
     val db = KartamDatabase.getInstance(context)
     val viewModel = MainViewModel.getInstance(db)
     ListScreen(
+        cards = emptyList(),
         isOwned = true,
         viewModel = viewModel,
         toaster = rememberToasterState(),

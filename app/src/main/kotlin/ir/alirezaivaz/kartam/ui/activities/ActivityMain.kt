@@ -82,6 +82,8 @@ class ActivityMain : AppCompatActivity() {
             val navController = rememberNavController()
             val context = LocalContext.current
             val loadingState by viewModel.loadingState.collectAsState()
+            val ownedCards by viewModel.ownedCards.collectAsState()
+            val othersCards by viewModel.othersCards.collectAsState()
             var currentDestination by remember { mutableStateOf(Destination.DEFAULT_DESTINATION) }
             var showChangelogSheet by remember { mutableStateOf(SettingsManager.isAppUpdated()) }
             navController.addOnDestinationChangedListener { controller, destination, arguments ->
@@ -187,6 +189,7 @@ class ActivityMain : AppCompatActivity() {
                     ) {
                         composable(Destination.MY_CARDS.route) { backStackEntry ->
                             ListScreen(
+                                cards = ownedCards,
                                 isOwned = true,
                                 toaster = toaster,
                                 viewModel = viewModel,
@@ -199,6 +202,7 @@ class ActivityMain : AppCompatActivity() {
                         }
                         composable(Destination.OTHERS_CARDS.route) { backStackEntry ->
                             ListScreen(
+                                cards = othersCards,
                                 isOwned = false,
                                 toaster = toaster,
                                 viewModel = viewModel,
