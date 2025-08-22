@@ -50,6 +50,7 @@
     <!-- Messages -->
     <string name="message_card_added">Card added successfully!</string>
     <string name="message_card_updated">Card updated successfully!</string>
+    <string name="message_card_deleted">Card deleted successfully!</string>
     <string name="message_copied_to_clipboard">%s copied to clipboard!</string>
     <string name="message_no_card">No cards found!</string>
     <string name="message_no_card_description">Add your first card by tapping over + button at the bottom.</string>

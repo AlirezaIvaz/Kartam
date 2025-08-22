@@ -44,6 +44,7 @@
     <!-- Messages -->
     <string name="message_card_added">کارت با موفقیت اضافه شد!</string>
     <string name="message_card_updated">کارت با موفقیت به‌روزرسانی شد!</string>
+    <string name="message_card_deleted">کارت با موفقیت حذف شد!</string>
     <string name="message_copied_to_clipboard">%s در بریده‌دان کپی شد!</string>
     <string name="message_no_card">هیچ کارتی یافت نشد!</string>
     <string name="message_no_card_description">اولین کارت خود را با کلیک روی دکمهٔ + در پایین صفحه اضافه کنید.</string>
