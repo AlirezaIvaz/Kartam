@@ -5,6 +5,7 @@
     <string name="action_home">Home</string>
     <string name="action_my_cards">My cards</string>
     <string name="action_others_cards">Others\' cards</string>
+    <string name="action_banks">Banks</string>
     <string name="action_back">Back</string>
     <string name="action_close">Close</string>
     <string name="action_confirm">Confirm</string>

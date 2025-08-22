@@ -260,7 +260,7 @@ enum class Destination(
     ),
     SUPPORTED_BANKS(
         route = "supported_banks",
-        label = R.string.supported_banks,
+        label = R.string.action_banks,
         icon = R.drawable.ic_building_bank,
         filledIcon = R.drawable.ic_building_bank,
     ),
