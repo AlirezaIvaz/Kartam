@@ -2,6 +2,10 @@ package ir.alirezaivaz.kartam.ui.screens
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -60,7 +64,7 @@ fun ListScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val hapticFeedback = LocalHapticFeedback.current
-    val loadingState by viewModel.loadingState.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     var selectedCard by remember { mutableStateOf<CardInfo?>(null) }
     var selectedCardSnapshot by remember { mutableStateOf<ImageBitmap?>(null) }
@@ -125,23 +129,34 @@ fun ListScreen(
             }
         )
     }
-    AnimatedContent(targetState = loadingState) { state ->
-        when (state) {
-            LoadingState.LOADING -> {
+    AnimatedContent(
+        targetState = isLoading,
+        transitionSpec = {
+            fadeIn(tween(300)) togetherWith fadeOut(tween(300))
+        },
+        label = "CardListAnimation"
+    ) { state ->
+        when {
+            state -> {
                 LinearProgressIndicator(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-
-            LoadingState.EMPTY -> {
+            !state && cards.isEmpty() -> {
                 ErrorView(
                     icon = painterResource(R.drawable.vector_credit_card),
                     title = stringResource(R.string.message_no_card),
-                    description = stringResource(R.string.message_no_card_description)
+                    description = stringResource(R.string.message_no_card_description),
+                    actionButtonText = stringResource(R.string.action_reload),
+                    actionButtonIcon = painterResource(R.drawable.ic_reload),
+                    actionButtonPressed = {
+                        scope.launch(Dispatchers.IO) {
+                            viewModel.loadCards()
+                        }
+                    }
                 )
             }
-
-            LoadingState.LOADED -> {
+            else -> {
                 PullToRefreshBox(
                     isRefreshing = isRefreshing,
                     onRefresh = {

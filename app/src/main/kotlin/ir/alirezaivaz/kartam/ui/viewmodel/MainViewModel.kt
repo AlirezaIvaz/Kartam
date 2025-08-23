@@ -3,7 +3,6 @@ package ir.alirezaivaz.kartam.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.dto.CardInfo
-import ir.alirezaivaz.kartam.dto.LoadingState
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -14,8 +13,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(db: KartamDatabase) : ViewModel() {
     private val _cardDao = db.cardDao()
 
-    private val _loadingState = MutableStateFlow(LoadingState.LOADING)
-    val loadingState: StateFlow<LoadingState> = _loadingState
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
     private val _ownedCards = MutableStateFlow(emptyList<CardInfo>())
@@ -29,8 +28,8 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
         }
     }
 
-    fun updateLoadingState(loadingState: LoadingState) {
-        _loadingState.value = loadingState
+    fun updateIsLoading(value: Boolean) {
+        _isLoading.value = value
     }
 
     fun updateIsRefreshing(isRefreshing: Boolean) {
@@ -46,7 +45,7 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
         if (isRefreshing) {
             updateIsRefreshing(true)
         } else {
-            updateLoadingState(LoadingState.LOADING)
+            updateIsLoading(true)
         }
         val cards = _cardDao.getAll()
         updateCards(cards)
@@ -54,12 +53,7 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
         if (isRefreshing) {
             updateIsRefreshing(false)
         } else {
-            val state = if (cards.isEmpty()) {
-                LoadingState.EMPTY
-            } else {
-                LoadingState.LOADED
-            }
-            updateLoadingState(state)
+            updateIsLoading(false)
         }
     }
 
