@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -18,7 +17,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
@@ -42,11 +40,10 @@ import androidx.navigation.compose.rememberNavController
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.AddCardActivity
 import ir.alirezaivaz.kartam.R
-import ir.alirezaivaz.kartam.dto.LoadingState
 import ir.alirezaivaz.kartam.ui.screens.ListScreen
-import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
 import ir.alirezaivaz.kartam.ui.screens.SettingsScreen
 import ir.alirezaivaz.kartam.ui.screens.SupportedBanksScreen
+import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
@@ -81,7 +78,6 @@ class ActivityMain : AppCompatActivity() {
             val toaster = rememberToasterState()
             val navController = rememberNavController()
             val context = LocalContext.current
-            val loadingState by viewModel.loadingState.collectAsState()
             val ownedCards by viewModel.ownedCards.collectAsState()
             val othersCards by viewModel.othersCards.collectAsState()
             var currentDestination by remember { mutableStateOf(Destination.DEFAULT_DESTINATION) }
@@ -98,24 +94,6 @@ class ActivityMain : AppCompatActivity() {
                                 Text(
                                     text = stringResource(currentDestination.label)
                                 )
-                            },
-                            actions = {
-                                AnimatedVisibility(
-                                    visible = currentDestination == Destination.MY_CARDS || currentDestination == Destination.OTHERS_CARDS
-                                ) {
-                                    IconButton(
-                                        onClick = {
-                                            scope.launch(Dispatchers.IO) {
-                                                viewModel.loadCards(isRefreshing = loadingState == LoadingState.LOADED)
-                                            }
-                                        }
-                                    ) {
-                                        Icon(
-                                            painter = painterResource(R.drawable.ic_reload),
-                                            contentDescription = stringResource(R.string.action_reload)
-                                        )
-                                    }
-                                }
                             },
                             colors = TopAppBarDefaults.topAppBarColors(
                                 containerColor = MaterialTheme.colorScheme.primaryContainer,
