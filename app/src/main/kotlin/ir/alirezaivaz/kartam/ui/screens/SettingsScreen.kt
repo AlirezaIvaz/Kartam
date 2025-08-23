@@ -388,11 +388,11 @@ fun SettingsScreen(
 @Composable
 fun SwitchItem(
     title: String,
-    titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
     isChecked: Boolean,
-    isEnabled: Boolean = true,
     onCheckedChanged: (isChecked: Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    isEnabled: Boolean = true,
+    titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
     paddingStart: Dp = dimensionResource(R.dimen.padding_horizontal),
     paddingEnd: Dp = dimensionResource(R.dimen.padding_horizontal),
 ) {
