@@ -5,7 +5,8 @@ import ir.alirezaivaz.kartam.R
 
 data class Result(
     val isSuccess: Boolean = false,
-    val message: String = "",
+    @param:StringRes
+    val message: Int? = null,
     val errorCode: ErrorCode? = null,
     val data: List<Any> = emptyList()
 )
@@ -14,6 +15,9 @@ enum class ErrorCode(
     @get:StringRes
     val message: Int
 ) {
+    WentWrong(
+        message = R.string.message_went_wrong_description
+    ),
     EmptyCardNumber(
         message = R.string.error_empty_card_number
     ),

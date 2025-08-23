@@ -1,12 +1,13 @@
 package ir.alirezaivaz.kartam.ui.viewmodel
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.ErrorCode
-import ir.alirezaivaz.kartam.dto.LoadingState
 import ir.alirezaivaz.kartam.dto.Result
 import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.dto.toStringOrNull
@@ -21,6 +22,7 @@ import ir.alirezaivaz.kartam.extensions.isValidYear
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.Utils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -37,8 +39,10 @@ class AddCardViewModel(
     val card: StateFlow<CardInfo?> = _card
     private val _isEdit = MutableStateFlow(false)
     val isEdit: StateFlow<Boolean> = _isEdit
-    private val _loadingState = MutableStateFlow(LoadingState.LOADING)
-    val loadingState: StateFlow<LoadingState> = _loadingState
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+    private val _result = MutableStateFlow<Result?>(null)
+    val result: StateFlow<Result?> = _result
     private val _cardNumber = MutableStateFlow(TextFieldValue())
     val cardNumber: StateFlow<TextFieldValue> = _cardNumber
     private val _ownerName = MutableStateFlow(TextFieldValue())
@@ -66,58 +70,78 @@ class AddCardViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            loadCardDetails()
-        }
-    }
-
-    suspend fun loadCardDetails() {
-        updateLoadingState(LoadingState.LOADING)
-        if (cardId == -1) {
-            _isEdit.value = false
-            updateLoadingState(LoadingState.LOADED)
-        } else {
-            _isEdit.value = true
-            _card.value = _cardDao.getCard(cardId)
-            if (_card.value != null) {
-                val currentCard = _card.value!!
-                updateCardNumber(TextFieldValue(currentCard.number))
-                updateOwnerName(TextFieldValue(currentCard.name))
-                if (!currentCard.englishName.isNullOrEmpty()) {
-                    updateOwnerEnglishName(TextFieldValue(currentCard.englishName))
-                }
-                if (!currentCard.shabaNumber.isNullOrEmpty()) {
-                    updateShabaNumber(TextFieldValue(currentCard.shabaNumber))
-                }
-                if (!currentCard.accountNumber.isNullOrEmpty()) {
-                    updateAccountNumber(TextFieldValue(currentCard.accountNumber))
-                }
-                if (currentCard.cvv2 != null) {
-                    val cvv2 = Utils.getCvv2(currentCard.cvv2.toStringOrNull(), true)
-                    updateCvv2(TextFieldValue(cvv2))
-                }
-                if (currentCard.branchCode != null) {
-                    updateBranchCode(TextFieldValue(currentCard.branchCode.toString()))
-                }
-                if (currentCard.branchName != null) {
-                    updateBranchName(TextFieldValue(currentCard.branchName))
-                }
-                if (currentCard.expirationMonth != null) {
-                    updateExpirationMonth(TextFieldValue(currentCard.expirationMonth.formattedMonth()))
-                }
-                if (currentCard.expirationYear != null) {
-                    // Year was saved as a 2-digit number previously
-                    updateExpirationYear(TextFieldValue(currentCard.expirationYear.formattedMonth()))
-                }
-                updateIsOthersCard(!currentCard.isOwned)
-                updateLoadingState(LoadingState.LOADED)
+            if (cardId == -1) {
+                _isEdit.value = false
+                updateIsLoading(false)
             } else {
-                updateLoadingState(LoadingState.EMPTY)
+                loadCardDetails()
             }
         }
     }
 
-    fun updateLoadingState(state: LoadingState) {
-        _loadingState.value = state
+    suspend fun loadCardDetails() {
+        _isEdit.value = true
+        _card.value = _cardDao.getCard(cardId)
+        if (_card.value != null) {
+            val currentCard = _card.value!!
+            updateCardNumber(TextFieldValue(currentCard.number))
+            updateOwnerName(TextFieldValue(currentCard.name))
+            if (!currentCard.englishName.isNullOrEmpty()) {
+                updateOwnerEnglishName(TextFieldValue(currentCard.englishName))
+            }
+            if (!currentCard.shabaNumber.isNullOrEmpty()) {
+                updateShabaNumber(TextFieldValue(currentCard.shabaNumber))
+            }
+            if (!currentCard.accountNumber.isNullOrEmpty()) {
+                updateAccountNumber(TextFieldValue(currentCard.accountNumber))
+            }
+            if (currentCard.cvv2 != null) {
+                val cvv2 = Utils.getCvv2(currentCard.cvv2.toStringOrNull(), true)
+                updateCvv2(TextFieldValue(cvv2))
+            }
+            if (currentCard.branchCode != null) {
+                updateBranchCode(TextFieldValue(currentCard.branchCode.toString()))
+            }
+            if (currentCard.branchName != null) {
+                updateBranchName(TextFieldValue(currentCard.branchName))
+            }
+            if (currentCard.expirationMonth != null) {
+                updateExpirationMonth(TextFieldValue(currentCard.expirationMonth.formattedMonth()))
+            }
+            if (currentCard.expirationYear != null) {
+                // Year was saved as a 2-digit number previously
+                updateExpirationYear(TextFieldValue(currentCard.expirationYear.formattedMonth()))
+            }
+            updateIsOthersCard(!currentCard.isOwned)
+        } else {
+            updateResult(
+                isSuccess = false,
+                errorCode = ErrorCode.WentWrong
+            )
+        }
+        delay(5000)
+        updateIsLoading(false)
+    }
+
+    fun updateIsLoading(value: Boolean) {
+        _isLoading.value = value
+    }
+
+    fun updateResult(result: Result?) {
+        _result.value = result
+    }
+
+    fun updateResult(
+        isSuccess: Boolean = false,
+        @StringRes
+        message: Int? = null,
+        errorCode: ErrorCode? = null
+    ) {
+        _result.value = Result(
+            isSuccess = isSuccess,
+            message = message,
+            errorCode = errorCode
+        )
     }
 
     fun updateCardNumber(cardNumber: TextFieldValue) {
@@ -181,34 +205,45 @@ class AddCardViewModel(
         _isOthersCard.value = value
     }
 
-    fun validateFields(): Result {
+    fun validateFields(): Boolean {
         if (_cardNumber.value.text.isEmpty()) {
-            return Result(errorCode = ErrorCode.EmptyCardNumber)
+            updateResult(errorCode = ErrorCode.EmptyCardNumber)
+            return false
         } else if (!_cardNumber.value.text.isValidCardNumber()) {
-            return Result(errorCode = ErrorCode.InvalidCardNumber)
+            updateResult(errorCode = ErrorCode.InvalidCardNumber)
+            return false
         } else if (_ownerName.value.text.isEmpty()) {
-            return Result(errorCode = ErrorCode.EmptyCardOwnerName)
+            updateResult(errorCode = ErrorCode.EmptyCardOwnerName)
+            return false
         } else if (!_ownerName.value.text.isValidName()) {
-            return Result(errorCode = ErrorCode.InvalidCardOwnerName)
+            updateResult(errorCode = ErrorCode.InvalidCardOwnerName)
+            return false
         } else if (_ownerEnglishName.value.text.isNotEmpty() && !_ownerEnglishName.value.text.isValidName()) {
-            return Result(errorCode = ErrorCode.InvalidCardOwnerName)
+            updateResult(errorCode = ErrorCode.InvalidCardOwnerName)
+            return false
         } else if (_shabaNumber.value.text.isNotEmpty() && !_shabaNumber.value.text.isValidShabaNumber()) {
-            return Result(errorCode = ErrorCode.InvalidShabaNumber)
+            updateResult(errorCode = ErrorCode.InvalidShabaNumber)
+            return false
         } else if (_accountNumber.value.text.isNotEmpty() && !_accountNumber.value.text.isValidAccountNumber()) {
-            return Result(errorCode = ErrorCode.InvalidAccountNumber)
+            updateResult(errorCode = ErrorCode.InvalidAccountNumber)
+            return false
         } else if (_cvv2.value.text.isNotEmpty() && !_cvv2.value.text.isValidCvv2()) {
-            return Result(errorCode = ErrorCode.InvalidCvv2)
+            updateResult(errorCode = ErrorCode.InvalidCvv2)
+            return false
         } else if (_expirationMonth.value.text.isNotEmpty() && !_expirationMonth.value.text.isValidMonth()) {
-            return Result(errorCode = ErrorCode.InvalidExpirationMonth)
+            updateResult(errorCode = ErrorCode.InvalidExpirationMonth)
+            return false
         } else if (_expirationYear.value.text.isNotEmpty() && !_expirationYear.value.text.isValidYear()) {
-            return Result(errorCode = ErrorCode.InvalidExpirationYear)
+            updateResult(errorCode = ErrorCode.InvalidExpirationYear)
+            return false
         }
-        return Result(isSuccess = true)
+        return true
     }
 
-    suspend fun addCard(): Result {
+    suspend fun addCard() {
         val isAllFieldsValid = validateFields()
-        if (isAllFieldsValid.isSuccess) {
+        if (isAllFieldsValid) {
+            updateIsLoading(true)
             withContext(Dispatchers.IO) {
                 val position = _cardDao.getMaxPosition() ?: 0
                 val card = CardInfo(
@@ -228,15 +263,15 @@ class AddCardViewModel(
                 )
                 _cardDao.insert(card)
             }
-            return Result(isSuccess = true)
-        } else {
-            return isAllFieldsValid
+            updateIsLoading(false)
+            updateResult(isSuccess = true)
         }
     }
 
-    suspend fun updateCard(): Result {
+    suspend fun updateCard() {
         val isAllFieldsValid = validateFields()
-        if (_card.value != null && isAllFieldsValid.isSuccess) {
+        if (_card.value != null && isAllFieldsValid) {
+            updateIsLoading(true)
             withContext(Dispatchers.IO) {
                 val card = _card.value!!.copy(
                     name = _ownerName.value.text,
@@ -254,9 +289,11 @@ class AddCardViewModel(
                 )
                 _cardDao.update(card)
             }
-            return Result(isSuccess = true)
-        } else {
-            return isAllFieldsValid
+            updateIsLoading(false)
+            updateResult(
+                isSuccess = true,
+                message = R.string.message_card_updated
+            )
         }
     }
 

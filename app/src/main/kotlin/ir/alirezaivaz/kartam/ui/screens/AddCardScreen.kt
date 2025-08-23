@@ -2,12 +2,9 @@ package ir.alirezaivaz.kartam.ui.screens
 
 import android.app.Activity
 import androidx.activity.compose.LocalActivity
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,7 +28,8 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -41,6 +40,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,7 +53,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -66,7 +65,6 @@ import com.dokar.sonner.ToastType
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
-import ir.alirezaivaz.kartam.dto.LoadingState
 import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.extensions.formattedMonth
 import ir.alirezaivaz.kartam.extensions.formattedYear
@@ -82,13 +80,11 @@ import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModel
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModelFactory
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
-import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.huri.jcal.JalaliCalendar
 import ir.mehrafzoon.composedatepicker.core.component.rememberDialogDatePicker
 import ir.mehrafzoon.composedatepicker.sheet.DatePickerModalBottomSheet
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -112,7 +108,8 @@ fun AddCardScreen(
     var showCardAddedDialog by remember { mutableStateOf(false) }
 
     val isEdit by viewModel.isEdit.collectAsState()
-    val loadingState by viewModel.loadingState.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val result by viewModel.result.collectAsState()
     val cardNumber by viewModel.cardNumber.collectAsState()
     val ownerName by viewModel.ownerName.collectAsState()
     val ownerEnglishName by viewModel.ownerEnglishName.collectAsState()
@@ -127,6 +124,28 @@ fun AddCardScreen(
     val isOthersCard by viewModel.isOthersCard.collectAsState()
     val initialMonth = jalaliCalendar.month
     val initialYear = jalaliCalendar.year
+
+    LaunchedEffect(result) {
+        result?.let {
+            if (it.isSuccess) {
+                activity?.setResult(Activity.RESULT_OK)
+                if (!isEdit) {
+                    showCardAddedDialog = true
+                } else if (it.message != null) {
+                    toaster.show(
+                        message = context.getString(it.message),
+                        type = ToastType.Success
+                    )
+                }
+            } else if (it.errorCode != null) {
+                toaster.show(
+                    message = context.getString(it.errorCode.message),
+                    type = ToastType.Error
+                )
+            }
+            viewModel.updateResult(null)
+        }
+    }
 
     KartamTheme {
         Scaffold(
@@ -164,43 +183,18 @@ fun AddCardScreen(
                     },
                     actions = {
                         AnimatedVisibility(
-                            visible = loadingState != LoadingState.LOADING,
+                            visible = !isLoading,
                             enter = fadeIn(),
                             exit = fadeOut()
                         ) {
                             IconButton(
                                 onClick = {
                                     scope.launch {
-                                        viewModel.updateLoadingState(LoadingState.LOADING)
                                         focusManager.clearFocus(true)
-                                        delay(300)
                                         if (isEdit) {
-                                            val result = viewModel.updateCard()
-                                            viewModel.updateLoadingState(LoadingState.LOADED)
-                                            if (result.isSuccess) {
-                                                activity?.setResult(Activity.RESULT_OK)
-                                                toaster.show(
-                                                    message = context.getString(R.string.message_card_updated),
-                                                    type = ToastType.Success
-                                                )
-                                            } else if (result.errorCode != null) {
-                                                toaster.show(
-                                                    message = context.getString(result.errorCode.message),
-                                                    type = ToastType.Error
-                                                )
-                                            }
+                                            viewModel.updateCard()
                                         } else {
-                                            val result = viewModel.addCard()
-                                            viewModel.updateLoadingState(LoadingState.LOADED)
-                                            if (result.isSuccess) {
-                                                activity?.setResult(Activity.RESULT_OK)
-                                                showCardAddedDialog = true
-                                            } else if (result.errorCode != null) {
-                                                toaster.show(
-                                                    message = context.getString(result.errorCode.message),
-                                                    type = ToastType.Error
-                                                )
-                                            }
+                                            viewModel.addCard()
                                         }
                                     }
                                 }
@@ -264,317 +258,310 @@ fun AddCardScreen(
                     titleBottomSheet = stringResource(R.string.action_choose_exp)
                 )
             }
-            AnimatedContent(
-                targetState = loadingState,
-                modifier = Modifier.padding(innerPadding),
-                transitionSpec = {
-                    fadeIn(tween(300)) togetherWith fadeOut(tween(300))
-                },
-                label = "EditCardLoadingAnimation"
-            ) { state ->
-                when (state) {
-                    LoadingState.LOADING -> {
-                        LinearProgressIndicator(
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-
-                    LoadingState.EMPTY -> {
-                        ErrorView(
-                            icon = painterResource(R.drawable.vector_credit_card_payment),
-                            title = stringResource(R.string.message_went_wrong),
-                            description = stringResource(R.string.message_went_wrong_description)
-                        )
-                    }
-
-                    LoadingState.LOADED -> {
-                        Column(
-                            modifier = Modifier
-//                                .imePadding()
-                                .padding(
-                                    horizontal = dimensionResource(R.dimen.padding_horizontal),
-//                                    vertical = dimensionResource(R.dimen.padding_vertical),
-                                )
-                                .verticalScroll(scrollState)
-                        ) {
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-                            CardItem(
-                                card = CardInfo(
-                                    name = ownerName.text,
-                                    englishName = ownerEnglishName.text,
-                                    number = cardNumber.text,
-                                    shabaNumber = shabaNumber.text,
-                                    accountNumber = accountNumber.text,
-                                    branchCode = branchCode.text.toIntOrNull(),
-                                    branchName = branchName.text,
-                                    expirationMonth = expirationMonth.text.toIntOrNull(),
-                                    expirationYear = expirationYear.text.toIntOrNull(),
-                                    cvv2 = cvv2.text.toSensitive(),
-                                    bank = bank
-                                ),
-                                isCvv2VisibleByDefault = true
-                            )
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            TextField(
-                                value = cardNumber,
-                                modifier = Modifier.fillMaxWidth(),
-                                singleLine = true,
-                                isError = !cardNumber.text.isValidCardNumber(),
-                                label = {
-                                    Text(
-                                        text = stringResource(R.string.label_card_number),
-                                    )
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Number,
-                                    imeAction = ImeAction.Next
-                                ),
-                                onValueChange = { input ->
-                                    val number = input.copy(input.text.filter { it.isDigit() }.take(16))
-                                    if (number.text.length <= 16) {
-                                        viewModel.updateCardNumber(number)
-                                    }
-                                }
-                            )
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            SwitchItem(
-                                title = stringResource(R.string.label_others_card),
-                                titleStyle = MaterialTheme.typography.bodyLarge,
-                                isChecked = isOthersCard,
-                                modifier = Modifier
-                                    .heightIn(min = 56.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .background(MaterialTheme.colorScheme.surfaceContainerHighest),
-                                paddingEnd = dimensionResource(R.dimen.padding_spacing),
-                                onCheckedChanged = {
-                                    viewModel.updateIsOthersCard(it)
-                                }
-                            )
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            TextField(
-                                value = ownerName,
-                                modifier = Modifier.fillMaxWidth(),
-                                singleLine = true,
-                                isError = !ownerName.text.isValidName(),
-                                label = {
-                                    Text(
-                                        text = stringResource(R.string.label_card_owner),
-                                    )
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Next
-                                ),
-                                onValueChange = {
-                                    viewModel.updateOwnerName(it)
-                                }
-                            )
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            TextField(
-                                value = ownerEnglishName,
-                                modifier = Modifier.fillMaxWidth(),
-                                singleLine = true,
-                                isError = ownerEnglishName.text.isNotEmpty() && !ownerEnglishName.text.isValidName(),
-                                label = {
-                                    Text(
-                                        text = stringResource(R.string.label_card_owner_en),
-                                    )
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Next
-                                ),
-                                onValueChange = {
-                                    viewModel.updateOwnerEnglishName(it)
-                                }
-                            )
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            TextField(
-                                value = shabaNumber,
-                                modifier = Modifier.fillMaxWidth(),
-                                singleLine = true,
-                                isError = shabaNumber.text.isNotEmpty() && !shabaNumber.text.isValidShabaNumber(),
-                                label = {
-                                    Text(
-                                        text = stringResource(R.string.label_shaba_number_placeholder),
-                                    )
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Number,
-                                    imeAction = ImeAction.Next
-                                ),
-                                onValueChange = { input ->
-                                    val shaba = input.copy(input.text.filter { it.isDigit() }.take(24))
-                                    if (shaba.text.length <= 24) {
-                                        viewModel.updateShabaNumber(shaba)
-                                    }
-                                }
-                            )
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            TextField(
-                                value = accountNumber,
-                                modifier = Modifier.fillMaxWidth(),
-                                singleLine = true,
-                                isError = accountNumber.text.isNotEmpty() && !accountNumber.text.isValidAccountNumber(),
-                                label = {
-                                    Text(
-                                        text = stringResource(R.string.label_account_number_placeholder),
-                                    )
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Number,
-                                    imeAction = ImeAction.Next
-                                ),
-                                onValueChange = { input ->
-                                    val number = input.copy(input.text.filter { it.isDigit() }.take(24))
-                                    if (number.text.length <= 24) {
-                                        viewModel.updateAccountNumber(number)
-                                    }
-                                }
-                            )
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            TextField(
-                                value = cvv2,
-                                modifier = Modifier.fillMaxWidth(),
-                                singleLine = true,
-                                enabled = !isOthersCard,
-                                isError = cvv2.text.isNotEmpty() && !cvv2.text.isValidCvv2(),
-                                label = {
-                                    Text(
-                                        text = stringResource(R.string.label_cvv2_placeholder),
-                                    )
-                                },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Number,
-                                    imeAction = ImeAction.Next
-                                ),
-                                onValueChange = { input ->
-                                    val number = input.copy(input.text.filter { it.isDigit() }.take(4))
-                                    if (number.text.length <= 4) {
-                                        viewModel.updateCvv2(number)
-                                    }
-                                }
-                            )
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
-                            ) {
-                                TextField(
-                                    value = branchCode,
-                                    modifier = Modifier.weight(1f),
-                                    singleLine = true,
-                                    enabled = !bank.isNeo,
-                                    isError = branchCode.text.isNotEmpty() && !branchCode.text.isDigitsOnly(),
-                                    label = {
-                                        Text(
-                                            text = stringResource(R.string.label_branch_code)
-                                        )
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Number,
-                                        imeAction = ImeAction.Next
-                                    ),
-                                    onValueChange = { input ->
-                                        val number = input.copy(input.text.filter { it.isDigit() })
-                                        viewModel.updateBranchCode(number)
-                                    }
-                                )
-                                TextField(
-                                    value = branchName,
-                                    modifier = Modifier.weight(1f),
-                                    singleLine = true,
-                                    enabled = !bank.isNeo,
-                                    isError = branchName.text.isNotEmpty() && !branchName.text.isValidName(),
-                                    label = {
-                                        Text(
-                                            text = stringResource(R.string.label_branch_name)
-                                        )
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Text,
-                                        imeAction = ImeAction.Next
-                                    ),
-                                    onValueChange = { input ->
-                                        viewModel.updateBranchName(input)
-                                    }
-                                )
-                            }
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
-                            ) {
-                                TextField(
-                                    value = expirationMonth,
-                                    modifier = Modifier.weight(1f),
-                                    singleLine = true,
-                                    enabled = !isOthersCard,
-                                    isError = expirationMonth.text.isNotEmpty() && !expirationMonth.text.isValidMonth(),
-                                    label = {
-                                        Text(
-                                            text = stringResource(R.string.label_exp_month)
-                                        )
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Number,
-                                        imeAction = ImeAction.Next
-                                    ),
-                                    onValueChange = { input ->
-                                        val number = input.copy(input.text.filter { it.isDigit() }.take(2))
-                                        if (number.text.length <= 2) {
-                                            viewModel.updateExpirationMonth(number)
-                                        }
-                                    }
-                                )
-                                TextField(
-                                    value = expirationYear,
-                                    modifier = Modifier.weight(1f),
-                                    singleLine = true,
-                                    enabled = !isOthersCard,
-                                    isError = expirationYear.text.isNotEmpty() && !expirationYear.text.isValidYear(),
-                                    label = {
-                                        Text(
-                                            text = stringResource(R.string.label_exp_year)
-                                        )
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Number,
-                                        imeAction = ImeAction.Done
-                                    ),
-                                    onValueChange = { input ->
-                                        val number = input.copy(input.text.filter { it.isDigit() }.take(2))
-                                        if (number.text.length <= 2) {
-                                            viewModel.updateExpirationYear(number)
-                                        }
-                                    }
-                                )
-                                FloatingActionButton(
-                                    content = {
-                                        Icon(
-                                            Icons.Default.DateRange,
-                                            contentDescription = stringResource(R.string.action_choose_exp)
-                                        )
-                                    },
-                                    onClick = {
-                                        if (isOthersCard) {
-                                            toaster.show(
-                                                message = context.getString(R.string.message_went_wrong),
-                                                type = ToastType.Error
-                                            )
-                                        } else {
-                                            scope.launch {
-                                                bottomSheetState.show()
-                                            }
-                                        }
-                                    }
-                                )
-                            }
-                            Spacer(Modifier.height(80.dp))
-                        }
-
-                    }
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .verticalScroll(scrollState)
+            ) {
+                AnimatedVisibility(
+                    visible = isLoading
+                ) {
+                    LinearProgressIndicator(
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                CardItem(
+                    card = CardInfo(
+                        name = ownerName.text,
+                        englishName = ownerEnglishName.text,
+                        number = cardNumber.text,
+                        shabaNumber = shabaNumber.text,
+                        accountNumber = accountNumber.text,
+                        branchCode = branchCode.text.toIntOrNull(),
+                        branchName = branchName.text,
+                        expirationMonth = expirationMonth.text.toIntOrNull(),
+                        expirationYear = expirationYear.text.toIntOrNull(),
+                        cvv2 = cvv2.text.toSensitive(),
+                        bank = bank
+                    ),
+                    isCvv2VisibleByDefault = true,
+                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                TextField(
+                    value = cardNumber,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    enabled = !isLoading,
+                    singleLine = true,
+                    isError = !cardNumber.text.isValidCardNumber(),
+                    label = {
+                        Text(
+                            text = stringResource(R.string.label_card_number),
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    onValueChange = { input ->
+                        val number = input.copy(input.text.filter { it.isDigit() }.take(16))
+                        if (number.text.length <= 16) {
+                            viewModel.updateCardNumber(number)
+                        }
+                    }
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                SwitchItem(
+                    title = stringResource(R.string.label_others_card),
+                    titleStyle = MaterialTheme.typography.bodyLarge,
+                    isEnabled = !isLoading,
+                    isChecked = isOthersCard,
+                    modifier = Modifier
+                        .heightIn(min = 56.dp)
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+                    paddingEnd = dimensionResource(R.dimen.padding_spacing),
+                    onCheckedChanged = {
+                        viewModel.updateIsOthersCard(it)
+                    }
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                TextField(
+                    value = ownerName,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    enabled = !isLoading,
+                    singleLine = true,
+                    isError = !ownerName.text.isValidName(),
+                    label = {
+                        Text(
+                            text = stringResource(R.string.label_card_owner),
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next
+                    ),
+                    onValueChange = {
+                        viewModel.updateOwnerName(it)
+                    }
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                TextField(
+                    value = ownerEnglishName,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    enabled = !isLoading,
+                    singleLine = true,
+                    isError = ownerEnglishName.text.isNotEmpty() && !ownerEnglishName.text.isValidName(),
+                    label = {
+                        Text(
+                            text = stringResource(R.string.label_card_owner_en),
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next
+                    ),
+                    onValueChange = {
+                        viewModel.updateOwnerEnglishName(it)
+                    }
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                TextField(
+                    value = shabaNumber,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    enabled = !isLoading,
+                    singleLine = true,
+                    isError = shabaNumber.text.isNotEmpty() && !shabaNumber.text.isValidShabaNumber(),
+                    label = {
+                        Text(
+                            text = stringResource(R.string.label_shaba_number_placeholder),
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    onValueChange = { input ->
+                        val shaba = input.copy(input.text.filter { it.isDigit() }.take(24))
+                        if (shaba.text.length <= 24) {
+                            viewModel.updateShabaNumber(shaba)
+                        }
+                    }
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                TextField(
+                    value = accountNumber,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    enabled = !isLoading,
+                    singleLine = true,
+                    isError = accountNumber.text.isNotEmpty() && !accountNumber.text.isValidAccountNumber(),
+                    label = {
+                        Text(
+                            text = stringResource(R.string.label_account_number_placeholder),
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    onValueChange = { input ->
+                        val number = input.copy(input.text.filter { it.isDigit() }.take(24))
+                        if (number.text.length <= 24) {
+                            viewModel.updateAccountNumber(number)
+                        }
+                    }
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                TextField(
+                    value = cvv2,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    enabled = !isLoading && !isOthersCard,
+                    singleLine = true,
+                    isError = cvv2.text.isNotEmpty() && !cvv2.text.isValidCvv2(),
+                    label = {
+                        Text(
+                            text = stringResource(R.string.label_cvv2_placeholder),
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    onValueChange = { input ->
+                        val number = input.copy(input.text.filter { it.isDigit() }.take(4))
+                        if (number.text.length <= 4) {
+                            viewModel.updateCvv2(number)
+                        }
+                    }
+                )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
+                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                ) {
+                    TextField(
+                        value = branchCode,
+                        modifier = Modifier.weight(1f),
+                        enabled = !isLoading && !bank.isNeo,
+                        singleLine = true,
+                        isError = branchCode.text.isNotEmpty() && !branchCode.text.isDigitsOnly(),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_branch_code)
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = { input ->
+                            val number = input.copy(input.text.filter { it.isDigit() })
+                            viewModel.updateBranchCode(number)
+                        }
+                    )
+                    TextField(
+                        value = branchName,
+                        modifier = Modifier.weight(1f),
+                        enabled = !isLoading && !bank.isNeo,
+                        singleLine = true,
+                        isError = branchName.text.isNotEmpty() && !branchName.text.isValidName(),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_branch_name)
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = { input ->
+                            viewModel.updateBranchName(input)
+                        }
+                    )
+                }
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
+                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                ) {
+                    TextField(
+                        value = expirationMonth,
+                        modifier = Modifier.weight(1f),
+                        enabled = !isLoading && !isOthersCard,
+                        singleLine = true,
+                        isError = expirationMonth.text.isNotEmpty() && !expirationMonth.text.isValidMonth(),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_exp_month)
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = { input ->
+                            val number = input.copy(input.text.filter { it.isDigit() }.take(2))
+                            if (number.text.length <= 2) {
+                                viewModel.updateExpirationMonth(number)
+                            }
+                        }
+                    )
+                    TextField(
+                        value = expirationYear,
+                        modifier = Modifier.weight(1f),
+                        enabled = !isLoading && !isOthersCard,
+                        singleLine = true,
+                        isError = expirationYear.text.isNotEmpty() && !expirationYear.text.isValidYear(),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_exp_year)
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
+                        ),
+                        onValueChange = { input ->
+                            val number = input.copy(input.text.filter { it.isDigit() }.take(2))
+                            if (number.text.length <= 2) {
+                                viewModel.updateExpirationYear(number)
+                            }
+                        }
+                    )
+                    FilledTonalIconButton(
+                        enabled = !isLoading && !isOthersCard,
+                        shape = FloatingActionButtonDefaults.shape,
+                        modifier = Modifier.size(56.dp),
+                        content = {
+                            Icon(
+                                Icons.Default.DateRange,
+                                contentDescription = stringResource(R.string.action_choose_exp)
+                            )
+                        },
+                        onClick = {
+                            scope.launch {
+                                bottomSheetState.show()
+                            }
+                        }
+                    )
+                }
+                Spacer(Modifier.height(80.dp))
             }
         }
     }

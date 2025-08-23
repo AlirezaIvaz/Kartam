@@ -390,6 +390,7 @@ fun SwitchItem(
     title: String,
     titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
     isChecked: Boolean,
+    isEnabled: Boolean = true,
     onCheckedChanged: (isChecked: Boolean) -> Unit,
     modifier: Modifier = Modifier,
     paddingStart: Dp = dimensionResource(R.dimen.padding_horizontal),
@@ -398,7 +399,7 @@ fun SwitchItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable {
+            .clickable(enabled = isEnabled) {
                 onCheckedChanged(!isChecked)
             },
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -407,10 +408,14 @@ fun SwitchItem(
         Text(
             title,
             style = titleStyle,
+            color = MaterialTheme.colorScheme.onSurface.copy(
+                alpha = if (isEnabled) 1f else 0.38f
+            ),
             modifier = Modifier.padding(start = paddingStart)
         )
         Switch(
-            isChecked,
+            checked = isChecked,
+            enabled = isEnabled,
             modifier = Modifier.padding(end = paddingEnd),
             onCheckedChange = {
                 onCheckedChanged(!isChecked)
