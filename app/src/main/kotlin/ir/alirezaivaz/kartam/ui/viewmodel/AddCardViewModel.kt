@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
-import ir.alirezaivaz.kartam.dto.ErrorCode
 import ir.alirezaivaz.kartam.dto.Result
 import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.dto.toStringOrNull
@@ -116,7 +115,7 @@ class AddCardViewModel(
         } else {
             updateResult(
                 isSuccess = false,
-                errorCode = ErrorCode.WentWrong
+                message = R.string.message_went_wrong_description
             )
         }
         delay(5000)
@@ -135,12 +134,10 @@ class AddCardViewModel(
         isSuccess: Boolean = false,
         @StringRes
         message: Int? = null,
-        errorCode: ErrorCode? = null
     ) {
         _result.value = Result(
             isSuccess = isSuccess,
             message = message,
-            errorCode = errorCode
         )
     }
 
@@ -207,34 +204,34 @@ class AddCardViewModel(
 
     fun validateFields(): Boolean {
         if (_cardNumber.value.text.isEmpty()) {
-            updateResult(errorCode = ErrorCode.EmptyCardNumber)
+            updateResult(message = R.string.error_empty_card_number)
             return false
         } else if (!_cardNumber.value.text.isValidCardNumber()) {
-            updateResult(errorCode = ErrorCode.InvalidCardNumber)
+            updateResult(message = R.string.error_invalid_card_number)
             return false
         } else if (_ownerName.value.text.isEmpty()) {
-            updateResult(errorCode = ErrorCode.EmptyCardOwnerName)
+            updateResult(message = R.string.error_empty_owner_name)
             return false
         } else if (!_ownerName.value.text.isValidName()) {
-            updateResult(errorCode = ErrorCode.InvalidCardOwnerName)
+            updateResult(message = R.string.error_invalid_owner_name)
             return false
         } else if (_ownerEnglishName.value.text.isNotEmpty() && !_ownerEnglishName.value.text.isValidName()) {
-            updateResult(errorCode = ErrorCode.InvalidCardOwnerName)
+            updateResult(message = R.string.error_invalid_owner_name)
             return false
         } else if (_shabaNumber.value.text.isNotEmpty() && !_shabaNumber.value.text.isValidShabaNumber()) {
-            updateResult(errorCode = ErrorCode.InvalidShabaNumber)
+            updateResult(message = R.string.error_invalid_shaba_number)
             return false
         } else if (_accountNumber.value.text.isNotEmpty() && !_accountNumber.value.text.isValidAccountNumber()) {
-            updateResult(errorCode = ErrorCode.InvalidAccountNumber)
+            updateResult(message = R.string.error_invalid_account_number)
             return false
         } else if (_cvv2.value.text.isNotEmpty() && !_cvv2.value.text.isValidCvv2()) {
-            updateResult(errorCode = ErrorCode.InvalidCvv2)
+            updateResult(message = R.string.error_invalid_cvv2)
             return false
         } else if (_expirationMonth.value.text.isNotEmpty() && !_expirationMonth.value.text.isValidMonth()) {
-            updateResult(errorCode = ErrorCode.InvalidExpirationMonth)
+            updateResult(message = R.string.error_invalid_exp_month)
             return false
         } else if (_expirationYear.value.text.isNotEmpty() && !_expirationYear.value.text.isValidYear()) {
-            updateResult(errorCode = ErrorCode.InvalidExpirationYear)
+            updateResult(message = R.string.error_invalid_exp_year)
             return false
         }
         return true

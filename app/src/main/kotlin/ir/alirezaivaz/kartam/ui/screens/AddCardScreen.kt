@@ -137,9 +137,9 @@ fun AddCardScreen(
                         type = ToastType.Success
                     )
                 }
-            } else if (it.errorCode != null) {
+            } else if (it.message != null) {
                 toaster.show(
-                    message = context.getString(it.errorCode.message),
+                    message = context.getString(it.message),
                     type = ToastType.Error
                 )
             }
