@@ -212,10 +212,7 @@ class AddCardViewModel(
         } else if (_ownerName.value.text.isEmpty()) {
             updateResult(message = R.string.error_empty_owner_name)
             return false
-        } else if (!_ownerName.value.text.isValidName()) {
-            updateResult(message = R.string.error_invalid_owner_name)
-            return false
-        } else if (_ownerEnglishName.value.text.isNotEmpty() && !_ownerEnglishName.value.text.isValidName()) {
+        } else if (!_ownerName.value.text.isValidName() || (_ownerEnglishName.value.text.isNotEmpty() && !_ownerEnglishName.value.text.isValidName())) {
             updateResult(message = R.string.error_invalid_owner_name)
             return false
         } else if (_shabaNumber.value.text.isNotEmpty() && !_shabaNumber.value.text.isValidShabaNumber()) {
