@@ -79,15 +79,9 @@ fun CardItem(
                     shape = CardDefaults.shape,
                 )
                 .clip(CardDefaults.shape)
-                .then(
-                    if (onClick != null) {
-                        Modifier.clickable {
-                            onClick.invoke()
-                        }
-                    } else {
-                        Modifier
-                    }
-                ),
+                .clickable(enabled = onClick != null) {
+                    onClick?.invoke()
+                }
         ) {
 //        Box {
 //            Image(
@@ -141,17 +135,10 @@ fun CardItem(
                             style = MaterialTheme.typography.headlineSmall,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .then(
-                                    if (card.englishName.isNullOrBlank()) {
-                                        Modifier
-                                    } else {
-                                        Modifier
-                                            .clip(RoundedCornerShape(12.dp))
-                                            .clickable {
-                                                isForeignNameVisible = !isForeignNameVisible
-                                            }
-                                    }
-                                ),
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable(enabled = !card.englishName.isNullOrBlank()) {
+                                    isForeignNameVisible = !isForeignNameVisible
+                                },
                             textAlign = TextAlign.Center,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
