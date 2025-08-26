@@ -23,9 +23,9 @@ object SettingsManager {
     private const val PREF_SHOW_SHABA_NUMBER = "pref_show_shaba_number"
     private const val PREF_SHOW_SHABA_NUMBER_DEFAULT = true
     private const val PREF_SHOW_FULL_EXP_DATE = "pref_show_full_expiration_date"
-    private const val PREF_SHOW_FULL_EXP_DATE_DEFAULT = false
+    private const val PREF_SHOW_FULL_EXP_DATE_DEFAULT = true
     private const val PREF_SHOW_REVERSE_EXP_DATE = "pref_show_reverse_expiration_date"
-    private const val PREF_SHOW_REVERSE_EXP_DATE_DEFAULT = false
+    private const val PREF_SHOW_REVERSE_EXP_DATE_DEFAULT = true
     private const val PREF_SECRET_CVV2_LIST = "pref_secret_cvv2_list"
     private const val PREF_SECRET_CVV2_LIST_DEFAULT = true
     private const val PREF_SECRET_CVV2_DETAILS = "pref_secret_cvv2_details"
