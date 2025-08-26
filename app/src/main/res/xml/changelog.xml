@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="1.3.0" date="2025-08-26">
+        <new>Others' cards section</new>
+        <new>Auto backup/restore system</new>
+        <new>Show full year option</new>
+        <new>Reverse show expiration date option</new>
+        <fixed>Some minor bugs</fixed>
+        <improved>App size</improved>
+        <improved>App speed</improved>
+        <improved>App UI</improved>
+    </version>
     <version name="1.2.0" date="2025-08-19">
         <new>Supported banks sheet</new>
         <new>Branch code and name fields for cards</new>

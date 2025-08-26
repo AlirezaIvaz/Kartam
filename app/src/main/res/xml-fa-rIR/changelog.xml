@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="۱٫۳٫۰" date="۴ شهریور ۱۴۰۴">
+        <new>بخش کارت‌های دیگران</new>
+        <new>سیستم پشتیبان‌گیری/بازیابی خودکار</new>
+        <new>گزینهٔ نمایش تاریخ انقضا به‌صورت کامل</new>
+        <new>گزینهٔ جابه‌جا کردن ماه و سال در تاریخ انقضا</new>
+        <fixed>برخی مشکلات جزئی</fixed>
+        <improved>حجم برنامه</improved>
+        <improved>سرعت برنامه</improved>
+        <improved>رابط کاربری برنامه</improved>
+    </version>
     <version name="۱٫۲٫۰" date="۲۸ مرداد ۱۴۰۴">
         <new>صفحهٔ بانک‌های پشتیبانی‌شده</new>
         <new>امکان ثبت شماره و نام شعبهٔ کارت</new>

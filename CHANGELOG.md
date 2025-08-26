@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.3.0 (26 August 2025)
+
+- **New:** Others' cards section
+- **New:** Auto backup/restore system
+- **New:** Show full year option
+- **New:** Reverse show expiration date option
+- **Fixed:** Some minor bugs
+- **Improved:** App size
+- **Improved:** App speed
+- **Improved:** App UI
+
 ## v1.2.0 (19 August 2025)
 
 - **New:** Supported banks sheet
