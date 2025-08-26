@@ -30,18 +30,12 @@ abstract class KartamDatabase : RoomDatabase() {
             return instance ?: buildDatabase(context).also { instance = it }
         }
 
-        fun getDatabaseFile(context: Context): File {
-            return context.getDatabasePath(DATABASE_FILE_NAME)
-        }
-
         private fun buildDatabase(context: Context): KartamDatabase {
-            val dbFile = getDatabaseFile(context)
-
             return Room
                 .databaseBuilder(
                     context = context,
                     klass = KartamDatabase::class.java,
-                    name = dbFile.absolutePath
+                    name = DATABASE_FILE_NAME
                 )
                 .addMigrations(MIGRATION_1_2)
                 .build()
