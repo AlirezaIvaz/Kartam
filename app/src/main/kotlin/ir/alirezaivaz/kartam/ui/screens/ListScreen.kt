@@ -44,6 +44,7 @@ import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
+import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
@@ -216,7 +217,8 @@ fun ListScreen(
 fun HomeScreenPreview() {
     val context = LocalContext.current
     val db = KartamDatabase.getInstance(context)
-    val viewModel = MainViewModel.getInstance(db)
+    val backupManager by lazy { BackupManager.getInstance(context.noBackupFilesDir, db) }
+    val viewModel = MainViewModel.getInstance(db, backupManager)
     ListScreen(
         cards = emptyList(),
         isOwned = true,

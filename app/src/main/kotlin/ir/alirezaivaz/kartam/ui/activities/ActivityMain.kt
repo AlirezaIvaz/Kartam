@@ -47,6 +47,7 @@ import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
+import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import kotlinx.coroutines.CoroutineScope
@@ -56,7 +57,8 @@ import kotlinx.coroutines.launch
 class ActivityMain : AppCompatActivity() {
     val activityMain = this@ActivityMain
     val db by lazy { KartamDatabase.getInstance(activityMain) }
-    val viewModel by lazy { MainViewModel.getInstance(db) }
+    val backupManager by lazy { BackupManager.getInstance(activityMain.noBackupFilesDir, db) }
+    val viewModel by lazy { MainViewModel.getInstance(db, backupManager) }
     private val addEditCardLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {

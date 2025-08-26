@@ -125,6 +125,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.dff)
+    implementation(libs.google.gson)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.reorderable)
     implementation(libs.jalalicalendar)

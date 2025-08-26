@@ -13,6 +13,9 @@ interface CardDao {
     @Query("SELECT * FROM cards ORDER BY position ASC")
     suspend fun getAll(): List<CardInfo>
 
+    @Query("SELECT COUNT(id) FROM cards")
+    suspend fun getCount(): Int
+
     @Query("SELECT * FROM cards WHERE id=:id")
     suspend fun getCard(id: Int): CardInfo?
 

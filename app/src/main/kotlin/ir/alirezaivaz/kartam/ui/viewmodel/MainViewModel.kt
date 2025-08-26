@@ -3,6 +3,7 @@ package ir.alirezaivaz.kartam.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -10,7 +11,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(db: KartamDatabase) : ViewModel() {
+class MainViewModel(
+    db: KartamDatabase,
+    private val backupManager: BackupManager
+) : ViewModel() {
     private val _cardDao = db.cardDao()
 
     private val _isLoading = MutableStateFlow(true)
@@ -47,6 +51,7 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
         } else {
             updateIsLoading(true)
         }
+        backupManager.restoreIfNeeded()
         val cards = _cardDao.getAll()
         updateCards(cards)
         delay(500)
@@ -77,6 +82,7 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
                 } else {
                     _othersCards.value = currentList
                 }
+                backupManager.backupNow()
             }
         } catch (_: Exception) {
             return
@@ -86,15 +92,16 @@ class MainViewModel(db: KartamDatabase) : ViewModel() {
     suspend fun deleteCard(card: CardInfo) {
         updateIsRefreshing(true)
         _cardDao.delete(card)
+        backupManager.backupNow()
         updateIsRefreshing(false)
     }
 
     companion object {
         private var _instance: MainViewModel? = null
 
-        fun getInstance(db: KartamDatabase): MainViewModel {
+        fun getInstance(db: KartamDatabase, backupManager: BackupManager): MainViewModel {
             if (_instance == null) {
-                _instance = MainViewModel(db)
+                _instance = MainViewModel(db, backupManager)
             }
             return _instance!!
         }

@@ -81,6 +81,7 @@ import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModel
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModelFactory
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
+import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.huri.jcal.JalaliCalendar
 import ir.mehrafzoon.composedatepicker.core.component.rememberDialogDatePicker
@@ -100,7 +101,8 @@ fun AddCardScreen(
     val focusManager = LocalFocusManager.current
     val jalaliCalendar = JalaliCalendar()
     val db = KartamDatabase.getInstance(context)
-    val factory = remember { AddCardViewModelFactory(db, cardId, isOwned) }
+    val backupManager by lazy { BackupManager.getInstance(context.noBackupFilesDir, db) }
+    val factory = remember { AddCardViewModelFactory(db, cardId, isOwned, backupManager) }
     val viewModel: AddCardViewModel = viewModel(factory = factory)
     val scrollState = rememberScrollState()
     val datePickerController = rememberDialogDatePicker()

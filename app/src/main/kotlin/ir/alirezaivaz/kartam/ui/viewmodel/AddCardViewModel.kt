@@ -18,6 +18,7 @@ import ir.alirezaivaz.kartam.extensions.isValidMonth
 import ir.alirezaivaz.kartam.extensions.isValidName
 import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
 import ir.alirezaivaz.kartam.extensions.isValidYear
+import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.Utils
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,7 @@ class AddCardViewModel(
     db: KartamDatabase,
     private val cardId: Int,
     private val isOwned: Boolean,
+    private val backupManager: BackupManager,
 ) : ViewModel() {
     private val _cardDao = db.cardDao()
 
@@ -256,6 +258,7 @@ class AddCardViewModel(
                     position = position + 1
                 )
                 _cardDao.insert(card)
+                backupManager.backupNow()
             }
             updateIsLoading(false)
             updateResult(isSuccess = true)
@@ -282,6 +285,7 @@ class AddCardViewModel(
                     isOwned = !_isOthersCard.value
                 )
                 _cardDao.update(card)
+                backupManager.backupNow()
             }
             updateIsLoading(false)
             updateResult(
