@@ -47,6 +47,7 @@ import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.toStringOrNull
+import ir.alirezaivaz.kartam.extensions.formattedExpirationDate
 import ir.alirezaivaz.kartam.extensions.formattedShabaNumber
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.aradFontFamily
@@ -54,7 +55,6 @@ import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
 import ir.alirezaivaz.kartam.ui.theme.montserratFontFamily
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import ir.alirezaivaz.kartam.utils.Utils
-import java.util.Locale
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -71,6 +71,8 @@ fun CardItem(
     val foreignByDefault = language == Language.English && !card.englishName.isNullOrEmpty()
     var isForeignNameVisible by remember { mutableStateOf(foreignByDefault) }
     val isShowShabaNumberInCard by SettingsManager.isShowShabaNumberInCard.collectAsState()
+    val isShowFullExpirationDate by SettingsManager.isShowFullExpirationDate.collectAsState()
+    val isShowReverseExpirationDate by SettingsManager.isShowReverseExpirationDate.collectAsState()
     DirectionLayout(LayoutDirection.Ltr) {
         Card(
             modifier = modifier
@@ -227,7 +229,12 @@ fun CardItem(
                                     fontWeight = FontWeight.W300
                                 )
                                 Text(
-                                    text = stringResource(R.string.formatter_exp_date).format(Locale.ENGLISH,card.expirationMonth ?: 0, card.expirationYear ?: 0),
+                                    text = stringResource(R.string.formatter_exp_date).formattedExpirationDate(
+                                        showFull = isShowFullExpirationDate,
+                                        showReverse = isShowReverseExpirationDate,
+                                        expirationMonth = card.expirationMonth ?: 0,
+                                        expirationYear = card.expirationYear ?: 0
+                                    ),
                                     style = MaterialTheme.typography.bodyLarge,
                                     modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_spacing)),
                                     fontFamily = kodeMonoFontFamily,

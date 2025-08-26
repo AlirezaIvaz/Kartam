@@ -44,7 +44,7 @@
     <string name="label_cvv2_placeholder">CVV2 (Optional)</string>
 
     <!-- Formatters -->
-    <string name="formatter_exp_date" translatable="false">%02d/%02d</string>
+    <string name="formatter_exp_date" translatable="false">%s/%s</string>
     <string name="formatter_shaba_number" translatable="false">IR%s</string>
 
     <!-- Messages -->
@@ -82,6 +82,8 @@
     <!-- Settings -->
     <string name="settings_dynamic_colors">Dynamic Colors</string>
     <string name="settings_show_shaba_number_in_card">Show Shaba number in card</string>
+    <string name="settings_show_full_exp_date">Show full expiration date</string>
+    <string name="settings_show_reverse_exp_date">Reverse show expiration date</string>
     <string name="settings_hide_cvv2">Hide CVV2</string>
     <string name="settings_hide_cvv2_description">CVV2 will be hidden by default and you need to long press on the card to see it.</string>
     <string name="settings_hide_cvv2_list">In card list</string>

@@ -82,6 +82,8 @@ fun SettingsScreen(
     var selectedLanguageIndex by remember { mutableIntStateOf(languages.indexOf(language)) }
     val isDynamicColors by SettingsManager.isDynamicColors.collectAsState()
     val isShowShabaNumberInCard by SettingsManager.isShowShabaNumberInCard.collectAsState()
+    val isShowFullExpirationDate by SettingsManager.isShowFullExpirationDate.collectAsState()
+    val isShowReverseExpirationDate by SettingsManager.isShowReverseExpirationDate.collectAsState()
     val isSecretCvv2List by SettingsManager.isSecretCvv2InList.collectAsState()
     val isSecretCvv2Details by SettingsManager.isSecretCvv2InDetails.collectAsState()
 
@@ -185,6 +187,20 @@ fun SettingsScreen(
             isChecked = isShowShabaNumberInCard,
             onCheckedChanged = {
                 SettingsManager.setShowShabaNumberInCard(it)
+            }
+        )
+        SwitchItem(
+            title = stringResource(R.string.settings_show_full_exp_date),
+            isChecked = isShowFullExpirationDate,
+            onCheckedChanged = {
+                SettingsManager.setShowFullExpirationDate(it)
+            }
+        )
+        SwitchItem(
+            title = stringResource(R.string.settings_show_reverse_exp_date),
+            isChecked = isShowReverseExpirationDate,
+            onCheckedChanged = {
+                SettingsManager.setShowReverseExpirationDate(it)
             }
         )
         Box(
