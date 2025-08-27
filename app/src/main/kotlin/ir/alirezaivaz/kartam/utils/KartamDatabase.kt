@@ -9,7 +9,6 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import ir.alirezaivaz.kartam.dao.CardDao
 import ir.alirezaivaz.kartam.dto.CardInfo
-import java.io.File
 
 @Database(entities = [CardInfo::class], version = 3)
 @TypeConverters(Converters::class)
