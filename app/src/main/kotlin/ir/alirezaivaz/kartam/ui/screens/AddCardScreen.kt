@@ -285,7 +285,7 @@ fun AddCardScreen(
             Column(
                 modifier = Modifier
                     .padding(innerPadding)
-                    .verticalScroll(scrollState)
+                    .fillMaxSize()
             ) {
                 AnimatedVisibility(
                     visible = isLoading
@@ -294,248 +294,39 @@ fun AddCardScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-                CardItem(
-                    card = CardInfo(
-                        name = ownerName.text,
-                        englishName = ownerEnglishName.text,
-                        number = cardNumber.text,
-                        shabaNumber = shabaNumber.text,
-                        accountNumber = accountNumber.text,
-                        branchCode = branchCode.text.toIntOrNull(),
-                        branchName = branchName.text,
-                        expirationMonth = expirationMonth.text.toIntOrNull(),
-                        expirationYear = expirationYear.text.toIntOrNull(),
-                        cvv2 = cvv2.text.toSensitive(),
-                        bank = bank
-                    ),
-                    isCvv2VisibleByDefault = true,
-                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                OutlinedTextField(
-                    value = cardNumber,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                    enabled = !isLoading,
-                    singleLine = true,
-                    isError = !cardNumber.text.isValidCardNumber(),
-                    label = {
-                        Text(
-                            text = stringResource(R.string.label_card_number),
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
-                    ),
-                    onValueChange = { input ->
-                        val number = input.copy(input.text.filter { it.isDigit() }.take(16))
-                        if (number.text.length <= 16) {
-                            viewModel.updateCardNumber(number)
-                        }
-                    }
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-                SwitchItem(
-                    title = stringResource(R.string.label_others_card),
-                    titleStyle = MaterialTheme.typography.bodyLarge,
-                    isEnabled = !isLoading,
-                    isChecked = isOthersCard,
-                    modifier = Modifier
-                        .heightIn(min = 56.dp)
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
-                        .clip(OutlinedTextFieldDefaults.shape)
-                        .border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outline.copy(
-                                alpha = if (!isLoading) 1f else 0.38f
-                            ),
-                            shape = OutlinedTextFieldDefaults.shape
+                Column(
+                    modifier = Modifier.verticalScroll(scrollState)
+                ) {
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                    CardItem(
+                        card = CardInfo(
+                            name = ownerName.text,
+                            englishName = ownerEnglishName.text,
+                            number = cardNumber.text,
+                            shabaNumber = shabaNumber.text,
+                            accountNumber = accountNumber.text,
+                            branchCode = branchCode.text.toIntOrNull(),
+                            branchName = branchName.text,
+                            expirationMonth = expirationMonth.text.toIntOrNull(),
+                            expirationYear = expirationYear.text.toIntOrNull(),
+                            cvv2 = cvv2.text.toSensitive(),
+                            bank = bank
                         ),
-                    paddingEnd = dimensionResource(R.dimen.padding_spacing),
-                    onCheckedChanged = {
-                        viewModel.updateIsOthersCard(it)
-                    }
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                OutlinedTextField(
-                    value = ownerName,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                    enabled = !isLoading,
-                    singleLine = true,
-                    isError = !ownerName.text.isValidName(),
-                    label = {
-                        Text(
-                            text = stringResource(R.string.label_card_owner),
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    ),
-                    onValueChange = {
-                        viewModel.updateOwnerName(it)
-                    }
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                OutlinedTextField(
-                    value = ownerEnglishName,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                    enabled = !isLoading,
-                    singleLine = true,
-                    isError = ownerEnglishName.text.isNotEmpty() && !ownerEnglishName.text.isValidName(),
-                    label = {
-                        Text(
-                            text = stringResource(R.string.label_card_owner_en),
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    ),
-                    onValueChange = {
-                        viewModel.updateOwnerEnglishName(it)
-                    }
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                OutlinedTextField(
-                    value = shabaNumber,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                    enabled = !isLoading,
-                    singleLine = true,
-                    isError = shabaNumber.text.isNotEmpty() && !shabaNumber.text.isValidShabaNumber(),
-                    label = {
-                        Text(
-                            text = stringResource(R.string.label_shaba_number_placeholder),
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
-                    ),
-                    onValueChange = { input ->
-                        val shaba = input.copy(input.text.filter { it.isDigit() }.take(24))
-                        if (shaba.text.length <= 24) {
-                            viewModel.updateShabaNumber(shaba)
-                        }
-                    }
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                OutlinedTextField(
-                    value = accountNumber,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                    enabled = !isLoading,
-                    singleLine = true,
-                    isError = accountNumber.text.isNotEmpty() && !accountNumber.text.isValidAccountNumber(),
-                    label = {
-                        Text(
-                            text = stringResource(R.string.label_account_number_placeholder),
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
-                    ),
-                    onValueChange = { input ->
-                        val number = input.copy(input.text.filter { it.isDigit() }.take(24))
-                        if (number.text.length <= 24) {
-                            viewModel.updateAccountNumber(number)
-                        }
-                    }
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                OutlinedTextField(
-                    value = cvv2,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                    enabled = !isLoading && !isOthersCard,
-                    singleLine = true,
-                    isError = cvv2.text.isNotEmpty() && !cvv2.text.isValidCvv2(),
-                    label = {
-                        Text(
-                            text = stringResource(R.string.label_cvv2_placeholder),
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
-                    ),
-                    onValueChange = { input ->
-                        val number = input.copy(input.text.filter { it.isDigit() }.take(4))
-                        if (number.text.length <= 4) {
-                            viewModel.updateCvv2(number)
-                        }
-                    }
-                )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-                Card(
-                    shape = OutlinedTextFieldDefaults.shape,
-                    border = BorderStroke(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(
-                            alpha = if (!isLoading) 1f else 0.38f
-                        )
-                    ),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.Transparent
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
-                        .clickable(enabled = !isLoading) {
-                            showChooseAccountTypeSheet = true
-                        }
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
-                    ) {
-                        Text(
-                            text = stringResource(R.string.account_type),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface.copy(
-                                alpha = if (!isLoading) 1f else 0.38f
-                            ),
-                        )
-                        Text(
-                            text = stringResource(accountType?.title ?: R.string.account_not_selected),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface.copy(
-                                alpha = if (!isLoading) 1f else 0.38f
-                            ),
-                        )
-                    }
-                }
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
-                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                ) {
+                        isCvv2VisibleByDefault = true,
+                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                     OutlinedTextField(
-                        value = branchCode,
-                        modifier = Modifier.weight(1f),
-                        enabled = !isLoading && !bank.isNeo,
+                        value = cardNumber,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        enabled = !isLoading,
                         singleLine = true,
-                        isError = branchCode.text.isNotEmpty() && !branchCode.text.isDigitsOnly(),
+                        isError = !cardNumber.text.isValidCardNumber(),
                         label = {
                             Text(
-                                text = stringResource(R.string.label_branch_code)
+                                text = stringResource(R.string.label_card_number),
                             )
                         },
                         keyboardOptions = KeyboardOptions(
@@ -543,45 +334,90 @@ fun AddCardScreen(
                             imeAction = ImeAction.Next
                         ),
                         onValueChange = { input ->
-                            val number = input.copy(input.text.filter { it.isDigit() })
-                            viewModel.updateBranchCode(number)
+                            val number = input.copy(input.text.filter { it.isDigit() }.take(16))
+                            if (number.text.length <= 16) {
+                                viewModel.updateCardNumber(number)
+                            }
                         }
                     )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                    SwitchItem(
+                        title = stringResource(R.string.label_others_card),
+                        titleStyle = MaterialTheme.typography.bodyLarge,
+                        isEnabled = !isLoading,
+                        isChecked = isOthersCard,
+                        modifier = Modifier
+                            .heightIn(min = 56.dp)
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                            .clip(OutlinedTextFieldDefaults.shape)
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outline.copy(
+                                    alpha = if (!isLoading) 1f else 0.38f
+                                ),
+                                shape = OutlinedTextFieldDefaults.shape
+                            ),
+                        paddingEnd = dimensionResource(R.dimen.padding_spacing),
+                        onCheckedChanged = {
+                            viewModel.updateIsOthersCard(it)
+                        }
+                    )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                     OutlinedTextField(
-                        value = branchName,
-                        modifier = Modifier.weight(1f),
-                        enabled = !isLoading && !bank.isNeo,
+                        value = ownerName,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        enabled = !isLoading,
                         singleLine = true,
-                        isError = branchName.text.isNotEmpty() && !branchName.text.isValidName(),
+                        isError = !ownerName.text.isValidName(),
                         label = {
                             Text(
-                                text = stringResource(R.string.label_branch_name)
+                                text = stringResource(R.string.label_card_owner),
                             )
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next
                         ),
-                        onValueChange = { input ->
-                            viewModel.updateBranchName(input)
+                        onValueChange = {
+                            viewModel.updateOwnerName(it)
                         }
                     )
-                }
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
-                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                ) {
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                     OutlinedTextField(
-                        value = expirationMonth,
-                        modifier = Modifier.weight(1f),
-                        enabled = !isLoading && !isOthersCard,
+                        value = ownerEnglishName,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        enabled = !isLoading,
                         singleLine = true,
-                        isError = expirationMonth.text.isNotEmpty() && !expirationMonth.text.isValidMonth(),
+                        isError = ownerEnglishName.text.isNotEmpty() && !ownerEnglishName.text.isValidName(),
                         label = {
                             Text(
-                                text = stringResource(R.string.label_exp_month)
+                                text = stringResource(R.string.label_card_owner_en),
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = {
+                            viewModel.updateOwnerEnglishName(it)
+                        }
+                    )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    OutlinedTextField(
+                        value = shabaNumber,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        enabled = !isLoading,
+                        singleLine = true,
+                        isError = shabaNumber.text.isNotEmpty() && !shabaNumber.text.isValidShabaNumber(),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_shaba_number_placeholder),
                             )
                         },
                         keyboardOptions = KeyboardOptions(
@@ -589,54 +425,222 @@ fun AddCardScreen(
                             imeAction = ImeAction.Next
                         ),
                         onValueChange = { input ->
-                            val number = input.copy(input.text.filter { it.isDigit() }.take(2))
-                            if (number.text.length <= 2) {
-                                viewModel.updateExpirationMonth(number)
+                            val shaba = input.copy(input.text.filter { it.isDigit() }.take(24))
+                            if (shaba.text.length <= 24) {
+                                viewModel.updateShabaNumber(shaba)
                             }
                         }
                     )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                     OutlinedTextField(
-                        value = expirationYear,
-                        modifier = Modifier.weight(1f),
-                        enabled = !isLoading && !isOthersCard,
+                        value = accountNumber,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        enabled = !isLoading,
                         singleLine = true,
-                        isError = expirationYear.text.isNotEmpty() && !expirationYear.text.isValidYear(),
+                        isError = accountNumber.text.isNotEmpty() && !accountNumber.text.isValidAccountNumber(),
                         label = {
                             Text(
-                                text = stringResource(R.string.label_exp_year)
+                                text = stringResource(R.string.label_account_number_placeholder),
                             )
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Done
+                            imeAction = ImeAction.Next
                         ),
                         onValueChange = { input ->
-                            val number = input.copy(input.text.filter { it.isDigit() }.take(2))
-                            if (number.text.length <= 2) {
-                                viewModel.updateExpirationYear(number)
+                            val number = input.copy(input.text.filter { it.isDigit() }.take(24))
+                            if (number.text.length <= 24) {
+                                viewModel.updateAccountNumber(number)
                             }
                         }
                     )
-                    FilledTonalIconButton(
-                        enabled = !isLoading && !isOthersCard,
-                        shape = FloatingActionButtonDefaults.shape,
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    OutlinedTextField(
+                        value = cvv2,
                         modifier = Modifier
-                            .padding(top = 8.dp)
-                            .size(56.dp),
-                        content = {
-                            Icon(
-                                Icons.Default.DateRange,
-                                contentDescription = stringResource(R.string.action_choose_exp)
+                            .fillMaxWidth()
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        enabled = !isLoading && !isOthersCard,
+                        singleLine = true,
+                        isError = cvv2.text.isNotEmpty() && !cvv2.text.isValidCvv2(),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_cvv2_placeholder),
                             )
                         },
-                        onClick = {
-                            scope.launch {
-                                bottomSheetState.show()
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = { input ->
+                            val number = input.copy(input.text.filter { it.isDigit() }.take(4))
+                            if (number.text.length <= 4) {
+                                viewModel.updateCvv2(number)
                             }
                         }
                     )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                    Card(
+                        shape = OutlinedTextFieldDefaults.shape,
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline.copy(
+                                alpha = if (!isLoading) 1f else 0.38f
+                            )
+                        ),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                            .clickable(enabled = !isLoading) {
+                                showChooseAccountTypeSheet = true
+                            }
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                        ) {
+                            Text(
+                                text = stringResource(R.string.account_type),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface.copy(
+                                    alpha = if (!isLoading) 1f else 0.38f
+                                ),
+                            )
+                            Text(
+                                text = stringResource(accountType?.title ?: R.string.account_not_selected),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface.copy(
+                                    alpha = if (!isLoading) 1f else 0.38f
+                                ),
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
+                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    ) {
+                        OutlinedTextField(
+                            value = branchCode,
+                            modifier = Modifier.weight(1f),
+                            enabled = !isLoading && !bank.isNeo,
+                            singleLine = true,
+                            isError = branchCode.text.isNotEmpty() && !branchCode.text.isDigitsOnly(),
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.label_branch_code)
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Next
+                            ),
+                            onValueChange = { input ->
+                                val number = input.copy(input.text.filter { it.isDigit() })
+                                viewModel.updateBranchCode(number)
+                            }
+                        )
+                        OutlinedTextField(
+                            value = branchName,
+                            modifier = Modifier.weight(1f),
+                            enabled = !isLoading && !bank.isNeo,
+                            singleLine = true,
+                            isError = branchName.text.isNotEmpty() && !branchName.text.isValidName(),
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.label_branch_name)
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Next
+                            ),
+                            onValueChange = { input ->
+                                viewModel.updateBranchName(input)
+                            }
+                        )
+                    }
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
+                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    ) {
+                        OutlinedTextField(
+                            value = expirationMonth,
+                            modifier = Modifier.weight(1f),
+                            enabled = !isLoading && !isOthersCard,
+                            singleLine = true,
+                            isError = expirationMonth.text.isNotEmpty() && !expirationMonth.text.isValidMonth(),
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.label_exp_month)
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Next
+                            ),
+                            onValueChange = { input ->
+                                val number = input.copy(input.text.filter { it.isDigit() }.take(2))
+                                if (number.text.length <= 2) {
+                                    viewModel.updateExpirationMonth(number)
+                                }
+                            }
+                        )
+                        OutlinedTextField(
+                            value = expirationYear,
+                            modifier = Modifier.weight(1f),
+                            enabled = !isLoading && !isOthersCard,
+                            singleLine = true,
+                            isError = expirationYear.text.isNotEmpty() && !expirationYear.text.isValidYear(),
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.label_exp_year)
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done
+                            ),
+                            onValueChange = { input ->
+                                val number = input.copy(input.text.filter { it.isDigit() }.take(2))
+                                if (number.text.length <= 2) {
+                                    viewModel.updateExpirationYear(number)
+                                }
+                            }
+                        )
+                        FilledTonalIconButton(
+                            enabled = !isLoading && !isOthersCard,
+                            shape = FloatingActionButtonDefaults.shape,
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                                .size(56.dp),
+                            content = {
+                                Icon(
+                                    Icons.Default.DateRange,
+                                    contentDescription = stringResource(R.string.action_choose_exp)
+                                )
+                            },
+                            onClick = {
+                                scope.launch {
+                                    bottomSheetState.show()
+                                }
+                            }
+                        )
+                    }
+                    Spacer(Modifier.height(80.dp))
                 }
-                Spacer(Modifier.height(80.dp))
             }
         }
     }
