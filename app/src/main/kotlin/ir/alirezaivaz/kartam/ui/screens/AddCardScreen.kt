@@ -5,7 +5,7 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -34,9 +33,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -291,7 +291,7 @@ fun AddCardScreen(
                     modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                 )
                 Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                TextField(
+                OutlinedTextField(
                     value = cardNumber,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -324,15 +324,19 @@ fun AddCardScreen(
                     modifier = Modifier
                         .heightIn(min = 56.dp)
                         .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+                        .clip(OutlinedTextFieldDefaults.shape)
+                        .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline,
+                            shape = OutlinedTextFieldDefaults.shape
+                        ),
                     paddingEnd = dimensionResource(R.dimen.padding_spacing),
                     onCheckedChanged = {
                         viewModel.updateIsOthersCard(it)
                     }
                 )
                 Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                TextField(
+                OutlinedTextField(
                     value = ownerName,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -354,7 +358,7 @@ fun AddCardScreen(
                     }
                 )
                 Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                TextField(
+                OutlinedTextField(
                     value = ownerEnglishName,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -376,7 +380,7 @@ fun AddCardScreen(
                     }
                 )
                 Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                TextField(
+                OutlinedTextField(
                     value = shabaNumber,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -401,7 +405,7 @@ fun AddCardScreen(
                     }
                 )
                 Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                TextField(
+                OutlinedTextField(
                     value = accountNumber,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -426,7 +430,7 @@ fun AddCardScreen(
                     }
                 )
                 Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                TextField(
+                OutlinedTextField(
                     value = cvv2,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -456,7 +460,7 @@ fun AddCardScreen(
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
                     modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                 ) {
-                    TextField(
+                    OutlinedTextField(
                         value = branchCode,
                         modifier = Modifier.weight(1f),
                         enabled = !isLoading && !bank.isNeo,
@@ -476,7 +480,7 @@ fun AddCardScreen(
                             viewModel.updateBranchCode(number)
                         }
                     )
-                    TextField(
+                    OutlinedTextField(
                         value = branchName,
                         modifier = Modifier.weight(1f),
                         enabled = !isLoading && !bank.isNeo,
@@ -502,7 +506,7 @@ fun AddCardScreen(
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
                     modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                 ) {
-                    TextField(
+                    OutlinedTextField(
                         value = expirationMonth,
                         modifier = Modifier.weight(1f),
                         enabled = !isLoading && !isOthersCard,
@@ -524,7 +528,7 @@ fun AddCardScreen(
                             }
                         }
                     )
-                    TextField(
+                    OutlinedTextField(
                         value = expirationYear,
                         modifier = Modifier.weight(1f),
                         enabled = !isLoading && !isOthersCard,
