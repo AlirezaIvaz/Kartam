@@ -5,7 +5,9 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +27,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
@@ -50,6 +54,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
@@ -76,6 +81,7 @@ import ir.alirezaivaz.kartam.extensions.isValidName
 import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
 import ir.alirezaivaz.kartam.extensions.isValidYear
 import ir.alirezaivaz.kartam.ui.dialogs.CardAddedDialog
+import ir.alirezaivaz.kartam.ui.sheets.SelectOptionsSheet
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModel
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModelFactory
@@ -108,6 +114,7 @@ fun AddCardScreen(
     val datePickerController = rememberDialogDatePicker()
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showCardAddedDialog by remember { mutableStateOf(false) }
+    var showChooseAccountTypeSheet by remember { mutableStateOf(false) }
 
     val isEdit by viewModel.isEdit.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -116,6 +123,7 @@ fun AddCardScreen(
     val ownerName by viewModel.ownerName.collectAsState()
     val ownerEnglishName by viewModel.ownerEnglishName.collectAsState()
     val bank by viewModel.bank.collectAsState()
+    val accountType by viewModel.accountType.collectAsState()
     val shabaNumber by viewModel.shabaNumber.collectAsState()
     val accountNumber by viewModel.accountNumber.collectAsState()
     val branchCode by viewModel.branchCode.collectAsState()
@@ -225,6 +233,20 @@ fun AddCardScreen(
                     },
                     onDismissRequest = {
                         showCardAddedDialog = false
+                    }
+                )
+            }
+            if (showChooseAccountTypeSheet) {
+                SelectOptionsSheet(
+                    title = stringResource(R.string.account_type),
+                    items = bank.supportedAccountTypes.map { stringResource(it.title) },
+                    values = bank.supportedAccountTypes.map { it.name },
+                    selectedItem = accountType?.name,
+                    onItemSelectedListener = { value ->
+                        viewModel.updateAccountType(value)
+                    },
+                    onDismissRequest = {
+                        showChooseAccountTypeSheet = false
                     }
                 )
             }
@@ -454,6 +476,49 @@ fun AddCardScreen(
                         }
                     }
                 )
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                Card(
+                    shape = OutlinedTextFieldDefaults.shape,
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.outline.copy(
+                            alpha = if (!isLoading) 1f else 0.38f
+                        )
+                    ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Transparent
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                        .clickable(enabled = !isLoading) {
+                            showChooseAccountTypeSheet = true
+                        }
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                    ) {
+                        Text(
+                            text = stringResource(R.string.account_type),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = if (!isLoading) 1f else 0.38f
+                            ),
+                        )
+                        Text(
+                            text = stringResource(accountType?.title ?: R.string.account_not_selected),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = if (!isLoading) 1f else 0.38f
+                            ),
+                        )
+                    }
+                }
                 Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

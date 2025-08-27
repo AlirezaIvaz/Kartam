@@ -5,6 +5,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.AccountType
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.Result
@@ -52,6 +53,8 @@ class AddCardViewModel(
     val ownerEnglishName: StateFlow<TextFieldValue> = _ownerEnglishName
     private val _bank = MutableStateFlow(Bank.Unknown)
     val bank: StateFlow<Bank> = _bank
+    private val _accountType = MutableStateFlow<AccountType?>(null)
+    val accountType: StateFlow<AccountType?> = _accountType
     private val _shabaNumber = MutableStateFlow(TextFieldValue())
     val shabaNumber: StateFlow<TextFieldValue> = _shabaNumber
     private val _accountNumber = MutableStateFlow(TextFieldValue())
@@ -113,6 +116,9 @@ class AddCardViewModel(
                 // Year was saved as a 2-digit number previously
                 updateExpirationYear(TextFieldValue(currentCard.expirationYear.formattedMonth()))
             }
+            if (currentCard.accountType != null) {
+                updateAccountType(currentCard.accountType)
+            }
             updateIsOthersCard(!currentCard.isOwned)
         } else {
             updateResult(
@@ -161,6 +167,9 @@ class AddCardViewModel(
             updateBranchCode(TextFieldValue())
             updateBranchName(TextFieldValue())
         }
+        if (_accountType.value !in _bank.value.supportedAccountTypes) {
+            _accountType.value = null
+        }
     }
 
     fun updateBank(bank: Bank) {
@@ -169,6 +178,14 @@ class AddCardViewModel(
             updateBranchCode(TextFieldValue())
             updateBranchName(TextFieldValue())
         }
+    }
+
+    fun updateAccountType(accountType: String) {
+        _accountType.value = AccountType.valueOf(accountType)
+    }
+
+    fun updateAccountType(accountType: AccountType) {
+        _accountType.value = accountType
     }
 
     fun updateShabaNumber(shabaNumber: TextFieldValue) {
@@ -253,6 +270,7 @@ class AddCardViewModel(
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toSensitive(),
                     bank = _bank.value,
+                    accountType = _accountType.value,
                     isOwned = !_isOthersCard.value,
                     position = position + 1
                 )
@@ -281,6 +299,7 @@ class AddCardViewModel(
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toSensitive(),
                     bank = _bank.value,
+                    accountType = _accountType.value,
                     isOwned = !_isOthersCard.value
                 )
                 _cardDao.update(card)

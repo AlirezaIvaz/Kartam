@@ -16,6 +16,7 @@ enum class Bank(
     val isMerged: Boolean = false,
     val prefixes: List<String> = emptyList(),
     val nonPrefixes: List<String> = emptyList(),
+    val supportedAccountTypes: List<AccountType> = AccountType.entries
 ) {
     Bankino(
         type = BankType.NeoBank,
@@ -24,6 +25,7 @@ enum class Bank(
         title = R.string.bank_bankino,
         isNeo = true,
         prefixes = listOf("58594710"),
+        supportedAccountTypes = listOf(AccountType.ShortTermDeposit)
     ),
     BluBank(
         type = BankType.NeoBank,
@@ -31,7 +33,8 @@ enum class Bank(
         logo = R.drawable.ic_bank_blu_logo,
         title = R.string.bank_blu,
         isNeo = true,
-        prefixes = listOf("62198618", "62198619")
+        prefixes = listOf("62198618", "62198619"),
+        supportedAccountTypes = listOf(AccountType.ShortTermDeposit)
     ),
     HiBank(
         type = BankType.NeoBank,

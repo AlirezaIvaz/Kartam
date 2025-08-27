@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "ea46f1df2f7db9e9a3cf0e9840258678",
+    "entities": [
+      {
+        "tableName": "cards",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `name_en` TEXT, `number` TEXT NOT NULL, `shaba_number` TEXT, `account_number` TEXT, `branch_code` INTEGER, `branch_name` TEXT, `exp_month` INTEGER, `exp_year` INTEGER, `cvv2` TEXT, `bank` TEXT NOT NULL, `account_type` TEXT, `owned` INTEGER NOT NULL, `position` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "englishName",
+            "columnName": "name_en",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shabaNumber",
+            "columnName": "shaba_number",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "accountNumber",
+            "columnName": "account_number",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "branchCode",
+            "columnName": "branch_code",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "branchName",
+            "columnName": "branch_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "expirationMonth",
+            "columnName": "exp_month",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "expirationYear",
+            "columnName": "exp_year",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "cvv2",
+            "columnName": "cvv2",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "bank",
+            "columnName": "bank",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountType",
+            "columnName": "account_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isOwned",
+            "columnName": "owned",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea46f1df2f7db9e9a3cf0e9840258678')"
+    ]
+  }
+}

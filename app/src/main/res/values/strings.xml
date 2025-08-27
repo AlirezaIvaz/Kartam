@@ -118,6 +118,15 @@
     <string name="supported_bank_merged">%s has merged to %s.</string>
     <string name="supported_bank_no_auto_detect">Unfortunately, it is currently not possible to automatically detect %s cards.</string>
 
+    <!-- Account types -->
+    <string name="account_type">Account Type</string>
+    <string name="account_not_selected">Not selected</string>
+    <string name="account_active_qarz_al_hasaneh">Active Qarz Al-Hasaneh</string>
+    <string name="account_saving_qarz_al_hasaneh">Saving Qarz Al-Hasaneh</string>
+    <string name="account_short_term_deposit">Short-term Deposit</string>
+    <string name="account_long_term_deposit">Long-term Deposit</string>
+    <string name="account_joint">Joint Account</string>
+
     <!-- Banks -->
     <string name="bank_ansar">Ansar Bank</string>
     <string name="bank_ayandeh">Ayandeh Bank</string>

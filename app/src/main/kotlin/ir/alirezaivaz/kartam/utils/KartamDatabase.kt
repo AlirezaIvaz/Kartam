@@ -11,7 +11,7 @@ import ir.alirezaivaz.kartam.dao.CardDao
 import ir.alirezaivaz.kartam.dto.CardInfo
 import java.io.File
 
-@Database(entities = [CardInfo::class], version = 2)
+@Database(entities = [CardInfo::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class KartamDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
@@ -23,6 +23,11 @@ abstract class KartamDatabase : RoomDatabase() {
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE cards ADD COLUMN owned INTEGER NOT NULL DEFAULT 1")
+            }
+        }
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE cards ADD COLUMN account_type TEXT")
             }
         }
 
@@ -37,7 +42,10 @@ abstract class KartamDatabase : RoomDatabase() {
                     klass = KartamDatabase::class.java,
                     name = DATABASE_FILE_NAME
                 )
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(
+                    MIGRATION_1_2,
+                    MIGRATION_2_3
+                )
                 .build()
         }
     }

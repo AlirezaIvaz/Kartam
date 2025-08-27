@@ -106,6 +106,15 @@
     <string name="supported_bank_merged">%s در %s ادغام شده است.</string>
     <string name="supported_bank_no_auto_detect">متاسفانه در حال حاضر امکان تشخیص خودکار کارت‌های %s وجود ندارد.</string>
 
+    <!-- Account types -->
+    <string name="account_type">نوع حساب</string>
+    <string name="account_not_selected">انتخاب نشده</string>
+    <string name="account_active_qarz_al_hasaneh">قرض‌الحسنه جاری</string>
+    <string name="account_saving_qarz_al_hasaneh">قرض‌الحسنه پس‌انداز</string>
+    <string name="account_short_term_deposit">سپرده کوتاه‌مدت</string>
+    <string name="account_long_term_deposit">سپرده بلندمدت</string>
+    <string name="account_joint">حساب مشترک</string>
+
     <!-- Banks -->
     <string name="bank_ansar">بانک انصار</string>
     <string name="bank_ayandeh">بانک آینده</string>
