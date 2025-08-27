@@ -353,7 +353,7 @@ fun AddCardScreen(
                             .border(
                                 width = 1.dp,
                                 color = MaterialTheme.colorScheme.outline.copy(
-                                    alpha = if (!isLoading) 1f else 0.38f
+                                    alpha = if (!isLoading) 1f else 0.12f
                                 ),
                                 shape = OutlinedTextFieldDefaults.shape
                             ),
@@ -487,7 +487,7 @@ fun AddCardScreen(
                         border = BorderStroke(
                             width = 1.dp,
                             color = MaterialTheme.colorScheme.outline.copy(
-                                alpha = if (!isLoading) 1f else 0.38f
+                                alpha = if (!isLoading) 1f else 0.12f
                             )
                         ),
                         colors = CardDefaults.cardColors(
