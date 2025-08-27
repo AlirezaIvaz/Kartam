@@ -349,7 +349,9 @@ fun AddCardScreen(
                         .clip(OutlinedTextFieldDefaults.shape)
                         .border(
                             width = 1.dp,
-                            color = MaterialTheme.colorScheme.outline,
+                            color = MaterialTheme.colorScheme.outline.copy(
+                                alpha = if (!isLoading) 1f else 0.38f
+                            ),
                             shape = OutlinedTextFieldDefaults.shape
                         ),
                     paddingEnd = dimensionResource(R.dimen.padding_spacing),
