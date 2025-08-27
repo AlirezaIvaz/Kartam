@@ -120,7 +120,6 @@ class AddCardViewModel(
                 message = R.string.message_went_wrong_description
             )
         }
-        delay(5000)
         updateIsLoading(false)
     }
 
