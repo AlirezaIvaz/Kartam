@@ -337,7 +337,7 @@ fun AddCardScreen(
                         }
                     }
                 )
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
                 SwitchItem(
                     title = stringResource(R.string.label_others_card),
                     titleStyle = MaterialTheme.typography.bodyLarge,
@@ -618,7 +618,9 @@ fun AddCardScreen(
                     FilledTonalIconButton(
                         enabled = !isLoading && !isOthersCard,
                         shape = FloatingActionButtonDefaults.shape,
-                        modifier = Modifier.size(56.dp),
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .size(56.dp),
                         content = {
                             Icon(
                                 Icons.Default.DateRange,
