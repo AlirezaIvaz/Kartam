@@ -29,9 +29,7 @@
     <string name="label_card_number">شمارهٔ کارت</string>
     <string name="label_others_card">کارت دیگران</string>
     <string name="label_shaba_number">شمارهٔ شبا</string>
-    <string name="label_shaba_number_placeholder">شمارهٔ شبا (اختیاری)</string>
     <string name="label_account_number">شمارهٔ حساب</string>
-    <string name="label_account_number_placeholder">شمارهٔ حساب (اختیاری)</string>
     <string name="label_card_owner">نام صاحب کارت</string>
     <string name="label_card_owner_en">نام صاحب کارت (انگلیسی)</string>
     <string name="label_expiration_date">تاریخ انقضا</string>
@@ -39,9 +37,9 @@
     <string name="label_branch_name">نام شعبه</string>
     <string name="label_exp_month">ماه انقضا</string>
     <string name="label_exp_year">سال انقضا</string>
-    <string name="label_cvv2_placeholder">CVV2 (اختیاری)</string>
-    <string name="label_first_code_placeholder">رمز اول (اختیاری)</string>
-    <string name="label_comment">یادداشت (اختیاری)</string>
+    <string name="label_cvv2">CVV2</string>
+    <string name="label_first_code">رمز اول</string>
+    <string name="label_comment">یادداشت</string>
 
     <!-- Messages -->
     <string name="message_card_added">کارت با موفقیت اضافه شد!</string>

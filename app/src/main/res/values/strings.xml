@@ -29,9 +29,7 @@
     <string name="label_card_number">Card number</string>
     <string name="label_others_card">Others\' card</string>
     <string name="label_shaba_number">Shaba number</string>
-    <string name="label_shaba_number_placeholder">Shaba number (Optional)</string>
     <string name="label_account_number">Account number</string>
-    <string name="label_account_number_placeholder">Account number (Optional)</string>
     <string name="label_card_owner">Owner name</string>
     <string name="label_card_owner_en">Owner name (English)</string>
     <string name="label_expiration_date">Expiration date</string>
@@ -41,9 +39,9 @@
     <string name="label_exp_month">Exp. Month</string>
     <string name="label_exp_year">Exp. Year</string>
     <string name="label_cvv2" translatable="false">CVV2</string>
-    <string name="label_cvv2_placeholder">CVV2 (Optional)</string>
-    <string name="label_first_code_placeholder">First Code (Optional)</string>
-    <string name="label_comment">Comment (Optional)</string>
+    <string name="label_first_code">First Code</string>
+    <string name="label_comment">Comment</string>
+    <string name="label_required" translatable="false">*</string>
 
     <!-- Formatters -->
     <string name="formatter_exp_date" translatable="false">%s/%s</string>

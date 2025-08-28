@@ -328,9 +328,18 @@ fun AddCardScreen(
                         singleLine = true,
                         isError = !cardNumber.text.isValidCardNumber(),
                         label = {
-                            Text(
-                                text = stringResource(R.string.label_card_number),
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.label_card_number),
+                                )
+                                Text(
+                                    text = stringResource(R.string.label_required),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
@@ -375,9 +384,18 @@ fun AddCardScreen(
                         singleLine = true,
                         isError = !ownerName.text.isValidName(),
                         label = {
-                            Text(
-                                text = stringResource(R.string.label_card_owner),
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.label_card_owner),
+                                )
+                                Text(
+                                    text = stringResource(R.string.label_required),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -420,7 +438,7 @@ fun AddCardScreen(
                         isError = shabaNumber.text.isNotEmpty() && !shabaNumber.text.isValidShabaNumber(),
                         label = {
                             Text(
-                                text = stringResource(R.string.label_shaba_number_placeholder),
+                                text = stringResource(R.string.label_shaba_number),
                             )
                         },
                         keyboardOptions = KeyboardOptions(
@@ -445,7 +463,7 @@ fun AddCardScreen(
                         isError = accountNumber.text.isNotEmpty() && !accountNumber.text.isValidAccountNumber(),
                         label = {
                             Text(
-                                text = stringResource(R.string.label_account_number_placeholder),
+                                text = stringResource(R.string.label_account_number),
                             )
                         },
                         keyboardOptions = KeyboardOptions(
@@ -473,7 +491,7 @@ fun AddCardScreen(
                             isError = cvv2.text.isNotEmpty() && !cvv2.text.isValidCvv2(),
                             label = {
                                 Text(
-                                    text = stringResource(R.string.label_cvv2_placeholder),
+                                    text = stringResource(R.string.label_cvv2),
                                 )
                             },
                             keyboardOptions = KeyboardOptions(
@@ -495,7 +513,7 @@ fun AddCardScreen(
                             isError = firstCode.text.isNotEmpty() && !firstCode.text.isValidFirstCode(),
                             label = {
                                 Text(
-                                    text = stringResource(R.string.label_first_code_placeholder),
+                                    text = stringResource(R.string.label_first_code),
                                 )
                             },
                             keyboardOptions = KeyboardOptions(
