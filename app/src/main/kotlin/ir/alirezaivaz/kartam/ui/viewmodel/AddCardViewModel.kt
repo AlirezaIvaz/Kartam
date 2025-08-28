@@ -25,7 +25,6 @@ import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.Utils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -105,28 +104,28 @@ class AddCardViewModel(
             if (!currentCard.accountNumber.isNullOrEmpty()) {
                 updateAccountNumber(TextFieldValue(currentCard.accountNumber))
             }
-            if (currentCard.cvv2 != null) {
-                val cvv2 = Utils.getCvv2(currentCard.cvv2.toStringOrNull(), true)
+            currentCard.cvv2.toStringOrNull()?.let {
+                val cvv2 = Utils.getCvv2(it, true)
                 updateCvv2(TextFieldValue(cvv2))
             }
             currentCard.firstCode.toStringOrNull()?.let {
                 updateFirstCode(TextFieldValue(it))
             }
-            if (currentCard.branchCode != null) {
-                updateBranchCode(TextFieldValue(currentCard.branchCode.toString()))
+            currentCard.branchCode?.let {
+                updateBranchCode(TextFieldValue(it.toString()))
             }
-            if (currentCard.branchName != null) {
-                updateBranchName(TextFieldValue(currentCard.branchName))
+            currentCard.branchName?.let {
+                updateBranchName(TextFieldValue(it))
             }
-            if (currentCard.expirationMonth != null) {
-                updateExpirationMonth(TextFieldValue(currentCard.expirationMonth.formattedMonth()))
+            currentCard.expirationMonth?.let {
+                updateExpirationMonth(TextFieldValue(it.formattedMonth()))
             }
-            if (currentCard.expirationYear != null) {
+            currentCard.expirationYear?.let {
                 // Year was saved as a 2-digit number previously
-                updateExpirationYear(TextFieldValue(currentCard.expirationYear.formattedMonth()))
+                updateExpirationYear(TextFieldValue(it.formattedMonth()))
             }
-            if (currentCard.accountType != null) {
-                updateAccountType(currentCard.accountType)
+            currentCard.accountType?.let {
+                updateAccountType(it)
             }
             currentCard.comment?.let {
                 updateComment(TextFieldValue(it))
