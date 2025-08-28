@@ -1,5 +1,6 @@
 package ir.alirezaivaz.kartam.extensions
 
+import androidx.core.text.isDigitsOnly
 import ir.huri.jcal.JalaliCalendar
 import java.math.BigInteger
 
@@ -63,6 +64,10 @@ fun String.isValidAccountNumber(): Boolean {
 fun String.isValidCvv2(): Boolean {
     val digitsOnly = this.trim().filter { it.isDigit() }
     return digitsOnly.length in 3..4
+}
+
+fun String.isValidFirstCode(): Boolean {
+    return isDigitsOnly() && length == 4
 }
 
 fun String.isValidMonth(): Boolean {

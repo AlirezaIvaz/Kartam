@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import ir.alirezaivaz.kartam.dao.CardDao
 import ir.alirezaivaz.kartam.dto.CardInfo
 
-@Database(entities = [CardInfo::class], version = 3)
+@Database(entities = [CardInfo::class], version = 4)
 @TypeConverters(Converters::class)
 abstract class KartamDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
@@ -29,6 +29,12 @@ abstract class KartamDatabase : RoomDatabase() {
                 db.execSQL("ALTER TABLE cards ADD COLUMN account_type TEXT")
             }
         }
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE cards ADD COLUMN first_code TEXT")
+                db.execSQL("ALTER TABLE cards ADD COLUMN comment TEXT")
+            }
+        }
 
         fun getInstance(context: Context): KartamDatabase {
             return instance ?: buildDatabase(context).also { instance = it }
@@ -43,7 +49,8 @@ abstract class KartamDatabase : RoomDatabase() {
                 )
                 .addMigrations(
                     MIGRATION_1_2,
-                    MIGRATION_2_3
+                    MIGRATION_2_3,
+                    MIGRATION_3_4,
                 )
                 .build()
         }

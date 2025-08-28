@@ -42,6 +42,8 @@
     <string name="label_exp_year">Exp. Year</string>
     <string name="label_cvv2" translatable="false">CVV2</string>
     <string name="label_cvv2_placeholder">CVV2 (Optional)</string>
+    <string name="label_first_code_placeholder">First Code (Optional)</string>
+    <string name="label_comment">Comment (Optional)</string>
 
     <!-- Formatters -->
     <string name="formatter_exp_date" translatable="false">%s/%s</string>
@@ -67,6 +69,7 @@
     <string name="error_invalid_shaba_number">Shaba number is invalid! Please check it and try again.</string>
     <string name="error_invalid_account_number">Account number is invalid!</string>
     <string name="error_invalid_cvv2">CVV2 must be 3 or 4 digit number!</string>
+    <string name="error_invalid_first_code">First code must be a 4-digit number!</string>
     <string name="error_invalid_exp_month">Expiration month is invalid!</string>
     <string name="error_invalid_exp_year">Expiration year is invalid or has passed!</string>
     <string name="error_request_run_failed">Your request can\'t be run!</string>

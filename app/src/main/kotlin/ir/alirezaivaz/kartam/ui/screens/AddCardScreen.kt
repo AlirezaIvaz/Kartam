@@ -76,6 +76,7 @@ import ir.alirezaivaz.kartam.extensions.formattedYear
 import ir.alirezaivaz.kartam.extensions.isValidAccountNumber
 import ir.alirezaivaz.kartam.extensions.isValidCardNumber
 import ir.alirezaivaz.kartam.extensions.isValidCvv2
+import ir.alirezaivaz.kartam.extensions.isValidFirstCode
 import ir.alirezaivaz.kartam.extensions.isValidMonth
 import ir.alirezaivaz.kartam.extensions.isValidName
 import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
@@ -131,6 +132,8 @@ fun AddCardScreen(
     val expirationMonth by viewModel.expirationMonth.collectAsState()
     val expirationYear by viewModel.expirationYear.collectAsState()
     val cvv2 by viewModel.cvv2.collectAsState()
+    val firstCode by viewModel.firstCode.collectAsState()
+    val comment by viewModel.comment.collectAsState()
     val isOthersCard by viewModel.isOthersCard.collectAsState()
     val initialMonth = jalaliCalendar.month
     val initialYear = jalaliCalendar.year
@@ -457,30 +460,56 @@ fun AddCardScreen(
                         }
                     )
                     Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                    OutlinedTextField(
-                        value = cvv2,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                        enabled = !isLoading && !isOthersCard,
-                        singleLine = true,
-                        isError = cvv2.text.isNotEmpty() && !cvv2.text.isValidCvv2(),
-                        label = {
-                            Text(
-                                text = stringResource(R.string.label_cvv2_placeholder),
-                            )
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Next
-                        ),
-                        onValueChange = { input ->
-                            val number = input.copy(input.text.filter { it.isDigit() }.take(4))
-                            if (number.text.length <= 4) {
-                                viewModel.updateCvv2(number)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
+                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    ) {
+                        OutlinedTextField(
+                            value = cvv2,
+                            modifier = Modifier.weight(1f),
+                            enabled = !isLoading && !isOthersCard,
+                            singleLine = true,
+                            isError = cvv2.text.isNotEmpty() && !cvv2.text.isValidCvv2(),
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.label_cvv2_placeholder),
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Next
+                            ),
+                            onValueChange = { input ->
+                                val number = input.copy(input.text.filter { it.isDigit() }.take(4))
+                                if (number.text.length <= 4) {
+                                    viewModel.updateCvv2(number)
+                                }
                             }
-                        }
-                    )
+                        )
+                        OutlinedTextField(
+                            value = firstCode,
+                            modifier = Modifier.weight(1f),
+                            enabled = !isLoading && !isOthersCard,
+                            singleLine = true,
+                            isError = firstCode.text.isNotEmpty() && !firstCode.text.isValidFirstCode(),
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.label_first_code_placeholder),
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Next
+                            ),
+                            onValueChange = { input ->
+                                val number = input.copy(input.text.filter { it.isDigit() }.take(4))
+                                if (number.text.length <= 4) {
+                                    viewModel.updateFirstCode(number)
+                                }
+                            }
+                        )
+                    }
                     Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
                     Card(
                         shape = OutlinedTextFieldDefaults.shape,
@@ -611,7 +640,7 @@ fun AddCardScreen(
                             },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
-                                imeAction = ImeAction.Done
+                                imeAction = ImeAction.Next
                             ),
                             onValueChange = { input ->
                                 val number = input.copy(input.text.filter { it.isDigit() }.take(2))
@@ -639,6 +668,25 @@ fun AddCardScreen(
                             }
                         )
                     }
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    OutlinedTextField(
+                        value = comment,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        enabled = !isLoading,
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_comment),
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text
+                        ),
+                        onValueChange = {
+                            viewModel.updateComment(it)
+                        }
+                    )
                     Spacer(Modifier.height(80.dp))
                 }
             }

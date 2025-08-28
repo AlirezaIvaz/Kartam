@@ -15,6 +15,7 @@ import ir.alirezaivaz.kartam.extensions.formattedMonth
 import ir.alirezaivaz.kartam.extensions.isValidAccountNumber
 import ir.alirezaivaz.kartam.extensions.isValidCardNumber
 import ir.alirezaivaz.kartam.extensions.isValidCvv2
+import ir.alirezaivaz.kartam.extensions.isValidFirstCode
 import ir.alirezaivaz.kartam.extensions.isValidMonth
 import ir.alirezaivaz.kartam.extensions.isValidName
 import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
@@ -69,8 +70,12 @@ class AddCardViewModel(
     val expirationYear: StateFlow<TextFieldValue> = _expirationYear
     private val _cvv2 = MutableStateFlow(TextFieldValue())
     val cvv2: StateFlow<TextFieldValue> = _cvv2
+    private val _firstCode = MutableStateFlow(TextFieldValue())
+    val firstCode: StateFlow<TextFieldValue> = _firstCode
     private val _isOthersCard = MutableStateFlow(!isOwned)
     val isOthersCard: StateFlow<Boolean> = _isOthersCard
+    private val _comment = MutableStateFlow(TextFieldValue())
+    val comment: StateFlow<TextFieldValue> = _comment
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -103,6 +108,9 @@ class AddCardViewModel(
                 val cvv2 = Utils.getCvv2(currentCard.cvv2.toStringOrNull(), true)
                 updateCvv2(TextFieldValue(cvv2))
             }
+            currentCard.firstCode.toStringOrNull()?.let {
+                updateFirstCode(TextFieldValue(it))
+            }
             if (currentCard.branchCode != null) {
                 updateBranchCode(TextFieldValue(currentCard.branchCode.toString()))
             }
@@ -118,6 +126,9 @@ class AddCardViewModel(
             }
             if (currentCard.accountType != null) {
                 updateAccountType(currentCard.accountType)
+            }
+            currentCard.comment?.let {
+                updateComment(TextFieldValue(it))
             }
             updateIsOthersCard(!currentCard.isOwned)
         } else {
@@ -216,6 +227,14 @@ class AddCardViewModel(
         _cvv2.value = cvv2
     }
 
+    fun updateFirstCode(code: TextFieldValue) {
+        _firstCode.value = code
+    }
+
+    fun updateComment(comment: TextFieldValue) {
+        _comment.value = comment
+    }
+
     fun updateIsOthersCard(value: Boolean) {
         _isOthersCard.value = value
     }
@@ -241,6 +260,9 @@ class AddCardViewModel(
             return false
         } else if (_cvv2.value.text.isNotEmpty() && !_cvv2.value.text.isValidCvv2()) {
             updateResult(message = R.string.error_invalid_cvv2)
+            return false
+        } else if (_firstCode.value.text.isNotEmpty() && !_firstCode.value.text.isValidFirstCode()) {
+            updateResult(message = R.string.error_invalid_first_code)
             return false
         } else if (_expirationMonth.value.text.isNotEmpty() && !_expirationMonth.value.text.isValidMonth()) {
             updateResult(message = R.string.error_invalid_exp_month)
@@ -269,8 +291,10 @@ class AddCardViewModel(
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toSensitive(),
+                    firstCode = _firstCode.value.text.toSensitive(),
                     bank = _bank.value,
                     accountType = _accountType.value,
+                    comment = _comment.value.text,
                     isOwned = !_isOthersCard.value,
                     position = position + 1
                 )
@@ -298,8 +322,10 @@ class AddCardViewModel(
                     expirationMonth = _expirationMonth.value.text.toIntOrNull(),
                     expirationYear = _expirationYear.value.text.toIntOrNull(),
                     cvv2 = _cvv2.value.text.toSensitive(),
+                    firstCode = _firstCode.value.text.toSensitive(),
                     bank = _bank.value,
                     accountType = _accountType.value,
+                    comment = _comment.value.text,
                     isOwned = !_isOthersCard.value
                 )
                 _cardDao.update(card)

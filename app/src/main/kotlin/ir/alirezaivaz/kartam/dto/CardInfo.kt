@@ -28,10 +28,14 @@ data class CardInfo(
     val expirationYear: Int?,
     @ColumnInfo(name = "cvv2")
     val cvv2: SensitiveString?,
+    @ColumnInfo(name = "first_code")
+    val firstCode: SensitiveString? = null,
     @ColumnInfo(name = "bank")
     val bank: Bank,
     @ColumnInfo(name = "account_type")
     val accountType: AccountType? = null,
+    @ColumnInfo(name = "comment")
+    val comment: String? = null,
     @ColumnInfo(name = "owned")
     val isOwned: Boolean = true,
     @ColumnInfo(name = "position")

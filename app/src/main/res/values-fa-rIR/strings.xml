@@ -40,6 +40,8 @@
     <string name="label_exp_month">ماه انقضا</string>
     <string name="label_exp_year">سال انقضا</string>
     <string name="label_cvv2_placeholder">CVV2 (اختیاری)</string>
+    <string name="label_first_code_placeholder">رمز اول (اختیاری)</string>
+    <string name="label_comment">یادداشت (اختیاری)</string>
 
     <!-- Messages -->
     <string name="message_card_added">کارت با موفقیت اضافه شد!</string>
@@ -61,6 +63,7 @@
     <string name="error_invalid_shaba_number">شمارهٔ شبا نامعتبر است! لطفا آن‌را بررسی و دوباره تلاش کنید.</string>
     <string name="error_invalid_account_number">شمارهٔ حساب نامعتبر است!</string>
     <string name="error_invalid_cvv2">کد اعتبارسنجی کارت (CVV2) باید یک عدد ۳ یا ۴ شماره‌ای باشد!</string>
+    <string name="error_invalid_first_code">رمز اول باید یک عدد ۴ شماره‌ای باشد!!</string>
     <string name="error_invalid_exp_month">ماه انقضای کارت نامعتبر است!</string>
     <string name="error_invalid_exp_year">سال انقضای کارت نامعتبر یا گذشته است!</string>
     <string name="error_request_run_failed">امکان اجرای درخواست شما وجود ندارد!</string>
