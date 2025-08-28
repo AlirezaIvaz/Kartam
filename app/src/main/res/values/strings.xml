@@ -70,6 +70,8 @@
     <string name="error_invalid_account_number">Account number is invalid!</string>
     <string name="error_invalid_cvv2">CVV2 must be 3 or 4 digit number!</string>
     <string name="error_invalid_first_code">First code must be a 4-digit number!</string>
+    <string name="error_invalid_branch_code">Branch code must only contains digits!</string>
+    <string name="error_invalid_branch_name">Branch name must only contains English and Persian characters!</string>
     <string name="error_invalid_exp_month">Expiration month is invalid!</string>
     <string name="error_invalid_exp_year">Expiration year is invalid or has passed!</string>
     <string name="error_request_run_failed">Your request can\'t be run!</string>

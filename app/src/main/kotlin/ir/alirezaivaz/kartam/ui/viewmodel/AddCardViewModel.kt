@@ -2,6 +2,7 @@ package ir.alirezaivaz.kartam.ui.viewmodel
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.R
@@ -263,6 +264,12 @@ class AddCardViewModel(
             return false
         } else if (_firstCode.value.text.isNotEmpty() && !_firstCode.value.text.isValidFirstCode()) {
             updateResult(message = R.string.error_invalid_first_code)
+            return false
+        } else if (_branchCode.value.text.isNotEmpty() && !_branchCode.value.text.isDigitsOnly()) {
+            updateResult(message = R.string.error_invalid_branch_code)
+            return false
+        } else if (_branchName.value.text.isNotEmpty() && !_branchName.value.text.isValidName()) {
+            updateResult(message = R.string.error_invalid_branch_name)
             return false
         } else if (_expirationMonth.value.text.isNotEmpty() && !_expirationMonth.value.text.isValidMonth()) {
             updateResult(message = R.string.error_invalid_exp_month)

@@ -64,6 +64,8 @@
     <string name="error_invalid_account_number">شمارهٔ حساب نامعتبر است!</string>
     <string name="error_invalid_cvv2">کد اعتبارسنجی کارت (CVV2) باید یک عدد ۳ یا ۴ شماره‌ای باشد!</string>
     <string name="error_invalid_first_code">رمز اول باید یک عدد ۴ شماره‌ای باشد!!</string>
+    <string name="error_invalid_branch_code">شمارهٔ شعبه باید فقط شامل عدد باشد!</string>
+    <string name="error_invalid_branch_name">نام شعبه باید فقط شامل نویسه‌های فارسی و انگلیسی باشد!</string>
     <string name="error_invalid_exp_month">ماه انقضای کارت نامعتبر است!</string>
     <string name="error_invalid_exp_year">سال انقضای کارت نامعتبر یا گذشته است!</string>
     <string name="error_request_run_failed">امکان اجرای درخواست شما وجود ندارد!</string>
