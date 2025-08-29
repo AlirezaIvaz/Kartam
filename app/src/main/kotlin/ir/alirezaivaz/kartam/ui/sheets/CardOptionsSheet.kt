@@ -29,16 +29,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
+import ir.alirezaivaz.kartam.dto.toStringOrNull
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.CardOptionItem
@@ -86,6 +89,9 @@ fun CardOptionsSheetContent(
     onSnapshotReady: (ImageBitmap) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
+    val context = LocalContext.current
+    val isAuthSecretData by SettingsManager.isAuthSecretData.collectAsState()
+    val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
     val isSecretCvv2InDetails by SettingsManager.isSecretCvv2InDetails.collectAsState()
     Box(
         modifier = Modifier
@@ -112,7 +118,14 @@ fun CardOptionsSheetContent(
         ) {
             CardItem(
                 card = card,
-                isCvv2VisibleByDefault = !isSecretCvv2InDetails
+                isCvv2VisibleByDefault = !isSecretCvv2InDetails,
+                isAuthenticationRequired = !isAuthOwnedCardDetails && isAuthSecretData,
+                onAuthenticationFailed = {
+                    toaster.show(
+                        message = context.getString(R.string.error_authentication_failed),
+                        type = ToastType.Error
+                    )
+                }
             )
         }
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))

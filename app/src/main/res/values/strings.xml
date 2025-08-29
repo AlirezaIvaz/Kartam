@@ -54,6 +54,8 @@
     <string name="message_copied_to_clipboard">%s copied to clipboard!</string>
     <string name="message_no_card">No cards found!</string>
     <string name="message_no_card_description">Add your first card by tapping over + button at the bottom.</string>
+    <string name="message_auth">Authentication</string>
+    <string name="message_auth_description">Please authenticate to continue</string>
     <string name="message_went_wrong">Something went wrong!</string>
     <string name="message_went_wrong_description">We can\'t find what you\'re looking for. Please back and try again.</string>
 
@@ -73,6 +75,7 @@
     <string name="error_invalid_exp_month">Expiration month is invalid!</string>
     <string name="error_invalid_exp_year">Expiration year is invalid or has passed!</string>
     <string name="error_request_run_failed">Your request can\'t be run!</string>
+    <string name="error_authentication_failed">Authentication failed!</string>
 
     <!-- Card added dialog -->
     <string name="card_added_title">Card added</string>
@@ -93,6 +96,17 @@
     <string name="settings_hide_cvv2_details">In card details</string>
     <string name="settings_language">Language</string>
     <string name="settings_theme">Theme</string>
+    <string name="settings_auth_type">Authentication Type</string>
+    <string name="settings_auth_type_description">
+        "- None: No authentication is required.\n"
+        "- Credentials: The non-biometric credential used to secure the device (i.e. PIN, pattern, or password).\n"
+        "- Weak Biometric: Any biometric (e.g. fingerprint, iris, or face) on the device that meets or exceeds the requirements for Class 2 (formerly Weak), as defined by the Android CDD.\n"
+        "- Strong Biometric: Any biometric (e.g. fingerprint, iris, or face) on the device that meets or exceeds the requirements for Class 3 (formerly Strong), as defined by the Android CDD.\n"
+    </string>
+    <string name="settings_auth_owned_card_details">Authenticate for owned card details</string>
+    <string name="settings_auth_secret_data">Authenticate for secret data</string>
+    <string name="settings_auth_before_edit">Authenticate before edit</string>
+    <string name="settings_auth_before_delete">Authenticate before delete</string>
     <string name="settings_app_version" translatable="false">%s - v%s</string>
 
     <!-- Languages -->
@@ -103,6 +117,12 @@
     <string name="theme_day">Day</string>
     <string name="theme_night">Night</string>
     <string name="theme_system">System</string>
+
+    <!-- Auth types -->
+    <string name="auth_none">None</string>
+    <string name="auth_credentials">Credentials</string>
+    <string name="auth_weak">W. Biometric</string>
+    <string name="auth_strong">S. Biometric</string>
 
     <!-- Changelog -->
     <string name="changelog">Changelog</string>

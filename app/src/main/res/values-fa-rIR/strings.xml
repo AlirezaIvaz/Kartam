@@ -48,6 +48,8 @@
     <string name="message_copied_to_clipboard">%s در بریده‌دان کپی شد!</string>
     <string name="message_no_card">هیچ کارتی یافت نشد!</string>
     <string name="message_no_card_description">اولین کارت خود را با کلیک روی دکمهٔ + در پایین صفحه اضافه کنید.</string>
+    <string name="message_auth">اعتبارسنجی</string>
+    <string name="message_auth_description">لطفا برای ادامه‌دادن اعتبارسنجی کنید</string>
     <string name="message_went_wrong">مشکلی پیش آمد!</string>
     <string name="message_went_wrong_description">نتوانستیم چیزی که به‌دنبال آن هستید را پیدا کنیم. لطفا برگردید و دوباره تلاش کنید.</string>
 
@@ -67,6 +69,7 @@
     <string name="error_invalid_exp_month">ماه انقضای کارت نامعتبر است!</string>
     <string name="error_invalid_exp_year">سال انقضای کارت نامعتبر یا گذشته است!</string>
     <string name="error_request_run_failed">امکان اجرای درخواست شما وجود ندارد!</string>
+    <string name="error_authentication_failed">اعتبارسنجی ناموفق بود!</string>
 
     <!-- Card added dialog -->
     <string name="card_added_title">کارت اضافه شد</string>
@@ -87,11 +90,28 @@
     <string name="settings_hide_cvv2_details">در جزئیات کارت</string>
     <string name="settings_language">زبان</string>
     <string name="settings_theme">پوسته</string>
+    <string name="settings_auth_type">نوع اعتبارسنجی</string>
+    <string name="settings_auth_type_description">
+        "- هیچ‌کدام: هیچ اعتبارسنجی انجام نمی‌شود..\n"
+        "- غیر زیستی: اعتبارسنجی غیر زیستی مورد استفاده برای ایمن‌سازی دستگاه (مانند پین، الگو یا گذرواژه).\n"
+        "- زیستی ضعیف: هر بیومتریکی (مانند اثرانگشت، عنبیه یا چهره) روی دستگاه که الزامات کلاس ۲ (که پیش‌از این ضعیف بود) را مطابق با تعریف CDD اندروید برآورده کند یا از آن فراتر برود.\n"
+        "- زیستی قوی: هر بیومتریکی (مانند اثرانگشت، عنبیه یا چهره) روی دستگاه که الزامات کلاس ۳ (که پیش‌از این قوی بود) را مطابق با تعریف CCD اندروید برآورده کند یا از آن فراتر برود.\n"
+    </string>
+    <string name="settings_auth_owned_card_details">اعتبارسنجی برای جزئیات کارت‌های من</string>
+    <string name="settings_auth_secret_data">اعتبارسنجی برای داده‌های مخفی</string>
+    <string name="settings_auth_before_edit">اعتبارسنجی برای ویرایش</string>
+    <string name="settings_auth_before_delete">اعتبارسنجی برای حذف</string>
 
     <!-- Themes -->
     <string name="theme_day">روز</string>
     <string name="theme_night">شب</string>
     <string name="theme_system">سامانه</string>
+
+    <!-- Auth types -->
+    <string name="auth_none">هیچ‌کدام</string>
+    <string name="auth_credentials">غیر زیستی</string>
+    <string name="auth_weak">زیستی ضعیف</string>
+    <string name="auth_strong">زیستی قوی</string>
 
     <!-- Changelog -->
     <string name="changelog">گزارش تغییرات</string>

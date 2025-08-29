@@ -1,5 +1,6 @@
 package ir.alirezaivaz.kartam.ui.screens
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
@@ -45,6 +47,7 @@ import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.utils.BackupManager
+import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
@@ -63,6 +66,7 @@ fun ListScreen(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val activity = LocalActivity.current
     val hapticFeedback = LocalHapticFeedback.current
     val isLoading by viewModel.isLoading.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
@@ -70,6 +74,11 @@ fun ListScreen(
     var selectedCardSnapshot by remember { mutableStateOf<ImageBitmap?>(null) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
     var showDeleteCardDialog by remember { mutableStateOf(false) }
+    val authType by SettingsManager.authType.collectAsState()
+    val isAuthSecretData by SettingsManager.isAuthSecretData.collectAsState()
+    val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
+    val isAuthBeforeEdit by SettingsManager.isAuthBeforeEdit.collectAsState()
+    val isAuthBeforeDelete by SettingsManager.isAuthBeforeDelete.collectAsState()
     val isSecretCvv2InList by SettingsManager.isSecretCvv2InList.collectAsState()
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
@@ -81,12 +90,48 @@ fun ListScreen(
         CardOptionsSheet(
             card = selectedCard,
             onEditRequest = {
-                showCardOptionsSheet = false
-                onEditRequest(selectedCard?.id)
+                if (isAuthBeforeEdit) {
+                    BiometricHelper(
+                        activity = activity as FragmentActivity,
+                        authType = authType,
+                        onResult = {
+                            if (it) {
+                                showCardOptionsSheet = false
+                                onEditRequest(selectedCard?.id)
+                            } else {
+                                toaster.show(
+                                    message = context.getString(R.string.error_authentication_failed),
+                                    type = ToastType.Error
+                                )
+                            }
+                        }
+                    ).authenticate()
+                } else {
+                    showCardOptionsSheet = false
+                    onEditRequest(selectedCard?.id)
+                }
             },
             onDeleteRequest = {
-                showCardOptionsSheet = false
-                showDeleteCardDialog = true
+                if (isAuthBeforeDelete) {
+                    BiometricHelper(
+                        activity = activity as FragmentActivity,
+                        authType = authType,
+                        onResult = {
+                            if (it) {
+                                showCardOptionsSheet = false
+                                showDeleteCardDialog = true
+                            } else {
+                                toaster.show(
+                                    message = context.getString(R.string.error_authentication_failed),
+                                    type = ToastType.Error
+                                )
+                            }
+                        }
+                    ).authenticate()
+                } else {
+                    showCardOptionsSheet = false
+                    showDeleteCardDialog = true
+                }
             },
             onSnapshotReady = {
                 selectedCardSnapshot = it
@@ -185,6 +230,7 @@ fun ListScreen(
                                     card = item,
                                     modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                                     isCvv2VisibleByDefault = !isSecretCvv2InList,
+                                    isAuthenticationRequired = isAuthSecretData,
                                     cardElevation = elevation,
                                     dragHandleModifier = Modifier.draggableHandle(
                                         onDragStarted = {
@@ -195,8 +241,32 @@ fun ListScreen(
                                         }
                                     ),
                                     onClick = {
-                                        selectedCard = item
-                                        showCardOptionsSheet = true
+                                        if (isOwned && isAuthOwnedCardDetails) {
+                                            BiometricHelper(
+                                                activity = activity as FragmentActivity,
+                                                authType = authType,
+                                                onResult = {
+                                                    if (it) {
+                                                        selectedCard = item
+                                                        showCardOptionsSheet = true
+                                                    } else {
+                                                        toaster.show(
+                                                            message = context.getString(R.string.error_authentication_failed),
+                                                            type = ToastType.Error
+                                                        )
+                                                    }
+                                                }
+                                            ).authenticate()
+                                        } else {
+                                            selectedCard = item
+                                            showCardOptionsSheet = true
+                                        }
+                                    },
+                                    onAuthenticationFailed = {
+                                        toaster.show(
+                                            message = context.getString(R.string.error_authentication_failed),
+                                            type = ToastType.Error
+                                        )
                                     }
                                 )
                             }

@@ -6,6 +6,7 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.get
 import com.russhwolf.settings.set
 import ir.alirezaivaz.kartam.BuildConfig
+import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
@@ -19,6 +20,7 @@ object SettingsManager {
     private const val PREF_VERSION = "pref_version"
     private const val PREF_THEME = "pref_theme"
     private const val PREF_LANGUAGE = "pref_language"
+    private const val PREF_AUTH_TYPE = "pref_auth_type"
     private const val PREF_DYNAMIC_COLORS = "pref_dynamic_colors"
     private const val PREF_SHOW_SHABA_NUMBER = "pref_show_shaba_number"
     private const val PREF_SHOW_SHABA_NUMBER_DEFAULT = true
@@ -30,6 +32,14 @@ object SettingsManager {
     private const val PREF_SECRET_CVV2_LIST_DEFAULT = true
     private const val PREF_SECRET_CVV2_DETAILS = "pref_secret_cvv2_details"
     private const val PREF_SECRET_CVV2_DETAILS_DEFAULT = false
+    private const val PREF_AUTH_OWNED_CARD_DETAILS = "pref_auth_owned_card_details"
+    private const val PREF_AUTH_OWNED_CARD_DETAILS_DEFAULT = true
+    private const val PREF_AUTH_SECRET_DATA = "pref_auth_secret_items"
+    private const val PREF_AUTH_SECRET_DATA_DEFAULT = true
+    private const val PREF_AUTH_BEFORE_EDIT = "pref_auth_before_edit"
+    private const val PREF_AUTH_BEFORE_EDIT_DEFAULT = true
+    private const val PREF_AUTH_BEFORE_DELETE = "pref_auth_before_delete"
+    private const val PREF_AUTH_BEFORE_DELETE_DEFAULT = true
 
     private val _version = MutableStateFlow(settings[PREF_VERSION, 0])
     val version: StateFlow<Int> = _version
@@ -49,6 +59,16 @@ object SettingsManager {
     val theme: StateFlow<Theme> = _theme
     private val _language = MutableStateFlow(Language.find(settings[PREF_LANGUAGE, Language.English.tag]))
     val language: StateFlow<Language> = _language
+    private val _authType = MutableStateFlow(AuthType.find(settings[PREF_AUTH_TYPE, AuthType.None.name]))
+    val authType: StateFlow<AuthType> = _authType
+    private val _isAuthOwnedCardDetails = MutableStateFlow(settings[PREF_AUTH_OWNED_CARD_DETAILS, PREF_AUTH_OWNED_CARD_DETAILS_DEFAULT])
+    val isAuthOwnedCardDetails: StateFlow<Boolean> = _isAuthOwnedCardDetails
+    private val _isAuthSecretData = MutableStateFlow(settings[PREF_AUTH_SECRET_DATA, PREF_AUTH_SECRET_DATA_DEFAULT])
+    val isAuthSecretData: StateFlow<Boolean> = _isAuthSecretData
+    private val _isAuthBeforeEdit = MutableStateFlow(settings[PREF_AUTH_BEFORE_EDIT, PREF_AUTH_BEFORE_EDIT_DEFAULT])
+    val isAuthBeforeEdit: StateFlow<Boolean> = _isAuthBeforeEdit
+    private val _isAuthBeforeDelete = MutableStateFlow(settings[PREF_AUTH_BEFORE_DELETE, PREF_AUTH_BEFORE_DELETE_DEFAULT])
+    val isAuthBeforeDelete: StateFlow<Boolean> = _isAuthBeforeDelete
 
     fun isDarkMode(isSystemInDarkTheme: Boolean): Boolean {
         return _theme.value == Theme.Night || (_theme.value == Theme.System && isSystemInDarkTheme)
@@ -104,6 +124,31 @@ object SettingsManager {
     fun setSecretCvv2Details(value: Boolean) {
         _isSecretCvv2InDetails.value = value
         settings[PREF_SECRET_CVV2_DETAILS] = value
+    }
+
+    fun setAuthType(value: AuthType) {
+        _authType.value = value
+        settings[PREF_AUTH_TYPE] = value.name
+    }
+
+    fun setAuthOwnedCardDetails(value: Boolean) {
+        _isAuthOwnedCardDetails.value = value
+        settings[PREF_AUTH_OWNED_CARD_DETAILS] = value
+    }
+
+    fun setAuthSecretData(value: Boolean) {
+        _isAuthSecretData.value = value
+        settings[PREF_AUTH_SECRET_DATA] = value
+    }
+
+    fun setAuthBeforeEdit(value: Boolean) {
+        _isAuthBeforeEdit.value = value
+        settings[PREF_AUTH_BEFORE_EDIT] = value
+    }
+
+    fun setAuthBeforeDelete(value: Boolean) {
+        _isAuthBeforeDelete.value = value
+        settings[PREF_AUTH_BEFORE_DELETE] = value
     }
 
 }

@@ -2,6 +2,7 @@ package ir.alirezaivaz.kartam.ui.screens
 
 
 import android.content.Intent
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,16 +51,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.fragment.app.FragmentActivity
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.BuildConfig
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
-import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
+import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import kotlinx.coroutines.launch
 
@@ -72,20 +76,29 @@ fun SettingsScreen(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val activity = LocalActivity.current
     val uriHandler = LocalUriHandler.current
     val theme by SettingsManager.theme.collectAsState()
     val language by SettingsManager.language.collectAsState()
+    val authType by SettingsManager.authType.collectAsState()
     val themes = Theme.entries.map { it }
     val languages = Language.entries.map { it }
+    val authTypes = AuthType.entries.map { it }
     val tooltipState = rememberTooltipState(isPersistent = true)
+    val authTooltipState = rememberTooltipState(isPersistent = true)
     var selectedThemeIndex by remember { mutableIntStateOf(themes.indexOf(theme)) }
     var selectedLanguageIndex by remember { mutableIntStateOf(languages.indexOf(language)) }
+    var selectedAuthTypeIndex by remember { mutableIntStateOf(authTypes.indexOf(authType)) }
     val isDynamicColors by SettingsManager.isDynamicColors.collectAsState()
     val isShowShabaNumberInCard by SettingsManager.isShowShabaNumberInCard.collectAsState()
     val isShowFullExpirationDate by SettingsManager.isShowFullExpirationDate.collectAsState()
     val isShowReverseExpirationDate by SettingsManager.isShowReverseExpirationDate.collectAsState()
     val isSecretCvv2List by SettingsManager.isSecretCvv2InList.collectAsState()
     val isSecretCvv2Details by SettingsManager.isSecretCvv2InDetails.collectAsState()
+    val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
+    val isAuthSecretDetails by SettingsManager.isAuthSecretData.collectAsState()
+    val isAuthBeforeEdit by SettingsManager.isAuthBeforeEdit.collectAsState()
+    val isAuthBeforeDelete by SettingsManager.isAuthBeforeDelete.collectAsState()
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -275,6 +288,152 @@ fun SettingsScreen(
             isChecked = isSecretCvv2Details,
             onCheckedChanged = {
                 SettingsManager.setSecretCvv2Details(it)
+            }
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .combinedClickable(
+                    onClick = {
+                        scope.launch {
+                            authTooltipState.show()
+                        }
+                    },
+                    onLongClick = {
+                        scope.launch {
+                            authTooltipState.show()
+                        }
+                    }
+                )
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_auth_type),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Start,
+                )
+                TooltipBox(
+                    state = authTooltipState,
+                    positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+                    tooltip = {
+                        RichTooltip(
+                            title = {
+                                Text(
+                                    text = stringResource(R.string.settings_auth_type)
+                                )
+                            }
+                        ) {
+                            Text(
+                                text = stringResource(R.string.settings_auth_type_description)
+                            )
+                        }
+                    }
+                ) {
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                authTooltipState.show()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_help_circle),
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        LazyRow {
+            item {
+                SingleChoiceSegmentedButtonRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                ) {
+                    authTypes.forEachIndexed { index, item ->
+                        SegmentedButton(
+                            selected = index == selectedAuthTypeIndex,
+                            icon = {
+                                Icon(
+                                    painter = painterResource(item.icon),
+                                    contentDescription = stringResource(item.title)
+                                )
+                            },
+                            shape = SegmentedButtonDefaults.itemShape(
+                                index = index,
+                                count = authTypes.size
+                            ),
+                            onClick = {
+                                BiometricHelper(
+                                    activity = activity as FragmentActivity,
+                                    authType = item,
+                                    onResult = {
+                                        if (it) {
+                                            selectedAuthTypeIndex = index
+                                            SettingsManager.setAuthType(item)
+                                            toaster.show(
+                                                message = context.getString(R.string.error_authentication_failed),
+                                                type = ToastType.Success
+                                            )
+                                        } else {
+                                            toaster.show(
+                                                message = context.getString(R.string.error_authentication_failed),
+                                                type = ToastType.Error
+                                            )
+                                        }
+                                    }
+                                ).authenticate()
+                            },
+                            label = {
+                                Text(
+                                    text = stringResource(item.title)
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+        }
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        SwitchItem(
+            title = stringResource(R.string.settings_auth_owned_card_details),
+            isChecked = isAuthOwnedCardDetails,
+            isEnabled = authType != AuthType.None,
+            onCheckedChanged = {
+                SettingsManager.setAuthOwnedCardDetails(it)
+            }
+        )
+        SwitchItem(
+            title = stringResource(R.string.settings_auth_secret_data),
+            isChecked = isAuthSecretDetails,
+            isEnabled = authType != AuthType.None,
+            onCheckedChanged = {
+                SettingsManager.setAuthSecretData(it)
+            }
+        )
+        SwitchItem(
+            title = stringResource(R.string.settings_auth_before_edit),
+            isChecked = isAuthBeforeEdit,
+            isEnabled = authType != AuthType.None,
+            onCheckedChanged = {
+                SettingsManager.setAuthBeforeEdit(it)
+            }
+        )
+        SwitchItem(
+            title = stringResource(R.string.settings_auth_before_delete),
+            isChecked = isAuthBeforeDelete,
+            isEnabled = authType != AuthType.None,
+            onCheckedChanged = {
+                SettingsManager.setAuthBeforeDelete(it)
             }
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))

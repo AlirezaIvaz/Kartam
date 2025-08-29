@@ -5,6 +5,7 @@ kotlin-ksp = "2.2.10-2.0.2"
 kotlin-serialization = "2.2.10"
 kotlinx-serialization-json = "1.9.0"
 androidx-core = "1.17.0"
+androidx-biometric = "1.4.0-alpha02"
 androidx-lifecycle = "2.9.2"
 androidx-activity-compose = "1.10.1"
 androidx-compose-bom = "2025.08.00"
@@ -20,6 +21,7 @@ reorderable = "2.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
+androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "androidx-biometric" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }

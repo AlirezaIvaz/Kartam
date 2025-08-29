@@ -316,6 +316,7 @@ fun AddCardScreen(
                             bank = bank
                         ),
                         isCvv2VisibleByDefault = true,
+                        isAuthenticationRequired = false,
                         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                     )
                     Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))

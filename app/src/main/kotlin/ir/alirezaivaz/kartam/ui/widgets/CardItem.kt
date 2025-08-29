@@ -1,5 +1,6 @@
 package ir.alirezaivaz.kartam.ui.widgets
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -42,7 +43,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.dto.Language
@@ -53,6 +56,7 @@ import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.aradFontFamily
 import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
 import ir.alirezaivaz.kartam.ui.theme.montserratFontFamily
+import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import ir.alirezaivaz.kartam.utils.Utils
 
@@ -64,12 +68,16 @@ fun CardItem(
     dragHandleModifier: Modifier = Modifier,
     cardElevation: Dp = 0.dp,
     isCvv2VisibleByDefault: Boolean = false,
-    onClick: (() -> Unit)? = null
+    isAuthenticationRequired: Boolean = false,
+    onClick: (() -> Unit)? = null,
+    onAuthenticationFailed: (() -> Unit)? = null
 ) {
+    val activity = LocalActivity.current
     val language by SettingsManager.language.collectAsState()
     var isCvv2Visible by remember { mutableStateOf(isCvv2VisibleByDefault) }
     val foreignByDefault = language == Language.English && !card.englishName.isNullOrEmpty()
     var isForeignNameVisible by remember { mutableStateOf(foreignByDefault) }
+    val authType by SettingsManager.authType.collectAsState()
     val isShowShabaNumberInCard by SettingsManager.isShowShabaNumberInCard.collectAsState()
     val isShowFullExpirationDate by SettingsManager.isShowFullExpirationDate.collectAsState()
     val isShowReverseExpirationDate by SettingsManager.isShowReverseExpirationDate.collectAsState()
@@ -252,7 +260,25 @@ fun CardItem(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(12.dp))
                                     .clickable {
-                                        isCvv2Visible = !isCvv2Visible
+                                        if (authType != AuthType.None && isAuthenticationRequired) {
+                                            if (isCvv2Visible) {
+                                                isCvv2Visible = false
+                                            } else {
+                                                BiometricHelper(
+                                                    activity = activity as FragmentActivity,
+                                                    authType = authType,
+                                                    onResult = {
+                                                        if (it) {
+                                                            isCvv2Visible = true
+                                                        } else {
+                                                            onAuthenticationFailed?.invoke()
+                                                        }
+                                                    }
+                                                ).authenticate()
+                                            }
+                                        } else {
+                                            isCvv2Visible = !isCvv2Visible
+                                        }
                                     },
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))

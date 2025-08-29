@@ -17,6 +17,8 @@ class MainViewModel(
 ) : ViewModel() {
     private val _cardDao = db.cardDao()
 
+    private val _isLocked = MutableStateFlow(true)
+    val isLocked: StateFlow<Boolean> = _isLocked
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
     private val _isRefreshing = MutableStateFlow(false)

@@ -237,6 +237,12 @@ class AddCardViewModel(
 
     fun updateIsOthersCard(value: Boolean) {
         _isOthersCard.value = value
+        if (!value) {
+            updateCvv2(TextFieldValue())
+            updateFirstCode(TextFieldValue())
+            updateExpirationMonth(TextFieldValue())
+            updateExpirationYear(TextFieldValue())
+        }
     }
 
     fun validateFields(): Boolean {
