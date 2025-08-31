@@ -2,12 +2,11 @@ package ir.alirezaivaz.kartam.ui.widgets
 
 import android.content.ClipData
 import android.content.Intent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -41,6 +40,8 @@ fun CardOptionItem(
     title: String,
     subtitle: String,
     subtitleFont: FontFamily? = kodeMonoFontFamily,
+    subtitleMaxLines: Int = 1,
+    showCopyShareButtons: Boolean = true,
     toaster: ToasterState
 ) {
     val scope = rememberCoroutineScope()
@@ -55,6 +56,7 @@ fun CardOptionItem(
                 horizontal = dimensionResource(R.dimen.padding_horizontal)
             ),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
         ) {
             Column(
                 modifier = Modifier.weight(1f)
@@ -68,55 +70,55 @@ fun CardOptionItem(
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.bodyLarge,
-                    maxLines = 1,
+                    maxLines = subtitleMaxLines,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Bold,
                     fontFamily = subtitleFont
                 )
             }
-            Spacer(Modifier.width(dimensionResource(R.dimen.padding_spacing)))
-            FloatingActionButton(
-                contentColor = MaterialTheme.colorScheme.secondary,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    scope.launch {
-                        val clipData = ClipData.newPlainText(title, subtitle)
-                        val clipEntry = ClipEntry(clipData)
-                        clipboard.setClipEntry(clipEntry)
-                        toaster.show(
-                            message = context.getString(R.string.message_copied_to_clipboard)
-                                .format(title),
-                            type = ToastType.Success
-                        )
-                    }
-                },
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_copy),
-                    contentDescription = stringResource(R.string.action_copy)
-                )
-            }
-            Spacer(Modifier.width(dimensionResource(R.dimen.padding_spacing)))
-            FloatingActionButton(
-                contentColor = MaterialTheme.colorScheme.secondary,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    val sendIntent = Intent(Intent.ACTION_SEND).apply {
-                        type = "text/plain"
-                        putExtra(Intent.EXTRA_TITLE, title)
-                        putExtra(Intent.EXTRA_TEXT, subtitle)
-                    }
-                    val shareIntent = Intent.createChooser(
-                        sendIntent,
-                        context.getString(R.string.action_share_via)
+            if (showCopyShareButtons) {
+                FloatingActionButton(
+                    contentColor = MaterialTheme.colorScheme.secondary,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    onClick = {
+                        scope.launch {
+                            val clipData = ClipData.newPlainText(title, subtitle)
+                            val clipEntry = ClipEntry(clipData)
+                            clipboard.setClipEntry(clipEntry)
+                            toaster.show(
+                                message = context.getString(R.string.message_copied_to_clipboard)
+                                    .format(title),
+                                type = ToastType.Success
+                            )
+                        }
+                    },
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_copy),
+                        contentDescription = stringResource(R.string.action_copy)
                     )
-                    context.startActivity(shareIntent)
-                },
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_share),
-                    contentDescription = stringResource(R.string.action_share_via)
-                )
+                }
+                FloatingActionButton(
+                    contentColor = MaterialTheme.colorScheme.secondary,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    onClick = {
+                        val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_TITLE, title)
+                            putExtra(Intent.EXTRA_TEXT, subtitle)
+                        }
+                        val shareIntent = Intent.createChooser(
+                            sendIntent,
+                            context.getString(R.string.action_share_via)
+                        )
+                        context.startActivity(shareIntent)
+                    },
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_share),
+                        contentDescription = stringResource(R.string.action_share_via)
+                    )
+                }
             }
         }
     }

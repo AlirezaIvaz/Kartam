@@ -155,6 +155,15 @@ fun CardOptionsSheetContent(
             )
             Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
         }
+        card.firstCode.toStringOrNull()?.let {
+            CardOptionItem(
+                title = stringResource(R.string.label_first_code),
+                subtitle = it,
+                showCopyShareButtons = false,
+                toaster = toaster
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        }
         if (card.branchCode != null && card.branchCode > 0) {
             CardOptionItem(
                 title = stringResource(R.string.label_branch_code),
@@ -168,6 +177,27 @@ fun CardOptionsSheetContent(
                 title = stringResource(R.string.label_branch_name),
                 subtitle = card.branchName,
                 subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                toaster = toaster
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        }
+        card.accountType?.let {
+            CardOptionItem(
+                title = stringResource(R.string.account_type),
+                subtitle = stringResource(card.accountType.title),
+                subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                showCopyShareButtons = false,
+                toaster = toaster
+            )
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        }
+        if (!card.comment.isNullOrEmpty()) {
+            CardOptionItem(
+                title = stringResource(R.string.label_comment),
+                subtitle = card.comment,
+                subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                subtitleMaxLines = Int.MAX_VALUE,
+                showCopyShareButtons = false,
                 toaster = toaster
             )
             Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
