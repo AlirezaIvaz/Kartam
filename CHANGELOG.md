@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.4.0 (23 September 2025)
+
+- **New:** First code field for owned cards
+- **New:** Comment and account type fields for cards
+- **New:** Auto-detect Persian/Arabic numbers
+- **New:** Biometric and non-biometric authentication options for sensitive parts
+- **Fixed:** Some minor bugs
+- **Improved:** App UI
+
 ## v1.3.0 (26 August 2025)
 
 - **New:** Others' cards section

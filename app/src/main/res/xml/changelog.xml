@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="1.4.0" date="2025-09-23">
+        <new>First code field for owned cards</new>
+        <new>Comment and account type fields for cards</new>
+        <new>Auto-detect Persian/Arabic numbers</new>
+        <new>Biometric and non-biometric authentication options for sensitive parts</new>
+        <improved>App UI</improved>
+        <fixed>Some minor bugs</fixed>
+    </version>
     <version name="1.3.0" date="2025-08-26">
         <new>Others' cards section</new>
         <new>Auto backup/restore system</new>
