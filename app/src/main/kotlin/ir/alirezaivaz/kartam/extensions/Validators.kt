@@ -11,13 +11,11 @@ fun String.isValidName(): Boolean {
 }
 
 fun String.isValidCardNumber(): Boolean {
-    val sanitized = this.replace(" ", "")
-
     // Check length
-    if (sanitized.length != 16 || !sanitized.all { it.isDigit() }) return false
+    if (this.length != 16 || !this.isDigitsOnly()) return false
 
     // Apply Luhn algorithm
-    val digits = sanitized.map { it.toString().toInt() }
+    val digits = this.map { it.toString().toInt() }
     val checksum = digits
         .mapIndexed { index, digit ->
             if (index % 2 == 0) {
@@ -32,13 +30,11 @@ fun String.isValidCardNumber(): Boolean {
 }
 
 fun String.isValidShabaNumber(): Boolean {
-    val digitsOnly = this.trim().filter { it.isDigit() }
-
     // Check length: must be exactly 24 digits
-    if (digitsOnly.length != 24) return false
+    if (this.length != 24) return false
 
     // Add "IR" as per IBAN rules (move to end and convert letters to numbers)
-    val fullSheba = "IR$digitsOnly"
+    val fullSheba = "IR$this"
 
     // Move first 4 characters to the end
     val rearranged = fullSheba.substring(4) + fullSheba.substring(0, 4)
@@ -57,13 +53,11 @@ fun String.isValidShabaNumber(): Boolean {
 }
 
 fun String.isValidAccountNumber(): Boolean {
-    val digitsOnly = this.trim().filter { it.isDigit() }
-    return digitsOnly.length in 5..24
+    return isDigitsOnly() && this.length in 5..24
 }
 
 fun String.isValidCvv2(): Boolean {
-    val digitsOnly = this.trim().filter { it.isDigit() }
-    return digitsOnly.length in 3..4
+    return isDigitsOnly() && this.length in 3..4
 }
 
 fun String.isValidFirstCode(): Boolean {
