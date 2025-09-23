@@ -146,9 +146,15 @@ fun CardItem(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(12.dp))
-                                .clickable(enabled = !card.englishName.isNullOrBlank()) {
-                                    isForeignNameVisible = !isForeignNameVisible
-                                },
+                                .then(
+                                    if (card.englishName.isNullOrBlank()) {
+                                        Modifier
+                                    } else {
+                                        Modifier.clickable {
+                                            isForeignNameVisible = !isForeignNameVisible
+                                        }
+                                    }
+                                ),
                             textAlign = TextAlign.Center,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
