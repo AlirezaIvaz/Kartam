@@ -71,9 +71,9 @@ android {
     }
     flavorDimensions += "default"
     productFlavors {
-        create("telegram") {
+        create("github") {
             dimension = "default"
-            versionNameSuffix = "-TG"
+            versionNameSuffix = "-GH"
             buildConfigField("String", "RATE_URL", "\"https://t.me/AlirezaIvaz\"")
             buildConfigField("String", "APPS_URL", "\"https://alirezaivaz.ir\"")
         }
