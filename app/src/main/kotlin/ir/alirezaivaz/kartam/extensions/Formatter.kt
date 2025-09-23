@@ -2,6 +2,30 @@ package ir.alirezaivaz.kartam.extensions
 
 import java.util.Locale
 
+fun String.toEnglishDigits(): String {
+    val persian = listOf('۰','۱','۲','۳','۴','۵','۶','۷','۸','۹')
+    val arabic = listOf('٠','١','٢','٣','٤','٥','٦','٧','٨','٩')
+
+    var result = this
+    persian.forEachIndexed { index, c ->
+        result = result.replace(c, '0' + index)
+    }
+    arabic.forEachIndexed { index, c ->
+        result = result.replace(c, '0' + index)
+    }
+    return result
+}
+
+fun String.takeDigits(n: Int? = null): String {
+    val normalized = this.toEnglishDigits()
+    val digitsOnly = normalized.filter { it.isDigit() }
+    return if (n != null && n >= 0) {
+        digitsOnly.take(n)
+    } else {
+        digitsOnly
+    }
+}
+
 fun Int.formattedMonth(): String {
     return "%02d".format(Locale.ENGLISH, this)
 }

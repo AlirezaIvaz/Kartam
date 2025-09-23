@@ -81,6 +81,7 @@ import ir.alirezaivaz.kartam.extensions.isValidMonth
 import ir.alirezaivaz.kartam.extensions.isValidName
 import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
 import ir.alirezaivaz.kartam.extensions.isValidYear
+import ir.alirezaivaz.kartam.extensions.takeDigits
 import ir.alirezaivaz.kartam.ui.dialogs.CardAddedDialog
 import ir.alirezaivaz.kartam.ui.sheets.SelectOptionsSheet
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
@@ -347,7 +348,8 @@ fun AddCardScreen(
                             imeAction = ImeAction.Next
                         ),
                         onValueChange = { input ->
-                            val number = input.copy(input.text.filter { it.isDigit() }.take(16))
+                            // TODO: Define constant for lengths
+                            val number = input.copy(input.text.takeDigits(16))
                             if (number.text.length <= 16) {
                                 viewModel.updateCardNumber(number)
                             }
@@ -447,7 +449,7 @@ fun AddCardScreen(
                             imeAction = ImeAction.Next
                         ),
                         onValueChange = { input ->
-                            val shaba = input.copy(input.text.filter { it.isDigit() }.take(24))
+                            val shaba = input.copy(input.text.takeDigits(24))
                             if (shaba.text.length <= 24) {
                                 viewModel.updateShabaNumber(shaba)
                             }
@@ -472,7 +474,7 @@ fun AddCardScreen(
                             imeAction = ImeAction.Next
                         ),
                         onValueChange = { input ->
-                            val number = input.copy(input.text.filter { it.isDigit() }.take(24))
+                            val number = input.copy(input.text.takeDigits(24))
                             if (number.text.length <= 24) {
                                 viewModel.updateAccountNumber(number)
                             }
@@ -500,7 +502,7 @@ fun AddCardScreen(
                                 imeAction = ImeAction.Next
                             ),
                             onValueChange = { input ->
-                                val number = input.copy(input.text.filter { it.isDigit() }.take(4))
+                                val number = input.copy(input.text.takeDigits(4))
                                 if (number.text.length <= 4) {
                                     viewModel.updateCvv2(number)
                                 }
@@ -522,7 +524,7 @@ fun AddCardScreen(
                                 imeAction = ImeAction.Next
                             ),
                             onValueChange = { input ->
-                                val number = input.copy(input.text.filter { it.isDigit() }.take(4))
+                                val number = input.copy(input.text.takeDigits(4))
                                 if (number.text.length <= 4) {
                                     viewModel.updateFirstCode(number)
                                 }
@@ -594,7 +596,7 @@ fun AddCardScreen(
                                 imeAction = ImeAction.Next
                             ),
                             onValueChange = { input ->
-                                val number = input.copy(input.text.filter { it.isDigit() })
+                                val number = input.copy(input.text.takeDigits())
                                 viewModel.updateBranchCode(number)
                             }
                         )
@@ -640,7 +642,7 @@ fun AddCardScreen(
                                 imeAction = ImeAction.Next
                             ),
                             onValueChange = { input ->
-                                val number = input.copy(input.text.filter { it.isDigit() }.take(2))
+                                val number = input.copy(input.text.takeDigits(2))
                                 if (number.text.length <= 2) {
                                     viewModel.updateExpirationMonth(number)
                                 }
@@ -662,7 +664,7 @@ fun AddCardScreen(
                                 imeAction = ImeAction.Next
                             ),
                             onValueChange = { input ->
-                                val number = input.copy(input.text.filter { it.isDigit() }.take(2))
+                                val number = input.copy(input.text.takeDigits(2))
                                 if (number.text.length <= 2) {
                                     viewModel.updateExpirationYear(number)
                                 }
