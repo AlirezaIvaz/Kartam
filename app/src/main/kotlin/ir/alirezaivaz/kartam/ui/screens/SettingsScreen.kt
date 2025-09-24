@@ -373,21 +373,23 @@ fun SettingsScreen(
                                 count = authTypes.size
                             ),
                             onClick = {
-                                BiometricHelper(
-                                    activity = activity as FragmentActivity,
-                                    authType = item,
-                                    onResult = {
-                                        if (it) {
-                                            selectedAuthTypeIndex = index
-                                            SettingsManager.setAuthType(item)
-                                        } else {
-                                            toaster.show(
-                                                message = context.getString(R.string.error_authentication_failed),
-                                                type = ToastType.Error
-                                            )
+                                if (authType != item) {
+                                    BiometricHelper(
+                                        activity = activity as FragmentActivity,
+                                        authType = item.takeUnless { it == AuthType.None } ?: authType,
+                                        onResult = {
+                                            if (it) {
+                                                selectedAuthTypeIndex = index
+                                                SettingsManager.setAuthType(item)
+                                            } else {
+                                                toaster.show(
+                                                    message = context.getString(R.string.error_authentication_failed),
+                                                    type = ToastType.Error
+                                                )
+                                            }
                                         }
-                                    }
-                                ).authenticate()
+                                    ).authenticate()
+                                }
                             },
                             label = {
                                 Text(
