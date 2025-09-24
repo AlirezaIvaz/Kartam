@@ -380,10 +380,6 @@ fun SettingsScreen(
                                         if (it) {
                                             selectedAuthTypeIndex = index
                                             SettingsManager.setAuthType(item)
-                                            toaster.show(
-                                                message = context.getString(R.string.error_authentication_failed),
-                                                type = ToastType.Success
-                                            )
                                         } else {
                                             toaster.show(
                                                 message = context.getString(R.string.error_authentication_failed),
