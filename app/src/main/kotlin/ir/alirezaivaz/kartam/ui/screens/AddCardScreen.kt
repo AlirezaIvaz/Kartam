@@ -71,6 +71,7 @@ import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.toSensitive
+import ir.alirezaivaz.kartam.extensions.extractCardNumber
 import ir.alirezaivaz.kartam.extensions.formattedMonth
 import ir.alirezaivaz.kartam.extensions.formattedYear
 import ir.alirezaivaz.kartam.extensions.isValidAccountNumber
@@ -348,10 +349,13 @@ fun AddCardScreen(
                             imeAction = ImeAction.Next
                         ),
                         onValueChange = { input ->
-                            // TODO: Define constant for lengths
-                            val number = input.copy(input.text.takeDigits(16))
+                            val cardNumber = input.text.extractCardNumber()
+                            val number = input.copy(cardNumber.number)
                             if (number.text.length <= 16) {
                                 viewModel.updateCardNumber(number)
+                            }
+                            if (!cardNumber.ownerName.isNullOrBlank()) {
+                                viewModel.updateOwnerName(TextFieldValue(cardNumber.ownerName))
                             }
                         }
                     )

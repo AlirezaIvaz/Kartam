@@ -1,5 +1,6 @@
 package ir.alirezaivaz.kartam.extensions
 
+import ir.alirezaivaz.kartam.dto.CardNumber
 import java.util.Locale
 
 fun String.toEnglishDigits(): String {
@@ -24,6 +25,16 @@ fun String.takeDigits(n: Int? = null): String {
     } else {
         digitsOnly
     }
+}
+
+fun String.extractCardNumber(): CardNumber {
+    val normalized = this.toEnglishDigits()
+    val digits = normalized.filter { it.isDigit() }
+    val cardNumber = digits.take(16)
+    val ownerName = normalized.replace(Regex("[0-9\\s\\-_/]+"), "")
+        .trim()
+        .takeIf { it.isNotEmpty() }
+    return CardNumber(cardNumber, ownerName)
 }
 
 fun Int.formattedMonth(): String {
