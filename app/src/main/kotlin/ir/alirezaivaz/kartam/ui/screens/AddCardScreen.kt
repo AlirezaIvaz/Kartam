@@ -23,10 +23,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -58,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -191,7 +188,7 @@ fun AddCardScreen(
                             }
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                painter = painterResource(R.drawable.ic_arrow_back),
                                 contentDescription = stringResource(R.string.action_back)
                             )
                         }
@@ -215,7 +212,7 @@ fun AddCardScreen(
                                 }
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.Check,
+                                    painter = painterResource(R.drawable.ic_check),
                                     contentDescription = stringResource(
                                         if (isEdit) {
                                             R.string.action_edit_card
@@ -682,7 +679,7 @@ fun AddCardScreen(
                                 .size(56.dp),
                             content = {
                                 Icon(
-                                    Icons.Default.DateRange,
+                                    painter = painterResource(R.drawable.ic_calendar_time),
                                     contentDescription = stringResource(R.string.action_choose_exp)
                                 )
                             },
