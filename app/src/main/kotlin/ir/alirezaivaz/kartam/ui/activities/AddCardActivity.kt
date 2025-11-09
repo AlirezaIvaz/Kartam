@@ -1,4 +1,4 @@
-package ir.alirezaivaz.kartam
+package ir.alirezaivaz.kartam.ui.activities
 
 import android.graphics.Color
 import android.os.Bundle

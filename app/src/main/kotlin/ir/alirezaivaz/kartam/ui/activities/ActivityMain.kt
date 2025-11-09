@@ -36,7 +36,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dokar.sonner.rememberToasterState
-import ir.alirezaivaz.kartam.AddCardActivity
+import ir.alirezaivaz.kartam.ui.activities.AddCardActivity
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.ui.screens.ListScreen
 import ir.alirezaivaz.kartam.ui.screens.SettingsScreen
