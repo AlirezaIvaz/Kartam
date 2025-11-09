@@ -61,7 +61,6 @@ enum class Bank(
         prefixes = listOf("50222915"),
     ),
     Ansar(
-        type = BankType.Bank,
         icon = R.drawable.ic_bank_ansar,
         logo = R.drawable.ic_bank_ansar,
         title = R.string.bank_ansar,

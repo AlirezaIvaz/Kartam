@@ -1,6 +1,5 @@
 package ir.alirezaivaz.kartam.ui.screens
 
-
 import android.content.Intent
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
