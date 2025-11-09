@@ -292,6 +292,7 @@ enum class Bank(
     }
 }
 
+@Deprecated("Use `Bank.parentBank` and `Bank.childBanks` instead")
 val Bank.relatedBank: Bank?
     get() = when(this) {
         Bank.Ansar -> Bank.Sepah
@@ -311,3 +312,41 @@ val Bank.relatedBank: Bank?
         Bank.Wepod -> Bank.Pasargad
         else -> null
     }
+
+val Bank.parentBank: Bank?
+    get() = when (this) {
+        Bank.BluBank -> Bank.Saman
+        Bank.Bankino -> Bank.Khavarmianeh
+        Bank.Wepod -> Bank.Pasargad
+        Bank.MetaBank -> Bank.Melal
+        Bank.HiBank -> Bank.Karafarin
+        Bank.Ayandeh, Bank.Noor -> Bank.Melli
+        Bank.Ansar -> Bank.Sepah
+        else -> null
+    }
+
+val Bank.childBanks: List<Bank>
+    get() = when (this) {
+        Bank.Saman -> listOf(Bank.BluBank)
+        Bank.Khavarmianeh -> listOf(Bank.Bankino)
+        Bank.Pasargad -> listOf(Bank.Wepod)
+        Bank.Melal -> listOf(Bank.MetaBank)
+        Bank.Karafarin -> listOf(Bank.HiBank)
+        Bank.Melli -> listOf(Bank.Ayandeh, Bank.Noor)
+        Bank.Sepah -> listOf(Bank.Ansar)
+        else -> emptyList()
+    }
+
+fun Bank.getChoosableBanks(): List<Bank> {
+    if (this == Bank.Unknown) return emptyList()
+    val result = mutableListOf<Bank>()
+    if (parentBank != null && parentBank!!.childBanks.isNotEmpty()) {
+        result.add(parentBank!!)
+        result.addAll(parentBank!!.childBanks)
+    } else if (childBanks.isNotEmpty()) {
+        result.add(this)
+        result.addAll(childBanks)
+    }
+    // Avoid duplicates and self-duplicates
+    return result.distinct()
+}

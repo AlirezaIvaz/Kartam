@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -66,7 +68,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.getChoosableBanks
 import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.extensions.extractCardNumber
 import ir.alirezaivaz.kartam.extensions.formattedMonth
@@ -86,6 +90,7 @@ import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModel
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModelFactory
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
+import ir.alirezaivaz.kartam.ui.widgets.FilterChip
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
@@ -118,11 +123,13 @@ fun AddCardScreen(
 
     val isEdit by viewModel.isEdit.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val isAutoDetectBank by viewModel.isAutoDetectBank.collectAsState()
     val result by viewModel.result.collectAsState()
     val cardNumber by viewModel.cardNumber.collectAsState()
     val ownerName by viewModel.ownerName.collectAsState()
     val ownerEnglishName by viewModel.ownerEnglishName.collectAsState()
     val bank by viewModel.bank.collectAsState()
+    val autoDetectedBank by viewModel.autoDetectedBank.collectAsState()
     val accountType by viewModel.accountType.collectAsState()
     val shabaNumber by viewModel.shabaNumber.collectAsState()
     val accountNumber by viewModel.accountNumber.collectAsState()
@@ -318,6 +325,40 @@ fun AddCardScreen(
                         isAuthenticationRequired = false,
                         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                     )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    Row(
+                        modifier = Modifier.horizontalScroll(rememberScrollState()),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                    ) {
+                        Spacer(Modifier.width(dimensionResource(R.dimen.padding_spacing)))
+                        FilterChip(
+                            icon = R.drawable.ic_check,
+                            label = if (autoDetectedBank == Bank.Unknown) {
+                                stringResource(R.string.label_auto_detect)
+                            } else {
+                                stringResource(R.string.label_auto_detected, stringResource(autoDetectedBank.title))
+                            },
+                            isSelected = isAutoDetectBank,
+                            onClick = {
+                                viewModel.updateIsAutoDetectBank(true)
+                            }
+                        )
+                        autoDetectedBank.getChoosableBanks().forEach {
+                            FilterChip(
+                                icon = R.drawable.ic_check,
+                                label = stringResource(it.title),
+                                isSelected = !isAutoDetectBank && bank == it,
+                                onClick = {
+                                    if (isAutoDetectBank) {
+                                        viewModel.updateIsAutoDetectBank(false)
+                                    }
+                                    viewModel.updateBank(it)
+                                }
+                            )
+                        }
+                        Spacer(Modifier.width(dimensionResource(R.dimen.padding_spacing)))
+                    }
                     Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
                     OutlinedTextField(
                         value = cardNumber,

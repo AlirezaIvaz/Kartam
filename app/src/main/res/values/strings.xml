@@ -26,6 +26,8 @@
     <string name="action_rate">Rate</string>
 
     <!-- Labels -->
+    <string name="label_auto_detect">Auto Detect</string>
+    <string name="label_auto_detected">Auto Detect - %s</string>
     <string name="label_card_number">Card number</string>
     <string name="label_others_card">Others\' card</string>
     <string name="label_shaba_number">Shaba number</string>

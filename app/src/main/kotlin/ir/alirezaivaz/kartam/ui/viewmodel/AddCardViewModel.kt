@@ -10,6 +10,8 @@ import ir.alirezaivaz.kartam.dto.AccountType
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.Result
+import ir.alirezaivaz.kartam.dto.childBanks
+import ir.alirezaivaz.kartam.dto.parentBank
 import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.dto.toStringOrNull
 import ir.alirezaivaz.kartam.extensions.formattedMonth
@@ -44,6 +46,8 @@ class AddCardViewModel(
     val isEdit: StateFlow<Boolean> = _isEdit
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
+    private val _isAutoDetectBank = MutableStateFlow(true)
+    val isAutoDetectBank: StateFlow<Boolean> = _isAutoDetectBank
     private val _result = MutableStateFlow<Result?>(null)
     val result: StateFlow<Result?> = _result
     private val _cardNumber = MutableStateFlow(TextFieldValue())
@@ -54,6 +58,8 @@ class AddCardViewModel(
     val ownerEnglishName: StateFlow<TextFieldValue> = _ownerEnglishName
     private val _bank = MutableStateFlow(Bank.Unknown)
     val bank: StateFlow<Bank> = _bank
+    private val _autoDetectedBank = MutableStateFlow(Bank.Unknown)
+    val autoDetectedBank: StateFlow<Bank> = _autoDetectedBank
     private val _accountType = MutableStateFlow<AccountType?>(null)
     val accountType: StateFlow<AccountType?> = _accountType
     private val _shabaNumber = MutableStateFlow(TextFieldValue())
@@ -82,6 +88,7 @@ class AddCardViewModel(
             if (cardId == -1) {
                 _isEdit.value = false
                 updateIsLoading(false)
+                updateIsAutoDetectBank(true)
             } else {
                 loadCardDetails()
             }
@@ -131,6 +138,7 @@ class AddCardViewModel(
                 updateComment(TextFieldValue(it))
             }
             updateIsOthersCard(!currentCard.isOwned)
+            updateIsAutoDetectBank(_bank.value.childBanks.isEmpty() && _bank.value.parentBank == null)
         } else {
             updateResult(
                 isSuccess = false,
@@ -142,6 +150,13 @@ class AddCardViewModel(
 
     fun updateIsLoading(value: Boolean) {
         _isLoading.value = value
+    }
+
+    fun updateIsAutoDetectBank(value: Boolean, updateBank: Boolean = true) {
+        _isAutoDetectBank.value = value
+        if (updateBank && value) {
+            updateBank(_cardNumber.value.text)
+        }
     }
 
     fun updateResult(result: Result?) {
@@ -174,6 +189,10 @@ class AddCardViewModel(
 
     fun updateBank(cardNumber: String) {
         val bank = Bank.fromCardNumber(cardNumber)
+        updateAutoDetectedBank(bank)
+        if (_bank.value != bank && _bank.value != bank.parentBank && _bank.value !in bank.childBanks) {
+            updateIsAutoDetectBank(value = true, updateBank = false)
+        }
         if (isAutoDetectBank.value && _bank.value != bank) {
             updateBank(bank)
         }
@@ -188,6 +207,10 @@ class AddCardViewModel(
         if (_accountType.value !in _bank.value.supportedAccountTypes) {
             _accountType.value = null
         }
+    }
+
+    fun updateAutoDetectedBank(bank: Bank) {
+        _autoDetectedBank.value = bank
     }
 
     fun updateAccountType(accountType: String) {

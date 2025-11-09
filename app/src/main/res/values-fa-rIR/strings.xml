@@ -26,6 +26,8 @@
     <string name="action_rate">دیدگاه</string>
 
     <!-- Labels -->
+    <string name="label_auto_detect">تشخیص خودکار</string>
+    <string name="label_auto_detected">تشخیص خودکار - %s</string>
     <string name="label_card_number">شمارهٔ کارت</string>
     <string name="label_others_card">کارت دیگران</string>
     <string name="label_shaba_number">شمارهٔ شبا</string>
