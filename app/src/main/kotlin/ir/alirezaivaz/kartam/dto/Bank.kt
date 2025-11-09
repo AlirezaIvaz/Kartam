@@ -292,27 +292,6 @@ enum class Bank(
     }
 }
 
-@Deprecated("Use `Bank.parentBank` and `Bank.childBanks` instead")
-val Bank.relatedBank: Bank?
-    get() = when(this) {
-        Bank.Ansar -> Bank.Sepah
-        Bank.Ayandeh -> Bank.Melli
-        Bank.Bankino -> Bank.Khavarmianeh
-        Bank.BluBank -> Bank.Saman
-        Bank.HiBank -> Bank.Karafarin
-        Bank.Karafarin -> Bank.HiBank
-        Bank.Khavarmianeh -> Bank.Bankino
-        Bank.Melal -> Bank.MetaBank
-        Bank.Melli -> Bank.Noor
-        Bank.MetaBank -> Bank.Melal
-        Bank.Noor -> Bank.Melli
-        Bank.Pasargad -> Bank.Wepod
-        Bank.Saman -> Bank.BluBank
-        Bank.Sepah -> Bank.Ansar
-        Bank.Wepod -> Bank.Pasargad
-        else -> null
-    }
-
 val Bank.parentBank: Bank?
     get() = when (this) {
         Bank.BluBank -> Bank.Saman

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.BankType
-import ir.alirezaivaz.kartam.dto.relatedBank
+import ir.alirezaivaz.kartam.dto.parentBank
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,9 +52,9 @@ fun BankItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
                 ) {
-                    if (bank.isMerged && bank.relatedBank != null) {
+                    if (bank.isMerged && bank.parentBank != null) {
                         Image(
-                            painter = painterResource(bank.relatedBank!!.icon),
+                            painter = painterResource(bank.parentBank!!.icon),
                             modifier = Modifier
                                 .padding(start = dimensionResource(R.dimen.padding_spacing))
                                 .padding(vertical = dimensionResource(R.dimen.padding_spacing))
@@ -63,11 +63,11 @@ fun BankItem(
                         )
                     }
                     Text(
-                        text = if (bank.isMerged && bank.relatedBank != null) {
+                        text = if (bank.isMerged && bank.parentBank != null) {
                             stringResource(
                                 R.string.supported_bank_merged,
                                 stringResource(bank.title),
-                                stringResource(bank.relatedBank!!.title)
+                                stringResource(bank.parentBank!!.title)
                             )
                         } else {
                             stringResource(
@@ -125,9 +125,9 @@ fun BankItem(
                     contentDescription = null
                 )
             }
-            if (bank.relatedBank != null && bank.type == BankType.NeoBank) {
+            if (bank.parentBank != null && bank.type == BankType.NeoBank) {
                 Image(
-                    painter = painterResource(bank.relatedBank!!.icon),
+                    painter = painterResource(bank.parentBank!!.icon),
                     modifier = Modifier
                         .padding(start = dimensionResource(R.dimen.padding_spacing))
                         .padding(vertical = dimensionResource(R.dimen.padding_spacing))
