@@ -173,13 +173,9 @@ class AddCardViewModel(
     }
 
     fun updateBank(cardNumber: String) {
-        _bank.value = Bank.fromCardNumber(cardNumber)
-        if (_bank.value.isNeo) {
-            updateBranchCode(TextFieldValue())
-            updateBranchName(TextFieldValue())
-        }
-        if (_accountType.value !in _bank.value.supportedAccountTypes) {
-            _accountType.value = null
+        val bank = Bank.fromCardNumber(cardNumber)
+        if (isAutoDetectBank.value && _bank.value != bank) {
+            updateBank(bank)
         }
     }
 
@@ -188,6 +184,9 @@ class AddCardViewModel(
         if (_bank.value.isNeo) {
             updateBranchCode(TextFieldValue())
             updateBranchName(TextFieldValue())
+        }
+        if (_accountType.value !in _bank.value.supportedAccountTypes) {
+            _accountType.value = null
         }
     }
 
