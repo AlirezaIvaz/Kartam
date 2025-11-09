@@ -71,7 +71,7 @@ enum class Bank(
         icon = R.drawable.ic_bank_ayandeh,
         logo = R.drawable.ic_bank_ayandeh_logo,
         title = R.string.bank_ayandeh,
-        prefixes = listOf("636214")
+        isMerged = true
     ),
     Central(
         icon = R.drawable.ic_bank_central,
@@ -157,7 +157,7 @@ enum class Bank(
         icon = R.drawable.ic_bank_melli,
         logo = R.drawable.ic_bank_melli_logo,
         title = R.string.bank_melli,
-        prefixes = listOf("603799", "507677")
+        prefixes = listOf("603799", "507677", "636214")
     ),
     Noor(
         type = BankType.CreditInstitution,
@@ -295,6 +295,7 @@ enum class Bank(
 val Bank.relatedBank: Bank?
     get() = when(this) {
         Bank.Ansar -> Bank.Sepah
+        Bank.Ayandeh -> Bank.Melli
         Bank.Bankino -> Bank.Khavarmianeh
         Bank.BluBank -> Bank.Saman
         Bank.HiBank -> Bank.Karafarin
