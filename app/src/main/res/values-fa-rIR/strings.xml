@@ -143,6 +143,9 @@
     <!-- Banks -->
     <string name="bank_ansar">بانک انصار</string>
     <string name="bank_ayandeh">بانک آینده</string>
+    <string name="bank_baam">بام</string>
+    <string name="bank_baran">باران</string>
+    <string name="bank_bajet">باجت</string>
     <string name="bank_bankino">بانکینو</string>
     <string name="bank_blu">بلو بانک</string>
     <string name="bank_central">بانک مرکزی</string>
@@ -162,6 +165,7 @@
     <string name="bank_melli">بانک ملی ایران</string>
     <string name="bank_metabank">متابانک</string>
     <string name="bank_noor">مؤسسه اعتباری نور</string>
+    <string name="bank_omidbank">امید بانک</string>
     <string name="bank_parsian">بانک پارسیان</string>
     <string name="bank_pasargad">بانک پاسارگاد</string>
     <string name="bank_postbank">پست‌بانک</string>
@@ -172,9 +176,11 @@
     <string name="bank_sanat_maadan">بانک صنعت و معدن</string>
     <string name="bank_sarmayeh">بانک سرمایه</string>
     <string name="bank_sepah">بانک سپه</string>
+    <string name="bank_sepino">سپینو</string>
     <string name="bank_shahr">بانک شهر</string>
     <string name="bank_sina">بانک سینا</string>
     <string name="bank_tejarat">بانک تجارت</string>
+    <string name="bank_tobank">توبانک</string>
     <string name="bank_tose_saderat">بانک توسعه صادرات ایران</string>
     <string name="bank_tose_taavon">بانک توسعه تعاون</string>
     <string name="bank_wepod">وی‌پاد</string>

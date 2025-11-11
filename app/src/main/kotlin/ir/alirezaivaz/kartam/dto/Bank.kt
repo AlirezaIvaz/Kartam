@@ -18,6 +18,13 @@ enum class Bank(
     val nonPrefixes: List<String> = emptyList(),
     val supportedAccountTypes: List<AccountType> = AccountType.entries
 ) {
+    Baam(
+        type = BankType.NeoBank,
+        icon = R.drawable.ic_bank_baam,
+        logo = R.drawable.ic_bank_baam,
+        title = R.string.bank_baam,
+        isNeo = true,
+    ),
     Bankino(
         type = BankType.NeoBank,
         icon = R.drawable.ic_bank_bankino,
@@ -26,6 +33,20 @@ enum class Bank(
         isNeo = true,
         prefixes = listOf("58594710"),
         supportedAccountTypes = listOf(AccountType.ShortTermDeposit)
+    ),
+    Bajet(
+        type = BankType.NeoBank,
+        icon = R.drawable.ic_bank_bajet,
+        logo = R.drawable.ic_bank_bajet_logo,
+        title = R.string.bank_bajet,
+        isNeo = true,
+    ),
+    Baran(
+        type = BankType.NeoBank,
+        icon = R.drawable.ic_bank_baran,
+        logo = R.drawable.ic_bank_baran_logo,
+        title = R.string.bank_baran,
+        isNeo = true,
     ),
     BluBank(
         type = BankType.NeoBank,
@@ -51,6 +72,27 @@ enum class Bank(
         title = R.string.bank_metabank,
         isNeo = true,
         prefixes = listOf(),
+    ),
+    OmidBank(
+        type = BankType.NeoBank,
+        icon = R.drawable.ic_bank_omid,
+        logo = R.drawable.ic_bank_omid_logo,
+        title = R.string.bank_omidbank,
+        isNeo = true
+    ),
+    Sepino(
+        type = BankType.NeoBank,
+        icon = R.drawable.ic_bank_sepino,
+        logo = R.drawable.ic_bank_sepino_logo,
+        title = R.string.bank_sepino,
+        isNeo = true,
+    ),
+    ToBank(
+        type = BankType.NeoBank,
+        icon = R.drawable.ic_bank_tobank,
+        logo = R.drawable.ic_bank_tobank_logo,
+        title = R.string.bank_tobank,
+        isNeo = true,
     ),
     Wepod(
         type = BankType.NeoBank,
@@ -295,11 +337,15 @@ val Bank.parentBank: Bank?
     get() = when (this) {
         Bank.BluBank -> Bank.Saman
         Bank.Bankino -> Bank.Khavarmianeh
+        Bank.Baran -> Bank.Keshavarzi
+        Bank.Bajet -> Bank.Tejarat
         Bank.Wepod -> Bank.Pasargad
         Bank.MetaBank -> Bank.Melal
         Bank.HiBank -> Bank.Karafarin
-        Bank.Ayandeh, Bank.Noor -> Bank.Melli
-        Bank.Ansar -> Bank.Sepah
+        Bank.Baam, Bank.Ayandeh, Bank.Noor -> Bank.Melli
+        Bank.OmidBank, Bank.Ansar -> Bank.Sepah
+        Bank.Sepino -> Bank.Saderat
+        Bank.ToBank -> Bank.Gardeshgari
         else -> null
     }
 
@@ -309,9 +355,13 @@ val Bank.childBanks: List<Bank>
         Bank.Khavarmianeh -> listOf(Bank.Bankino)
         Bank.Pasargad -> listOf(Bank.Wepod)
         Bank.Melal -> listOf(Bank.MetaBank)
+        Bank.Gardeshgari -> listOf(Bank.ToBank)
         Bank.Karafarin -> listOf(Bank.HiBank)
-        Bank.Melli -> listOf(Bank.Ayandeh, Bank.Noor)
-        Bank.Sepah -> listOf(Bank.Ansar)
+        Bank.Keshavarzi -> listOf(Bank.Baran)
+        Bank.Melli -> listOf(Bank.Baam, Bank.Ayandeh, Bank.Noor)
+        Bank.Saderat -> listOf(Bank.Sepino)
+        Bank.Sepah -> listOf(Bank.OmidBank, Bank.Ansar)
+        Bank.Tejarat -> listOf(Bank.Bajet)
         else -> emptyList()
     }
 

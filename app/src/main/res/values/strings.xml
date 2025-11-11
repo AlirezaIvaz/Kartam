@@ -155,6 +155,9 @@
     <!-- Banks -->
     <string name="bank_ansar">Ansar Bank</string>
     <string name="bank_ayandeh">Ayandeh Bank</string>
+    <string name="bank_baam">Baam</string>
+    <string name="bank_baran">Baran</string>
+    <string name="bank_bajet">Bajet</string>
     <string name="bank_bankino">Bankino</string>
     <string name="bank_blu">Blu Bank</string>
     <string name="bank_central">Central Bank</string>
@@ -174,6 +177,7 @@
     <string name="bank_melli">Bank Melli Iran</string>
     <string name="bank_metabank">MetaBank</string>
     <string name="bank_noor">Noor Credit Institution</string>
+    <string name="bank_omidbank">Omid Bank</string>
     <string name="bank_parsian">Parsian Bank</string>
     <string name="bank_pasargad">Pasargad Bank</string>
     <string name="bank_postbank">Post Bank</string>
@@ -184,9 +188,11 @@
     <string name="bank_sanat_maadan">Bank of Industry and Mine</string>
     <string name="bank_sarmayeh">Sarmayeh Bank</string>
     <string name="bank_sepah">Sepah Bank</string>
+    <string name="bank_sepino">Sepino</string>
     <string name="bank_shahr">Bank Shahr</string>
     <string name="bank_sina">Bank Sina</string>
     <string name="bank_tejarat">Tejarat Bank</string>
+    <string name="bank_tobank">ToBank</string>
     <string name="bank_tose_saderat">Export Development Bank of Iran</string>
     <string name="bank_tose_taavon">Tose Taavon Bank</string>
     <string name="bank_wepod">Wepod</string>
