@@ -100,6 +100,7 @@ class AddCardViewModel(
         _card.value = _cardDao.getCard(cardId)
         if (_card.value != null) {
             val currentCard = _card.value!!
+            updateIsOthersCard(!currentCard.isOwned)
             updateCardNumber(TextFieldValue(currentCard.number))
             updateOwnerName(TextFieldValue(currentCard.name))
             if (!currentCard.englishName.isNullOrEmpty()) {
@@ -112,7 +113,7 @@ class AddCardViewModel(
                 updateAccountNumber(TextFieldValue(currentCard.accountNumber))
             }
             currentCard.cvv2.toStringOrNull()?.let {
-                val cvv2 = Utils.getCvv2(it, true)
+                val cvv2 = Utils.getCvv2(it, isVisible = true)
                 updateCvv2(TextFieldValue(cvv2))
             }
             currentCard.firstCode.toStringOrNull()?.let {
@@ -137,7 +138,6 @@ class AddCardViewModel(
             currentCard.comment?.let {
                 updateComment(TextFieldValue(it))
             }
-            updateIsOthersCard(!currentCard.isOwned)
             updateIsAutoDetectBank(_bank.value.childBanks.isEmpty() && _bank.value.parentBank == null)
         } else {
             updateResult(
