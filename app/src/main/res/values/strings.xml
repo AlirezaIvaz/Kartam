@@ -153,13 +153,17 @@
     <string name="account_joint">Joint Account</string>
 
     <!-- Banks -->
+    <string name="bank_abank">ABank</string>
     <string name="bank_ansar">Ansar Bank</string>
     <string name="bank_ayandeh">Ayandeh Bank</string>
     <string name="bank_baam">Baam</string>
     <string name="bank_baran">Baran</string>
     <string name="bank_bajet">Bajet</string>
+    <string name="bank_banket">Banket</string>
     <string name="bank_bankino">Bankino</string>
+    <string name="bank_bankvareh">Bankvareh</string>
     <string name="bank_blu">Blu Bank</string>
+    <string name="bank_blu_jr">Blu Junior</string>
     <string name="bank_central">Central Bank</string>
     <string name="bank_day">Day Bank</string>
     <string name="bank_eghtesad_novin">Eghtesad Novin Bank</string>
@@ -175,12 +179,14 @@
     <string name="bank_melal">Melal Credit Institution</string>
     <string name="bank_mellat">Mellat Bank</string>
     <string name="bank_melli">Bank Melli Iran</string>
+    <string name="bank_megabank">MegaBank</string>
     <string name="bank_metabank">MetaBank</string>
     <string name="bank_noor">Noor Credit Institution</string>
     <string name="bank_omidbank">Omid Bank</string>
     <string name="bank_parsian">Parsian Bank</string>
     <string name="bank_pasargad">Pasargad Bank</string>
     <string name="bank_postbank">Post Bank</string>
+    <string name="bank_qbank">QBank</string>
     <string name="bank_refah">Refah Kargaran Bank</string>
     <string name="bank_resalat">Resalat Qarz Al-Hasaneh Bank</string>
     <string name="bank_saderat">Saderat Bank</string>
@@ -189,6 +195,7 @@
     <string name="bank_sarmayeh">Sarmayeh Bank</string>
     <string name="bank_sepah">Sepah Bank</string>
     <string name="bank_sepino">Sepino</string>
+    <string name="bank_sibank">Sibank</string>
     <string name="bank_shahr">Bank Shahr</string>
     <string name="bank_sina">Bank Sina</string>
     <string name="bank_tejarat">Tejarat Bank</string>

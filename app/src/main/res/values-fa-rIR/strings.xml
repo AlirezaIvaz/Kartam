@@ -141,13 +141,17 @@
     <string name="account_joint">حساب مشترک</string>
 
     <!-- Banks -->
+    <string name="bank_abank">آبانک</string>
     <string name="bank_ansar">بانک انصار</string>
     <string name="bank_ayandeh">بانک آینده</string>
     <string name="bank_baam">بام</string>
     <string name="bank_baran">باران</string>
     <string name="bank_bajet">باجت</string>
+    <string name="bank_banket">بانکت</string>
     <string name="bank_bankino">بانکینو</string>
+    <string name="bank_bankvareh">بانکواره</string>
     <string name="bank_blu">بلو بانک</string>
+    <string name="bank_blu_jr">بلو جونیور</string>
     <string name="bank_central">بانک مرکزی</string>
     <string name="bank_day">بانک دی</string>
     <string name="bank_eghtesad_novin">بانک اقتصاد نوین</string>
@@ -163,12 +167,14 @@
     <string name="bank_melal">مؤسسه اعتباری ملل</string>
     <string name="bank_mellat">بانک ملت</string>
     <string name="bank_melli">بانک ملی ایران</string>
+    <string name="bank_megabank">مگابانک</string>
     <string name="bank_metabank">متابانک</string>
     <string name="bank_noor">مؤسسه اعتباری نور</string>
     <string name="bank_omidbank">امید بانک</string>
     <string name="bank_parsian">بانک پارسیان</string>
     <string name="bank_pasargad">بانک پاسارگاد</string>
     <string name="bank_postbank">پست‌بانک</string>
+    <string name="bank_qbank">کیوبانک</string>
     <string name="bank_refah">بانک رفاه کارگران</string>
     <string name="bank_resalat">بانک قرض‌الحسنه رسالت</string>
     <string name="bank_saderat">بانک صادرات ایران</string>
@@ -177,6 +183,7 @@
     <string name="bank_sarmayeh">بانک سرمایه</string>
     <string name="bank_sepah">بانک سپه</string>
     <string name="bank_sepino">سپینو</string>
+    <string name="bank_sibank">سیبانک</string>
     <string name="bank_shahr">بانک شهر</string>
     <string name="bank_sina">بانک سینا</string>
     <string name="bank_tejarat">بانک تجارت</string>
