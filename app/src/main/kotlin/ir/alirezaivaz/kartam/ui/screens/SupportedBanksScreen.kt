@@ -32,11 +32,12 @@ fun SupportedBanksScreen() {
         baseBanks.filter { it.type == BankType.NeoBank }.sortedBy { context.getString(it.title) }
     val creditInstitutions = baseBanks.filter { it.type == BankType.CreditInstitution }
         .sortedBy { context.getString(it.title) }
+    val totalBanks = normalBanks.size + neoBanks.size + creditInstitutions.size
     LazyColumn {
         item {
             Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
             Text(
-                text = stringResource(R.string.supported_banks_description),
+                text = stringResource(R.string.supported_banks_description, totalBanks),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),

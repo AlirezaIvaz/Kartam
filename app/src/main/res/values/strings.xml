@@ -136,7 +136,7 @@
 
     <!-- Supported Banks -->
     <string name="supported_banks">Supported Banks</string>
-    <string name="supported_banks_description">We\'re supporting 37 Iranian banks, neobanks and organizations.</string>
+    <string name="supported_banks_description">We\'re supporting %d Iranian banks, neobanks and organizations.</string>
     <string name="supported_banks_normal">Banks</string>
     <string name="supported_banks_neo">Neobanks</string>
     <string name="supported_banks_credit_institutions">Credit Institutions</string>

@@ -124,7 +124,7 @@
 
     <!-- Supported Banks -->
     <string name="supported_banks">بانک‌های پشتیبانی‌شده</string>
-    <string name="supported_banks_description">ما از ۳۷ بانک، نئوبانک و موسسهٔ اعتباری ایرانی پشتیبانی می‌کنیم.</string>
+    <string name="supported_banks_description">ما از %d بانک، نئوبانک و موسسهٔ اعتباری ایرانی پشتیبانی می‌کنیم.</string>
     <string name="supported_banks_normal">بانک‌ها</string>
     <string name="supported_banks_neo">نئوبانک‌ها</string>
     <string name="supported_banks_credit_institutions">مؤسسه‌های اعتباری</string>
