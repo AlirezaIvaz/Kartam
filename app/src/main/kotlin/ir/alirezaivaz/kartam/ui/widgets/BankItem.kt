@@ -52,16 +52,20 @@ fun BankItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
                 ) {
-                    if (bank.isMerged && bank.parentBank != null) {
-                        Image(
-                            painter = painterResource(bank.parentBank!!.icon),
-                            modifier = Modifier
-                                .padding(start = dimensionResource(R.dimen.padding_spacing))
-                                .padding(vertical = dimensionResource(R.dimen.padding_spacing))
-                                .size(24.dp),
-                            contentDescription = stringResource(bank.title)
-                        )
-                    }
+                    Image(
+                        painter = painterResource(
+                            if (bank.isMerged && bank.parentBank != null) {
+                                bank.parentBank!!.icon
+                            } else {
+                                bank.icon
+                            }
+                        ),
+                        modifier = Modifier
+                            .padding(start = dimensionResource(R.dimen.padding_spacing))
+                            .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                            .size(24.dp),
+                        contentDescription = stringResource(bank.title)
+                    )
                     Text(
                         text = if (bank.isMerged && bank.parentBank != null) {
                             stringResource(
