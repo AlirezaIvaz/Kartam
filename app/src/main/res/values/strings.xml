@@ -141,7 +141,7 @@
     <string name="supported_banks_neo">Neobanks &amp; Digital Branches</string>
     <string name="supported_banks_credit_institutions">Credit Institutions</string>
     <string name="supported_bank_merged">%s has merged to %s.</string>
-    <string name="supported_bank_no_auto_detect">Unfortunately, it is currently not possible to automatically detect %s cards.</string>
+    <string name="supported_bank_no_auto_detect">Automatic detection of %s cards is not possible.</string>
 
     <!-- Account types -->
     <string name="account_type">Account Type</string>

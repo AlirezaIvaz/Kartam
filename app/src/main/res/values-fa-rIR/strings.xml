@@ -129,7 +129,7 @@
     <string name="supported_banks_neo">نئوبانک‌ها و شعبه‌های دیجیتال</string>
     <string name="supported_banks_credit_institutions">مؤسسه‌های اعتباری</string>
     <string name="supported_bank_merged">%s در %s ادغام شده است.</string>
-    <string name="supported_bank_no_auto_detect">متاسفانه در حال حاضر امکان تشخیص خودکار کارت‌های %s وجود ندارد.</string>
+    <string name="supported_bank_no_auto_detect">امکان تشخیص خودکار کارت‌های %s وجود ندارد.</string>
 
     <!-- Account types -->
     <string name="account_type">نوع حساب</string>
