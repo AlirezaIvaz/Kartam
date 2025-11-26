@@ -102,6 +102,7 @@ class AddCardViewModel(
             val currentCard = _card.value!!
             updateIsOthersCard(!currentCard.isOwned)
             updateCardNumber(TextFieldValue(currentCard.number))
+            updateBank(currentCard.bank)
             updateOwnerName(TextFieldValue(currentCard.name))
             if (!currentCard.englishName.isNullOrEmpty()) {
                 updateOwnerEnglishName(TextFieldValue(currentCard.englishName))
