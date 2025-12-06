@@ -6,9 +6,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +34,7 @@ fun CardAddedDialog(
         onDismissRequest = {},
         confirmButton = {
             TextButton(
+                modifier = Modifier.handPointerIcon(),
                 onClick = {
                     onConfirm()
                 }
@@ -41,6 +44,7 @@ fun CardAddedDialog(
         },
         dismissButton = {
             TextButton(
+                modifier = Modifier.handPointerIcon(),
                 onClick = {
                     onDismissRequest()
                 }

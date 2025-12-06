@@ -75,6 +75,7 @@ import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.extensions.extractCardNumber
 import ir.alirezaivaz.kartam.extensions.formattedMonth
 import ir.alirezaivaz.kartam.extensions.formattedYear
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.extensions.isValidAccountNumber
 import ir.alirezaivaz.kartam.extensions.isValidCardNumber
 import ir.alirezaivaz.kartam.extensions.isValidCvv2
@@ -190,6 +191,7 @@ fun AddCardScreen(
                     ),
                     navigationIcon = {
                         IconButton(
+                            modifier = Modifier.handPointerIcon(),
                             onClick = {
                                 activity?.finish()
                             }
@@ -207,6 +209,7 @@ fun AddCardScreen(
                             exit = fadeOut()
                         ) {
                             IconButton(
+                                modifier = Modifier.handPointerIcon(),
                                 onClick = {
                                     scope.launch {
                                         focusManager.clearFocus(true)
@@ -716,6 +719,7 @@ fun AddCardScreen(
                             enabled = !isLoading && !isOthersCard,
                             shape = FloatingActionButtonDefaults.shape,
                             modifier = Modifier
+                                .handPointerIcon()
                                 .padding(top = 8.dp)
                                 .size(56.dp),
                             content = {

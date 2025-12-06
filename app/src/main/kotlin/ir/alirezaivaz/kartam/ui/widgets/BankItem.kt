@@ -30,6 +30,7 @@ import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.BankType
 import ir.alirezaivaz.kartam.dto.parentBank
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,6 +87,7 @@ fun BankItem(
     ) {
         Row(
             modifier = modifier
+                .handPointerIcon()
                 .fillMaxWidth()
                 .clickable {
                     if (bank.prefixes.isEmpty()) {

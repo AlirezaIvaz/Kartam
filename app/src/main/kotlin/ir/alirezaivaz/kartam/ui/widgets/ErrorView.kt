@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 
 @Composable
@@ -89,6 +90,7 @@ fun ErrorView(
                 if (actionButtonText != null) {
                     Spacer(Modifier.height(8.dp))
                     OutlinedButton(
+                        modifier = Modifier.handPointerIcon(),
                         content = {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,

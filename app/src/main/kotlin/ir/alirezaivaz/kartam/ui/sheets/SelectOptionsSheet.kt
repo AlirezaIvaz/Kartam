@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,6 +80,7 @@ fun SelectOptionsSheetContent(
             val index = items.indexOf(item)
             Row(
                 modifier = Modifier
+                    .handPointerIcon()
                     .fillMaxWidth()
                     .clickable {
                         onItemSelectedListener(values[index])

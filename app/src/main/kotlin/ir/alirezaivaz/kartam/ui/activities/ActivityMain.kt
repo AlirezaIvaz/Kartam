@@ -38,6 +38,7 @@ import androidx.navigation.compose.rememberNavController
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.ui.activities.AddCardActivity
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.screens.ListScreen
 import ir.alirezaivaz.kartam.ui.screens.SettingsScreen
 import ir.alirezaivaz.kartam.ui.screens.SupportedBanksScreen
@@ -105,6 +106,7 @@ class ActivityMain : AppCompatActivity() {
                         NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
                             Destination.entries.forEach {
                                 NavigationBarItem(
+                                    modifier = Modifier.handPointerIcon(),
                                     selected = currentDestination == it,
                                     onClick = {
                                         navController.navigate(route = it.route)
@@ -132,6 +134,7 @@ class ActivityMain : AppCompatActivity() {
                     },
                     floatingActionButton = {
                         ExtendedFloatingActionButton(
+                            modifier = Modifier.handPointerIcon(),
                             text = {
                                 Text(
                                     text = stringResource(R.string.action_add_card)

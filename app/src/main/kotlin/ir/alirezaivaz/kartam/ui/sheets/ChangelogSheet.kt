@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.extensions.parseChangelog
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.ChangelogLine
@@ -92,7 +93,9 @@ fun ChangelogSheetContent(
         }
         item {
             FilledTonalButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .handPointerIcon()
+                    .fillMaxWidth(),
                 onClick = {
                     onDismissRequest()
                 },

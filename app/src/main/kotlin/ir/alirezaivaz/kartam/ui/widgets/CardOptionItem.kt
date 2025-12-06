@@ -31,6 +31,7 @@ import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.FakeData
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
 import kotlinx.coroutines.launch
@@ -78,6 +79,7 @@ fun CardOptionItem(
             }
             if (showCopyShareButtons) {
                 FloatingActionButton(
+                    modifier = Modifier.handPointerIcon(),
                     contentColor = MaterialTheme.colorScheme.secondary,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
@@ -99,6 +101,7 @@ fun CardOptionItem(
                     )
                 }
                 FloatingActionButton(
+                    modifier = Modifier.handPointerIcon(),
                     contentColor = MaterialTheme.colorScheme.secondary,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {

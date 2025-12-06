@@ -60,6 +60,7 @@ import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.SettingsManager
@@ -120,6 +121,7 @@ fun SettingsScreen(
         ) {
             themes.filter { it.isAvailable }.forEachIndexed { index, item ->
                 SegmentedButton(
+                    modifier = Modifier.handPointerIcon(),
                     selected = index == selectedThemeIndex,
                     icon = {
                         Icon(
@@ -166,6 +168,7 @@ fun SettingsScreen(
         ) {
             languages.forEachIndexed { index, item ->
                 SegmentedButton(
+                    modifier = Modifier.handPointerIcon(),
                     selected = index == selectedLanguageIndex,
                     shape = SegmentedButtonDefaults.itemShape(
                         index = index,
@@ -233,6 +236,7 @@ fun SettingsScreen(
         ) {
             Row(
                 modifier = Modifier
+                    .handPointerIcon()
                     .fillMaxWidth()
                     .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                 verticalAlignment = Alignment.CenterVertically,
@@ -292,6 +296,7 @@ fun SettingsScreen(
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
         Box(
             modifier = Modifier
+                .handPointerIcon()
                 .fillMaxWidth()
                 .combinedClickable(
                     onClick = {
@@ -355,6 +360,7 @@ fun SettingsScreen(
             item {
                 SingleChoiceSegmentedButtonRow(
                     modifier = Modifier
+                        .handPointerIcon()
                         .fillMaxWidth()
                         .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
                 ) {
@@ -445,7 +451,9 @@ fun SettingsScreen(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
         ) {
             FilledTonalButton(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .handPointerIcon()
+                    .weight(1f),
                 onClick = {
                     try {
                         if (BuildConfig.FLAVOR == "telegram") {
@@ -485,7 +493,9 @@ fun SettingsScreen(
                 }
             }
             FilledTonalButton(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .handPointerIcon()
+                    .weight(1f),
                 onClick = {
                     try {
                         if (BuildConfig.FLAVOR == "telegram") {
@@ -524,6 +534,7 @@ fun SettingsScreen(
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
         FilledTonalButton(
             modifier = Modifier
+                .handPointerIcon()
                 .fillMaxWidth()
                 .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
             onClick = onChangelogRequest,
@@ -570,6 +581,7 @@ fun SwitchItem(
 ) {
     Row(
         modifier = modifier
+            .handPointerIcon()
             .fillMaxWidth()
             .clickable(enabled = isEnabled) {
                 onCheckedChanged(!isChecked)

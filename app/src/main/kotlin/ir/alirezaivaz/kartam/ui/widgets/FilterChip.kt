@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 
 @Composable
 fun FilterChip(
@@ -20,7 +21,7 @@ fun FilterChip(
     modifier: Modifier = Modifier
 ) {
     FilterChip(
-        modifier = modifier,
+        modifier = modifier.handPointerIcon(),
         selected = isSelected,
         label = {
             Text(text = label)

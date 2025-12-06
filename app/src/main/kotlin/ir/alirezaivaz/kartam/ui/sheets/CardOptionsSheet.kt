@@ -42,6 +42,7 @@ import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.dto.toStringOrNull
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.CardOptionItem
@@ -210,7 +211,9 @@ fun CardOptionsSheetContent(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_horizontal))
         ) {
             ExtendedFloatingActionButton(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .handPointerIcon()
+                    .weight(1f),
                 contentColor = MaterialTheme.colorScheme.tertiary,
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 text = {
@@ -229,7 +232,9 @@ fun CardOptionsSheetContent(
                 }
             )
             ExtendedFloatingActionButton(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .handPointerIcon()
+                    .weight(1f),
                 contentColor = MaterialTheme.colorScheme.error,
                 containerColor = MaterialTheme.colorScheme.errorContainer,
                 text = {

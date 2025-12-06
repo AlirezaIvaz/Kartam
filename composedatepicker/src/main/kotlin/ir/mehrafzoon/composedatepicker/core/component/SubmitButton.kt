@@ -21,6 +21,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 
 @Composable
 fun AppButton(
@@ -31,7 +33,9 @@ fun AppButton(
 ) {
     Button(
         enabled = enable,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .pointerHoverIcon(PointerIcon.Hand),
         onClick = { onClick() },
     ) {
         Text(

@@ -21,6 +21,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,6 +64,7 @@ fun DeleteCardDialog(
         },
         confirmButton = {
             TextButton(
+                modifier = Modifier.handPointerIcon(),
                 onClick = {
                     onDeleteRequest()
                 },
@@ -75,6 +77,7 @@ fun DeleteCardDialog(
         },
         dismissButton = {
             TextButton(
+                modifier = Modifier.handPointerIcon(),
                 onClick = {
                     onDismissRequest()
                 }

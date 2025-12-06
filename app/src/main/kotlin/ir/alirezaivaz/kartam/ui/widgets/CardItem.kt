@@ -52,6 +52,7 @@ import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.toStringOrNull
 import ir.alirezaivaz.kartam.extensions.formattedExpirationDate
 import ir.alirezaivaz.kartam.extensions.formattedShabaNumber
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.aradFontFamily
 import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
@@ -84,6 +85,7 @@ fun CardItem(
     DirectionLayout(LayoutDirection.Ltr) {
         Card(
             modifier = modifier
+                .handPointerIcon(enabled = onClick != null)
                 .shadow(
                     elevation = cardElevation,
                     shape = CardDefaults.shape,
@@ -264,6 +266,7 @@ fun CardItem(
                         ) {
                             Row(
                                 modifier = Modifier
+                                    .handPointerIcon()
                                     .clip(RoundedCornerShape(12.dp))
                                     .clickable {
                                         if (authType != AuthType.None && isAuthenticationRequired) {
