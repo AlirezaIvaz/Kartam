@@ -81,7 +81,7 @@ fun SettingsScreen(
     val theme by SettingsManager.theme.collectAsState()
     val language by SettingsManager.language.collectAsState()
     val authType by SettingsManager.authType.collectAsState()
-    val themes = Theme.entries.map { it }
+    val themes = Theme.entries.filter { it.isAvailable }.map { it }
     val languages = Language.entries.map { it }
     val authTypes = AuthType.entries.map { it }
     val tooltipState = rememberTooltipState(isPersistent = true)
@@ -119,7 +119,7 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
         ) {
-            themes.filter { it.isAvailable }.forEachIndexed { index, item ->
+            themes.forEachIndexed { index, item ->
                 SegmentedButton(
                     modifier = Modifier.handPointerIcon(),
                     selected = index == selectedThemeIndex,
