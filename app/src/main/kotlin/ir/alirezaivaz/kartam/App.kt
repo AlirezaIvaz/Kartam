@@ -2,12 +2,11 @@ package ir.alirezaivaz.kartam
 
 import android.app.Application
 import androidx.compose.runtime.Composer
-import androidx.compose.runtime.ExperimentalComposeRuntimeApi
+import androidx.compose.runtime.tooling.ComposeStackTraceMode
 
 class App : Application() {
-    @OptIn(ExperimentalComposeRuntimeApi::class)
     override fun onCreate() {
         super.onCreate()
-        Composer.setDiagnosticStackTraceEnabled(BuildConfig.DEBUG)
+        Composer.setDiagnosticStackTraceMode(ComposeStackTraceMode.Auto)
     }
 }
