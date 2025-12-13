@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,8 +66,8 @@ fun ListScreen(
     onEditRequest: (id: Int?) -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
     val activity = LocalActivity.current
+    val resources = LocalResources.current
     val hapticFeedback = LocalHapticFeedback.current
     val isLoading by viewModel.isLoading.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
@@ -100,7 +101,7 @@ fun ListScreen(
                                 onEditRequest(selectedCard?.id)
                             } else {
                                 toaster.show(
-                                    message = context.getString(R.string.error_authentication_failed),
+                                    message = resources.getString(R.string.error_authentication_failed),
                                     type = ToastType.Error
                                 )
                             }
@@ -122,7 +123,7 @@ fun ListScreen(
                                 showDeleteCardDialog = true
                             } else {
                                 toaster.show(
-                                    message = context.getString(R.string.error_authentication_failed),
+                                    message = resources.getString(R.string.error_authentication_failed),
                                     type = ToastType.Error
                                 )
                             }
@@ -155,13 +156,13 @@ fun ListScreen(
                         selectedCard = null
                         selectedCardSnapshot = null
                         toaster.show(
-                            message = context.getString(R.string.message_card_deleted),
+                            message = resources.getString(R.string.message_card_deleted),
                             type = ToastType.Success
                         )
                         viewModel.loadCards(isRefreshing = true)
                     } else {
                         toaster.show(
-                            message = context.getString(R.string.message_went_wrong),
+                            message = resources.getString(R.string.message_went_wrong),
                             type = ToastType.Error
                         )
                     }
@@ -251,7 +252,7 @@ fun ListScreen(
                                                         showCardOptionsSheet = true
                                                     } else {
                                                         toaster.show(
-                                                            message = context.getString(R.string.error_authentication_failed),
+                                                            message = resources.getString(R.string.error_authentication_failed),
                                                             type = ToastType.Error
                                                         )
                                                     }
@@ -264,7 +265,7 @@ fun ListScreen(
                                     },
                                     onAuthenticationFailed = {
                                         toaster.show(
-                                            message = context.getString(R.string.error_authentication_failed),
+                                            message = resources.getString(R.string.error_authentication_failed),
                                             type = ToastType.Error
                                         )
                                     }

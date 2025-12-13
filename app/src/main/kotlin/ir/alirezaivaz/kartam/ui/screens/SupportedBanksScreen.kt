@@ -11,7 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,14 +24,14 @@ import ir.alirezaivaz.kartam.ui.widgets.BankItem
 
 @Composable
 fun SupportedBanksScreen() {
-    val context = LocalContext.current
+    val resources = LocalResources.current
     val baseBanks = Bank.entries.filter { it != Bank.Unknown }
     val normalBanks =
-        baseBanks.filter { it.type == BankType.Bank }.sortedBy { context.getString(it.title) }
+        baseBanks.filter { it.type == BankType.Bank }.sortedBy { resources.getString(it.title) }
     val neoBanks =
-        baseBanks.filter { it.type == BankType.NeoBank }.sortedBy { context.getString(it.title) }
+        baseBanks.filter { it.type == BankType.NeoBank }.sortedBy { resources.getString(it.title) }
     val creditInstitutions = baseBanks.filter { it.type == BankType.CreditInstitution }
-        .sortedBy { context.getString(it.title) }
+        .sortedBy { resources.getString(it.title) }
     val totalBanks = normalBanks.size + neoBanks.size + creditInstitutions.size
     LazyColumn {
         item {

@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -77,6 +78,7 @@ fun SettingsScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val activity = LocalActivity.current
+    val resources = LocalResources.current
     val uriHandler = LocalUriHandler.current
     val theme by SettingsManager.theme.collectAsState()
     val language by SettingsManager.language.collectAsState()
@@ -388,7 +390,7 @@ fun SettingsScreen(
                                                 SettingsManager.setAuthType(item)
                                             } else {
                                                 toaster.show(
-                                                    message = context.getString(R.string.error_authentication_failed),
+                                                    message = resources.getString(R.string.error_authentication_failed),
                                                     type = ToastType.Error
                                                 )
                                             }
@@ -473,7 +475,7 @@ fun SettingsScreen(
                         }
                     } catch (_: Exception) {
                         toaster.show(
-                            message = context.getString(R.string.error_request_run_failed),
+                            message = resources.getString(R.string.error_request_run_failed),
                             type = ToastType.Error
                         )
                     }
@@ -511,7 +513,7 @@ fun SettingsScreen(
                         }
                     } catch (_: Exception) {
                         toaster.show(
-                            message = context.getString(R.string.error_request_run_failed),
+                            message = resources.getString(R.string.error_request_run_failed),
                             type = ToastType.Error
                         )
                     }

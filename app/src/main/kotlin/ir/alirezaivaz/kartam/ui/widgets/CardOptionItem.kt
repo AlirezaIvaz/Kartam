@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -47,6 +48,7 @@ fun CardOptionItem(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val resources = LocalResources.current
     val clipboard = LocalClipboard.current
     Card(
         modifier = Modifier.fillMaxWidth()
@@ -88,7 +90,7 @@ fun CardOptionItem(
                             val clipEntry = ClipEntry(clipData)
                             clipboard.setClipEntry(clipEntry)
                             toaster.show(
-                                message = context.getString(R.string.message_copied_to_clipboard)
+                                message = resources.getString(R.string.message_copied_to_clipboard)
                                     .format(title),
                                 type = ToastType.Success
                             )
@@ -112,7 +114,7 @@ fun CardOptionItem(
                         }
                         val shareIntent = Intent.createChooser(
                             sendIntent,
-                            context.getString(R.string.action_share_via)
+                            resources.getString(R.string.action_share_via)
                         )
                         context.startActivity(shareIntent)
                     },

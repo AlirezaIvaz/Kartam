@@ -29,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -90,7 +90,7 @@ fun CardOptionsSheetContent(
     onSnapshotReady: (ImageBitmap) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
-    val context = LocalContext.current
+    val resources = LocalResources.current
     val isAuthSecretData by SettingsManager.isAuthSecretData.collectAsState()
     val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
     val isSecretCvv2InDetails by SettingsManager.isSecretCvv2InDetails.collectAsState()
@@ -123,7 +123,7 @@ fun CardOptionsSheetContent(
                 isAuthenticationRequired = !isAuthOwnedCardDetails && isAuthSecretData,
                 onAuthenticationFailed = {
                     toaster.show(
-                        message = context.getString(R.string.error_authentication_failed),
+                        message = resources.getString(R.string.error_authentication_failed),
                         type = ToastType.Error
                     )
                 }

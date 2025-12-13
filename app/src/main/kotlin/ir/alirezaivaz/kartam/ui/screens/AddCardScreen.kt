@@ -55,6 +55,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -110,6 +111,7 @@ fun AddCardScreen(
     val toaster = rememberToasterState()
     val context = LocalContext.current
     val activity = LocalActivity.current
+    val resources = LocalResources.current
     val focusManager = LocalFocusManager.current
     val jalaliCalendar = JalaliCalendar()
     val db = KartamDatabase.getInstance(context)
@@ -153,13 +155,13 @@ fun AddCardScreen(
                     showCardAddedDialog = true
                 } else if (it.message != null) {
                     toaster.show(
-                        message = context.getString(it.message),
+                        message = resources.getString(it.message),
                         type = ToastType.Success
                     )
                 }
             } else if (it.message != null) {
                 toaster.show(
-                    message = context.getString(it.message),
+                    message = resources.getString(it.message),
                     type = ToastType.Error
                 )
             }
