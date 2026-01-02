@@ -9,4 +9,8 @@ class App : Application() {
         super.onCreate()
         Composer.setDiagnosticStackTraceMode(ComposeStackTraceMode.Auto)
     }
+
+    companion object {
+        const val DEFAULT_PIN_LENGTH = 6
+    }
 }

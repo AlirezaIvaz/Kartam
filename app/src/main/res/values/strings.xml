@@ -24,6 +24,9 @@
     <string name="action_share_via">Share via…</string>
     <string name="action_more_apps">More apps</string>
     <string name="action_rate">Rate</string>
+    <string name="action_enter_pin">Enter PIN Code</string>
+    <string name="action_create_pin">Create PIN</string>
+    <string name="action_confirm_pin">Confirm PIN</string>
 
     <!-- Labels -->
     <string name="label_auto_detect">Auto Detect</string>
@@ -96,6 +99,8 @@
     <string name="settings_hide_cvv2_description">CVV2 will be hidden by default and you need to long press on the card to see it.</string>
     <string name="settings_hide_cvv2_list">In card list</string>
     <string name="settings_hide_cvv2_details">In card details</string>
+    <string name="settings_lock_on_start">Lock on start</string>
+    <string name="settings_unlock_with_biometric">Unlock with biometric</string>
     <string name="settings_language">Language</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_auth_type">Authentication Type</string>

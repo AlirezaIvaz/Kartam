@@ -15,17 +15,20 @@
         android:theme="@style/Theme.Kartam"
         tools:targetApi="33">
         <activity
-            android:name=".ui.activities.ActivityMain"
+            android:name=".ui.activities.ActivitySplash"
             android:exported="true"
-            android:theme="@style/Theme.Kartam"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/Theme.Kartam"> <!-- Move to add card activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.AddCardActivity" />
+        <activity android:name=".ui.activities.ActivityMain" />
+        <activity
+            android:name=".ui.activities.AddCardActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.activities.ActivityLock" />
+        <activity android:name=".ui.activities.ActivityLockSetup" />
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

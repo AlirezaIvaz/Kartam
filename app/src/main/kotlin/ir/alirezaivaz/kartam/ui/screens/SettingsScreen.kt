@@ -62,6 +62,7 @@ import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.activities.ActivityLockSetup
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.SettingsManager
@@ -97,6 +98,8 @@ fun SettingsScreen(
     val isShowReverseExpirationDate by SettingsManager.isShowReverseExpirationDate.collectAsState()
     val isSecretCvv2List by SettingsManager.isSecretCvv2InList.collectAsState()
     val isSecretCvv2Details by SettingsManager.isSecretCvv2InDetails.collectAsState()
+    val isLockOnStart by SettingsManager.isLockOnStart.collectAsState()
+    val isUnlockWithBiometric by SettingsManager.isUnlockWithBiometric.collectAsState()
     val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
     val isAuthSecretDetails by SettingsManager.isAuthSecretData.collectAsState()
     val isAuthBeforeEdit by SettingsManager.isAuthBeforeEdit.collectAsState()
@@ -293,6 +296,45 @@ fun SettingsScreen(
             isChecked = isSecretCvv2Details,
             onCheckedChanged = {
                 SettingsManager.setSecretCvv2Details(it)
+            }
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        SwitchItem(
+            title = stringResource(R.string.settings_lock_on_start),
+            isChecked = isLockOnStart,
+            onCheckedChanged = {
+                if (isLockOnStart) {
+                    SettingsManager.setLockOnStart(false)
+                } else {
+                    activity?.startActivity(
+                        Intent(
+                            activity,
+                            ActivityLockSetup::class.java
+                        )
+                    )
+                }
+            }
+        )
+        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        SwitchItem(
+            title = stringResource(R.string.settings_unlock_with_biometric),
+            isChecked = isUnlockWithBiometric,
+            isEnabled = isLockOnStart && authType in AuthType.biometricsOnly(),
+            onCheckedChanged = { value ->
+                BiometricHelper(
+                    activity = activity as FragmentActivity,
+                    authType = authType,
+                    onResult = {
+                        if (it) {
+                            SettingsManager.setUnlockWithBiometric(value)
+                        } else {
+                            toaster.show(
+                                message = resources.getString(R.string.error_authentication_failed),
+                                type = ToastType.Error
+                            )
+                        }
+                    }
+                ).authenticate()
             }
         )
         Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))

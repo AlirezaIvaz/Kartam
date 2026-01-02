@@ -10,6 +10,7 @@ import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
+import ir.alirezaivaz.kartam.extensions.sha256
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -32,6 +33,11 @@ object SettingsManager {
     private const val PREF_SECRET_CVV2_LIST_DEFAULT = true
     private const val PREF_SECRET_CVV2_DETAILS = "pref_secret_cvv2_details"
     private const val PREF_SECRET_CVV2_DETAILS_DEFAULT = false
+    private const val PREF_LOCK_ON_START = "pref_lock_on_start"
+    private const val PREF_LOCK_ON_START_DEFAULT = false
+    private const val PREF_UNLOCK_WITH_BIOMETRIC = "pref_unlock_with_biometric"
+    private const val PREF_UNLOCK_WITH_BIOMETRIC_DEFAULT = false
+    private const val PREF_PIN_HASH = "pref_pin_hash"
     private const val PREF_AUTH_OWNED_CARD_DETAILS = "pref_auth_owned_card_details"
     private const val PREF_AUTH_OWNED_CARD_DETAILS_DEFAULT = true
     private const val PREF_AUTH_SECRET_DATA = "pref_auth_secret_items"
@@ -59,6 +65,10 @@ object SettingsManager {
     val theme: StateFlow<Theme> = _theme
     private val _language = MutableStateFlow(Language.find(settings[PREF_LANGUAGE, Language.English.tag]))
     val language: StateFlow<Language> = _language
+    private val _isLockOnStart = MutableStateFlow(settings[PREF_LOCK_ON_START, PREF_LOCK_ON_START_DEFAULT])
+    val isLockOnStart: StateFlow<Boolean> = _isLockOnStart
+    private val _isUnlockWithBiometric = MutableStateFlow(settings[PREF_UNLOCK_WITH_BIOMETRIC, PREF_UNLOCK_WITH_BIOMETRIC_DEFAULT])
+    val isUnlockWithBiometric: StateFlow<Boolean> = _isUnlockWithBiometric
     private val _authType = MutableStateFlow(AuthType.find(settings[PREF_AUTH_TYPE, AuthType.None.name]))
     val authType: StateFlow<AuthType> = _authType
     private val _isAuthOwnedCardDetails = MutableStateFlow(settings[PREF_AUTH_OWNED_CARD_DETAILS, PREF_AUTH_OWNED_CARD_DETAILS_DEFAULT])
@@ -126,9 +136,39 @@ object SettingsManager {
         settings[PREF_SECRET_CVV2_DETAILS] = value
     }
 
+    fun setLockOnStart(value: Boolean) {
+        _isLockOnStart.value = value
+        settings[PREF_LOCK_ON_START] = value
+        if (!value) {
+            clearPin()
+            setUnlockWithBiometric(false)
+        }
+    }
+
+    fun setUnlockWithBiometric(value: Boolean) {
+        _isUnlockWithBiometric.value = value
+        settings[PREF_UNLOCK_WITH_BIOMETRIC] = value
+    }
+
+    fun setPin(pin: String) {
+        settings[PREF_PIN_HASH] = pin.sha256()
+    }
+
+    fun verifyPin(pin: String): Boolean {
+        val saved = settings[PREF_PIN_HASH, ""].ifEmpty { return false }
+        return pin.sha256() == saved
+    }
+
+    fun clearPin() {
+        settings.remove(PREF_PIN_HASH)
+    }
+
     fun setAuthType(value: AuthType) {
         _authType.value = value
         settings[PREF_AUTH_TYPE] = value.name
+        if (value == AuthType.None) {
+            setUnlockWithBiometric(false)
+        }
     }
 
     fun setAuthOwnedCardDetails(value: Boolean) {

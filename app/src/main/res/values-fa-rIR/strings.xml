@@ -24,6 +24,9 @@
     <string name="action_share_via">اشتراک‌گذاری با…</string>
     <string name="action_more_apps">برنامه‌های بیشتر</string>
     <string name="action_rate">دیدگاه</string>
+    <string name="action_enter_pin">پین را وارد کنید</string>
+    <string name="action_create_pin">پین را انتخاب کنید</string>
+    <string name="action_confirm_pin">پین را دوباره وارد کنید</string>
 
     <!-- Labels -->
     <string name="label_auto_detect">تشخیص خودکار</string>
@@ -90,6 +93,8 @@
     <string name="settings_hide_cvv2_description">CVV2 به‌صورت پیش‌فرض مخفی خواهد بود و برای دیدن آن باید چند ثانیه انگشت خود را روی کارت نگه‌دارید.</string>
     <string name="settings_hide_cvv2_list">در فهرست کارت‌ها</string>
     <string name="settings_hide_cvv2_details">در جزئیات کارت</string>
+    <string name="settings_lock_on_start">قفل ورود</string>
+    <string name="settings_unlock_with_biometric">بازکردن با اعتبارسنجی زیستی</string>
     <string name="settings_language">زبان</string>
     <string name="settings_theme">پوسته</string>
     <string name="settings_auth_type">نوع اعتبارسنجی</string>
