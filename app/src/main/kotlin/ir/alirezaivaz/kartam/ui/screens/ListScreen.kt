@@ -2,18 +2,11 @@ package ir.alirezaivaz.kartam.ui.screens
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
@@ -31,11 +24,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalResources
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
@@ -45,15 +36,14 @@ import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.ui.dialogs.DeleteCardDialog
 import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
-import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
+import ir.alirezaivaz.kartam.ui.widgets.list.CardList
 import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -211,72 +201,20 @@ fun ListScreen(
                         }
                     }
                 ) {
-                    LazyColumn(
-                        state = lazyListState,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        item {
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-                        }
-                        items(
-                            items = cards.filter { it.isOwned == isOwned },
-                            key = { it.id }
-                        ) { item ->
-                            ReorderableItem(
-                                state = reorderableLazyListState,
-                                key = item.id
-                            ) { isDragging ->
-                                val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
-                                CardItem(
-                                    card = item,
-                                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                                    isCvv2VisibleByDefault = !isSecretCvv2InList,
-                                    isAuthenticationRequired = isAuthSecretData,
-                                    cardElevation = elevation,
-                                    dragHandleModifier = Modifier.draggableHandle(
-                                        onDragStarted = {
-                                            hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                        },
-                                        onDragStopped = {
-                                            hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
-                                        }
-                                    ),
-                                    onClick = {
-                                        if (isOwned && isAuthOwnedCardDetails) {
-                                            BiometricHelper(
-                                                activity = activity as FragmentActivity,
-                                                authType = authType,
-                                                onResult = {
-                                                    if (it) {
-                                                        selectedCard = item
-                                                        showCardOptionsSheet = true
-                                                    } else {
-                                                        toaster.show(
-                                                            message = resources.getString(R.string.error_authentication_failed),
-                                                            type = ToastType.Error
-                                                        )
-                                                    }
-                                                }
-                                            ).authenticate()
-                                        } else {
-                                            selectedCard = item
-                                            showCardOptionsSheet = true
-                                        }
-                                    },
-                                    onAuthenticationFailed = {
-                                        toaster.show(
-                                            message = resources.getString(R.string.error_authentication_failed),
-                                            type = ToastType.Error
-                                        )
-                                    }
-                                )
-                            }
-                            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-                        }
-                        item {
-                            Spacer(Modifier.height(80.dp))
-                        }
-                    }
+                    CardList(
+                        cards = cards.filter { it.isOwned == isOwned },
+                        toaster = toaster,
+                        authType = authType,
+                        lazyListState = lazyListState,
+                        reorderableLazyListState = reorderableLazyListState,
+                        isCvv2VisibleByDefault = !isSecretCvv2InList,
+                        isAuthOwnedCardDetails = isAuthOwnedCardDetails,
+                        isAuthenticationRequired = isAuthSecretData,
+                        onCardSelect = {
+                            selectedCard = it
+                            showCardOptionsSheet = true
+                        },
+                    )
                 }
             }
         }
