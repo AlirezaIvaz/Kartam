@@ -2,13 +2,13 @@ package ir.alirezaivaz.kartam.ui.activities
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import ir.alirezaivaz.kartam.ui.screens.AddCardScreen
 
-class AddCardActivity : ComponentActivity() {
+class AddCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
