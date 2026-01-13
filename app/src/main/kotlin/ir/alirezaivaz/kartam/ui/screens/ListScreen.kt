@@ -2,6 +2,7 @@ package ir.alirezaivaz.kartam.ui.screens
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -10,8 +11,11 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,6 +42,7 @@ import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.dialogs.DeleteCardDialog
 import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
@@ -58,7 +63,8 @@ fun ListScreen(
     isOwned: Boolean,
     toaster: ToasterState,
     viewModel: MainViewModel,
-    onEditRequest: (id: Int?) -> Unit
+    onEditRequest: (id: Int?) -> Unit,
+    onAddCardClick: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -220,6 +226,29 @@ fun ListScreen(
                 },
             )
         },
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = !isSearchExpanded,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                ExtendedFloatingActionButton(
+                    modifier = Modifier.handPointerIcon(),
+                    text = {
+                        Text(
+                            text = stringResource(R.string.action_add_card)
+                        )
+                    },
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_add),
+                            contentDescription = stringResource(R.string.action_add_card)
+                        )
+                    },
+                    onClick = onAddCardClick
+                )
+            }
+        },
     ) {
         AnimatedContent(
             targetState = isLoading,
@@ -296,6 +325,7 @@ fun HomeScreenPreview() {
         isOwned = true,
         viewModel = viewModel,
         toaster = rememberToasterState(),
-        onEditRequest = {}
+        onEditRequest = {},
+        onAddCardClick = {}
     )
 }

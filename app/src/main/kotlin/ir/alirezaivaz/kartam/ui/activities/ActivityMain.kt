@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
@@ -35,7 +33,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dokar.sonner.rememberToasterState
-import ir.alirezaivaz.kartam.ui.activities.AddCardActivity
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.screens.ListScreen
@@ -66,7 +63,6 @@ class ActivityMain : AppCompatActivity() {
             }
         }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
@@ -119,27 +115,6 @@ class ActivityMain : AppCompatActivity() {
                                 )
                             }
                         }
-                    },
-                    floatingActionButton = {
-                        ExtendedFloatingActionButton(
-                            modifier = Modifier.handPointerIcon(),
-                            text = {
-                                Text(
-                                    text = stringResource(R.string.action_add_card)
-                                )
-                            },
-                            icon = {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_add),
-                                    contentDescription = stringResource(R.string.action_add_card)
-                                )
-                            },
-                            onClick = {
-                                val intent = Intent(context, AddCardActivity::class.java)
-                                intent.putExtra("owned", navController.currentDestination?.route == Destination.MY_CARDS.route)
-                                addEditCardLauncher.launch(intent)
-                            }
-                        )
                     }
                 ) { contentPadding ->
                     KartamToaster(state = toaster)
@@ -166,6 +141,11 @@ class ActivityMain : AppCompatActivity() {
                                     val intent = Intent(context, AddCardActivity::class.java)
                                     intent.putExtra("id", it)
                                     addEditCardLauncher.launch(intent)
+                                },
+                                onAddCardClick = {
+                                    val intent = Intent(context, AddCardActivity::class.java)
+                                    intent.putExtra("owned", true)
+                                    addEditCardLauncher.launch(intent)
                                 }
                             )
                         }
@@ -178,6 +158,11 @@ class ActivityMain : AppCompatActivity() {
                                 onEditRequest = {
                                     val intent = Intent(context, AddCardActivity::class.java)
                                     intent.putExtra("id", it)
+                                    addEditCardLauncher.launch(intent)
+                                },
+                                onAddCardClick = {
+                                    val intent = Intent(context, AddCardActivity::class.java)
+                                    intent.putExtra("owned", false)
                                     addEditCardLauncher.launch(intent)
                                 }
                             )
