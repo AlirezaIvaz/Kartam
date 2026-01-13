@@ -6,17 +6,22 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -37,6 +42,7 @@ import ir.alirezaivaz.kartam.ui.dialogs.DeleteCardDialog
 import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
+import ir.alirezaivaz.kartam.ui.widgets.KartamSearchBar
 import ir.alirezaivaz.kartam.ui.widgets.list.CardList
 import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.BiometricHelper
@@ -46,7 +52,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(
     cards: List<CardInfo>,
@@ -65,6 +70,10 @@ fun ListScreen(
     var selectedCardSnapshot by remember { mutableStateOf<ImageBitmap?>(null) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
     var showDeleteCardDialog by remember { mutableStateOf(false) }
+    val filteredCards = remember { mutableStateListOf<CardInfo>() }
+    var searchFilter by remember { mutableStateOf("") }
+    var isSearching by remember { mutableStateOf(false) }
+    var isSearchExpanded by rememberSaveable { mutableStateOf(false) }
     val authType by SettingsManager.authType.collectAsState()
     val isAuthSecretData by SettingsManager.isAuthSecretData.collectAsState()
     val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
@@ -75,6 +84,17 @@ fun ListScreen(
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         viewModel.onMove(from.index, to.index, isOwned)
         hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+    }
+
+    LaunchedEffect(isSearching) {
+        if (isSearching) {
+            filteredCards.clear()
+            if (searchFilter.isNotEmpty()) {
+                val filtered = cards.filter { it.name.contains(searchFilter) }
+                filteredCards.addAll(filtered)
+            }
+            isSearching = false
+        }
     }
 
     if (showCardOptionsSheet) {
@@ -165,56 +185,99 @@ fun ListScreen(
             }
         )
     }
-    AnimatedContent(
-        targetState = isLoading,
-        transitionSpec = {
-            fadeIn(tween(300)) togetherWith fadeOut(tween(300))
+    Scaffold(
+        contentWindowInsets = WindowInsets(0),
+        topBar = {
+            KartamSearchBar(
+                query = searchFilter,
+                isOwned = isOwned,
+                isExpanded = isSearchExpanded,
+                isLoading = isSearching,
+                searchResults = filteredCards,
+                toaster = toaster,
+                authType = authType,
+                isCvv2VisibleByDefault = !isSecretCvv2InList,
+                isAuthOwnedCardDetails = isAuthOwnedCardDetails,
+                isAuthenticationRequired = isAuthSecretData,
+                reorderableLazyListState = reorderableLazyListState,
+                onSearch = {
+                    isSearching = true
+                },
+                onQueryChange = {
+                    searchFilter = it
+                },
+                onExpandChange = {
+                    isSearchExpanded = it
+                    if (!it) {
+                        isSearching = false
+                        searchFilter = ""
+                        filteredCards.clear()
+                    }
+                },
+                onCardSelect = {
+                    selectedCard = it
+                    showCardOptionsSheet = true
+                },
+            )
         },
-        label = "CardListAnimation"
-    ) { state ->
-        when {
-            state -> {
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            !state && cards.isEmpty() -> {
-                ErrorView(
-                    icon = painterResource(R.drawable.vector_credit_card),
-                    title = stringResource(R.string.message_no_card),
-                    description = stringResource(R.string.message_no_card_description),
-                    actionButtonText = stringResource(R.string.action_reload),
-                    actionButtonIcon = painterResource(R.drawable.ic_reload),
-                    actionButtonPressed = {
-                        scope.launch(Dispatchers.IO) {
-                            viewModel.loadCards()
-                        }
-                    }
-                )
-            }
-            else -> {
-                PullToRefreshBox(
-                    isRefreshing = isRefreshing,
-                    onRefresh = {
-                        scope.launch(Dispatchers.IO) {
-                            viewModel.loadCards(isRefreshing = true)
-                        }
-                    }
-                ) {
-                    CardList(
-                        cards = cards.filter { it.isOwned == isOwned },
-                        toaster = toaster,
-                        authType = authType,
-                        lazyListState = lazyListState,
-                        reorderableLazyListState = reorderableLazyListState,
-                        isCvv2VisibleByDefault = !isSecretCvv2InList,
-                        isAuthOwnedCardDetails = isAuthOwnedCardDetails,
-                        isAuthenticationRequired = isAuthSecretData,
-                        onCardSelect = {
-                            selectedCard = it
-                            showCardOptionsSheet = true
-                        },
+    ) {
+        AnimatedContent(
+            targetState = isLoading,
+            transitionSpec = {
+                fadeIn(tween(300)) togetherWith fadeOut(tween(300))
+            },
+            label = "CardListAnimation"
+        ) { state ->
+            when {
+                state -> {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .padding(it)
+                            .fillMaxWidth()
                     )
+                }
+
+                !state && cards.isEmpty() -> {
+                    ErrorView(
+                        icon = painterResource(R.drawable.vector_credit_card),
+                        title = stringResource(R.string.message_no_card),
+                        modifier = Modifier.padding(it),
+                        description = stringResource(R.string.message_no_card_description),
+                        actionButtonText = stringResource(R.string.action_reload),
+                        actionButtonIcon = painterResource(R.drawable.ic_reload),
+                        actionButtonPressed = {
+                            scope.launch(Dispatchers.IO) {
+                                viewModel.loadCards()
+                            }
+                        }
+                    )
+                }
+
+                else -> {
+                    PullToRefreshBox(
+                        modifier = Modifier.padding(it),
+                        isRefreshing = isRefreshing,
+                        onRefresh = {
+                            scope.launch(Dispatchers.IO) {
+                                viewModel.loadCards(isRefreshing = true)
+                            }
+                        }
+                    ) {
+                        CardList(
+                            cards = cards,
+                            toaster = toaster,
+                            authType = authType,
+                            lazyListState = lazyListState,
+                            reorderableLazyListState = reorderableLazyListState,
+                            isCvv2VisibleByDefault = !isSecretCvv2InList,
+                            isAuthOwnedCardDetails = isAuthOwnedCardDetails,
+                            isAuthenticationRequired = isAuthSecretData,
+                            onCardSelect = {
+                                selectedCard = it
+                                showCardOptionsSheet = true
+                            },
+                        )
+                    }
                 }
             }
         }

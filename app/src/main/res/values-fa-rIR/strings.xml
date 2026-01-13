@@ -5,8 +5,12 @@
     <string name="action_home">خانه</string>
     <string name="action_my_cards">کارت‌های من</string>
     <string name="action_others_cards">کارت‌های دیگران</string>
+    <string name="action_search">جستجو</string>
+    <string name="action_search_in_owned">جستجو در کارت‌های من</string>
+    <string name="action_search_in_others">جستجو در کارت‌های دیگران</string>
     <string name="action_banks">بانک‌ها</string>
     <string name="action_back">بازگشت</string>
+    <string name="action_clear">پاک‌سازی</string>
     <string name="action_close">بستن</string>
     <string name="action_confirm">تایید</string>
     <string name="action_dismiss">انصراف</string>

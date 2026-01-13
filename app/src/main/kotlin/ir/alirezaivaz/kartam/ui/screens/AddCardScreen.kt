@@ -27,7 +27,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -39,7 +38,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -94,6 +92,7 @@ import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModelFactory
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.FilterChip
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
+import ir.alirezaivaz.kartam.ui.widgets.KartamTopBar
 import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.huri.jcal.JalaliCalendar
@@ -175,34 +174,16 @@ fun AddCardScreen(
                 .fillMaxSize()
                 .imePadding(),
             topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            text = if (isEdit) {
-                                stringResource(R.string.action_edit_card)
-                            } else {
-                                stringResource(R.string.action_add_card)
-                            }
-                        )
+                KartamTopBar(
+                    title = if (isEdit) {
+                        stringResource(R.string.action_edit_card)
+                    } else {
+                        stringResource(R.string.action_add_card)
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
-                        actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    ),
-                    navigationIcon = {
-                        IconButton(
-                            modifier = Modifier.handPointerIcon(),
-                            onClick = {
-                                activity?.finish()
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_arrow_back),
-                                contentDescription = stringResource(R.string.action_back)
-                            )
-                        }
+                    navigationIcon = painterResource(R.drawable.ic_arrow_back),
+                    navigationIconContentDescription = stringResource(R.string.action_back),
+                    navigationIconClick = {
+                        activity?.finish()
                     },
                     actions = {
                         AnimatedVisibility(

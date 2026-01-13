@@ -23,7 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.ActivityMain" />
+        <activity
+            android:name=".ui.activities.ActivityMain"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.activities.AddCardActivity"
             android:windowSoftInputMode="adjustResize" />

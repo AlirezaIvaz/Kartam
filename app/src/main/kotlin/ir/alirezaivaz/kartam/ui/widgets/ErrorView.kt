@@ -39,13 +39,14 @@ import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 fun ErrorView(
     icon: Painter,
     title: String,
-    description: String,
+    modifier: Modifier = Modifier,
+    description: String? = null,
     actionButtonText: String? = null,
     actionButtonIcon: Painter? = null,
     actionButtonPressed: (() -> Unit)? = null
 ) {
     BoxWithConstraints(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         val screenHeight = this.maxHeight
         val screenWidth = this.maxWidth
@@ -81,13 +82,15 @@ fun ErrorView(
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(Modifier.height(8.dp))
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                )
-                if (actionButtonText != null) {
+                description?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+                actionButtonText?.let {
                     Spacer(Modifier.height(8.dp))
                     OutlinedButton(
                         modifier = Modifier.handPointerIcon(),
