@@ -3,8 +3,6 @@ package ir.alirezaivaz.kartam.ui.widgets.list
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import com.dokar.sonner.ToasterState
 import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.CardInfo
@@ -25,7 +23,6 @@ fun LazyItemScope.CardListItemReorderable(
     dragHandleModifier: Modifier = Modifier,
     isReorderable: Boolean = true,
 ) {
-    val hapticFeedback = LocalHapticFeedback.current
     ReorderableItem(
         key = card.id,
         state = state,
@@ -41,16 +38,7 @@ fun LazyItemScope.CardListItemReorderable(
             toaster = toaster,
             onCardSelect = onCardSelect,
             modifier = modifier,
-            dragHandleModifier = dragHandleModifier
-                .draggableHandle(
-                    enabled = isReorderable,
-                    onDragStarted = {
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                    },
-                    onDragStopped = {
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
-                    }
-                ),
+            dragHandleModifier = dragHandleModifier.draggableHandle(enabled = isReorderable),
         )
     }
 }
