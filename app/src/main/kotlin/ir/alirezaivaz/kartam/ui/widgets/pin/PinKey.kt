@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.extensions.handPointerIcon
 
 @Composable
 fun PinKey(
@@ -30,6 +31,7 @@ fun PinKey(
             .size(72.dp)
             .clip(CircleShape)
             .alpha(1f.takeIf { isEnabled } ?: 0.5f)
+            .handPointerIcon(enabled = isEnabled)
             .background(MaterialTheme.colorScheme.surfaceVariant)
             .clickable(
                 enabled = isEnabled,
