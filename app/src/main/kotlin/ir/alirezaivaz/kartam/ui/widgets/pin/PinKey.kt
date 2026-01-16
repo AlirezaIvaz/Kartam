@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import ir.alirezaivaz.kartam.R
@@ -44,14 +45,14 @@ fun PinKey(
             label == "fp" -> {
                 Icon(
                     painter = painterResource(R.drawable.ic_fingerprint),
-                    contentDescription = "Scan Biometric"
+                    contentDescription = stringResource(R.string.action_scan_biometric)
                 )
             }
 
             label == "dl" -> {
                 Icon(
                     painter = painterResource(R.drawable.ic_backspace),
-                    contentDescription = "Remove"
+                    contentDescription = stringResource(R.string.action_remove)
                 )
             }
         }

@@ -21,6 +21,8 @@
     <string name="action_delete_card">حذف کارت</string>
     <string name="action_choose_exp">انتخاب تاریخ انقضا</string>
     <string name="action_reload">تازه‌سازی</string>
+    <string name="action_remove">حذف</string>
+    <string name="action_scan_biometric">اسکن زیستی</string>
     <string name="action_settings">تنظیمات</string>
     <string name="action_more_options">گزینه‌های بیشتر</string>
     <string name="action_copy">کپی</string>
