@@ -93,7 +93,9 @@ class ActivityMain : AppCompatActivity() {
                                     modifier = Modifier.handPointerIcon(),
                                     selected = currentDestination == it,
                                     onClick = {
-                                        navController.navigate(route = it.route)
+                                        if (currentDestination != it) {
+                                            navController.navigate(route = it.route)
+                                        }
                                     },
                                     icon = {
                                         Icon(
