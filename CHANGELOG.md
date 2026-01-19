@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.5.0 (18 January 2025)
+
+- **New:** Lock on start
+- **New:** Search in cards
+- **New:** Manual bank selection
+- **New:** Auto-detect card owner name from pasted text
+- **New:** Support for more neobanks and digital branches
+- **Fixed:** Some minor bugs
+- **Improved:** App UI
+- **Improved:** App functionality
+- Merge Ayandeh Bank into Bank Melli Iran
+
 ## v1.4.0 (23 September 2025)
 
 - **New:** First code field for owned cards

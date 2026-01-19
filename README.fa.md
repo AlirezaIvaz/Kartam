@@ -8,7 +8,7 @@
 
 امکانات برنامه:
 
-- پشتیبانی از ۳۷ بانک، نئوبانک و موسسه ایرانی
+- پشتیبانی از ۵۰ بانک، نئوبانک، شعبه دیجیتال و موسسه ایرانی
 - ذخیره شماره کارت، شماره شبا، شماره حساب، تاریخ انقضا و CVV2
 - کپی، اشتراک‌گذاری و ویرایش کارت
 
@@ -16,7 +16,7 @@
 
 ## مجوز شرایط استفاده از کد برنامه
 
-    Copyright 2017-2025 Alireza Ivaz
+    Copyright 2017-2026 Alireza Ivaz
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

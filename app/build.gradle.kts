@@ -22,8 +22,8 @@ android {
         applicationId = "ir.alirezaivaz.kartam"
         minSdk = 23
         targetSdk = 36
-        versionCode = 140301
-        versionName = "1.4.0"
+        versionCode = 150301
+        versionName = "1.5.0"
     }
 
     buildTypes {
