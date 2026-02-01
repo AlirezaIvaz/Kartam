@@ -63,7 +63,7 @@ object SettingsManager {
     val isSecretCvv2InDetails: StateFlow<Boolean> = _isSecretCvv2InDetails
     private val _theme = MutableStateFlow(Theme.find(settings[PREF_THEME, Theme.System.toString()]))
     val theme: StateFlow<Theme> = _theme
-    private val _language = MutableStateFlow(Language.find(settings[PREF_LANGUAGE, Language.English.tag]))
+    private val _language = MutableStateFlow(Language.find(settings[PREF_LANGUAGE, Language.DEFAULT_LANGUAGE.tag]))
     val language: StateFlow<Language> = _language
     private val _isLockOnStart = MutableStateFlow(settings[PREF_LOCK_ON_START, PREF_LOCK_ON_START_DEFAULT])
     val isLockOnStart: StateFlow<Boolean> = _isLockOnStart
@@ -100,10 +100,16 @@ object SettingsManager {
         AppCompatDelegate.setDefaultNightMode(value.nightMode)
     }
 
-    fun setLanguage(value: Language) {
+    fun getLanguage(): String {
+        return settings[PREF_LANGUAGE, Language.DEFAULT_LANGUAGE.tag]
+    }
+
+    fun setLanguage(value: Language, isFromUser: Boolean = true) {
         _language.value = value
         settings[PREF_LANGUAGE] = value.tag
-        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(value.tag))
+        if (isFromUser) {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(value.tag))
+        }
     }
 
     fun setDynamicColors(value: Boolean) {

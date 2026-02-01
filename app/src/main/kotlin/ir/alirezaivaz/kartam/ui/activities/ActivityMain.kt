@@ -9,7 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -49,7 +48,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivityMain : AppCompatActivity() {
+class ActivityMain : KartamActivity() {
     val activityMain = this@ActivityMain
     val db by lazy { KartamDatabase.getInstance(activityMain) }
     val backupManager by lazy { BackupManager.getInstance(activityMain.noBackupFilesDir, db) }

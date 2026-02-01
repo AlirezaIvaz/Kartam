@@ -5,11 +5,10 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import ir.alirezaivaz.kartam.ui.screens.PinSetupScreen
 import ir.alirezaivaz.kartam.utils.SettingsManager
 
-class ActivityLockSetup : AppCompatActivity() {
+class ActivityLockSetup : KartamActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
