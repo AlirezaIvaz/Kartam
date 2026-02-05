@@ -178,7 +178,7 @@ fun ListScreen(
             onDeleteRequest = {
                 showDeleteCardDialog = false
                 showCardOptionsSheet = false
-                scope.launch(Dispatchers.IO) {
+                scope.launch {
                     if (selectedCard != null) {
                         viewModel.deleteCard(selectedCard!!)
                         selectedCard = null
@@ -289,7 +289,7 @@ fun ListScreen(
                         actionButtonText = stringResource(R.string.action_reload),
                         actionButtonIcon = painterResource(R.drawable.ic_reload),
                         actionButtonPressed = {
-                            scope.launch(Dispatchers.IO) {
+                            scope.launch {
                                 viewModel.loadCards()
                             }
                         }
@@ -301,7 +301,7 @@ fun ListScreen(
                         modifier = Modifier.padding(it),
                         isRefreshing = isRefreshing,
                         onRefresh = {
-                            scope.launch(Dispatchers.IO) {
+                            scope.launch {
                                 viewModel.loadCards(isRefreshing = true)
                             }
                         }
