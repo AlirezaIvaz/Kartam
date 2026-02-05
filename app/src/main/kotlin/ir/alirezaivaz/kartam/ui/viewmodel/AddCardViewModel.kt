@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.AccountType
 import ir.alirezaivaz.kartam.dto.Bank
@@ -29,16 +28,11 @@ import ir.alirezaivaz.kartam.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AddCardViewModel(
-    db: KartamDatabase,
-    private val cardId: Int,
-    private val isOwned: Boolean,
-    private val backupManager: BackupManager,
-) : ViewModel() {
-    private val _cardDao = db.cardDao()
+class AddCardViewModel : ViewModel() {
+    private val _db by lazy { KartamDatabase.instance }
+    private val _cardDao by lazy { _db.cardDao() }
 
     private val _card = MutableStateFlow<CardInfo?>(null)
     val card: StateFlow<CardInfo?> = _card
@@ -78,24 +72,23 @@ class AddCardViewModel(
     val cvv2: StateFlow<TextFieldValue> = _cvv2
     private val _firstCode = MutableStateFlow(TextFieldValue())
     val firstCode: StateFlow<TextFieldValue> = _firstCode
-    private val _isOthersCard = MutableStateFlow(!isOwned)
+    private val _isOthersCard = MutableStateFlow(false)
     val isOthersCard: StateFlow<Boolean> = _isOthersCard
     private val _comment = MutableStateFlow(TextFieldValue())
     val comment: StateFlow<TextFieldValue> = _comment
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (cardId == -1) {
-                _isEdit.value = false
-                updateIsLoading(false)
-                updateIsAutoDetectBank(true)
-            } else {
-                loadCardDetails()
-            }
+    suspend fun initialize(cardId: Int, isOwned: Boolean) = withContext(Dispatchers.IO) {
+        _isOthersCard.value = !isOwned
+        if (cardId == -1) {
+            _isEdit.value = false
+            updateIsLoading(false)
+            updateIsAutoDetectBank(true)
+        } else {
+            loadCardDetails(cardId)
         }
     }
 
-    suspend fun loadCardDetails() {
+    suspend fun loadCardDetails(cardId: Int) {
         _isEdit.value = true
         _card.value = _cardDao.getCard(cardId)
         if (_card.value != null) {
@@ -334,7 +327,7 @@ class AddCardViewModel(
                     position = position + 1
                 )
                 _cardDao.insert(card)
-                backupManager.backupNow()
+                BackupManager.backupNow()
             }
             updateIsLoading(false)
             updateResult(isSuccess = true)
@@ -364,7 +357,7 @@ class AddCardViewModel(
                     isOwned = !_isOthersCard.value
                 )
                 _cardDao.update(card)
-                backupManager.backupNow()
+                BackupManager.backupNow()
             }
             updateIsLoading(false)
             updateResult(

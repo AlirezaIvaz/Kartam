@@ -51,7 +51,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
@@ -88,13 +87,10 @@ import ir.alirezaivaz.kartam.ui.dialogs.CardAddedDialog
 import ir.alirezaivaz.kartam.ui.sheets.SelectOptionsSheet
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModel
-import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModelFactory
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.FilterChip
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.ui.widgets.KartamTopBar
-import ir.alirezaivaz.kartam.utils.BackupManager
-import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.huri.jcal.JalaliCalendar
 import ir.mehrafzoon.composedatepicker.core.component.rememberDialogDatePicker
 import ir.mehrafzoon.composedatepicker.sheet.DatePickerModalBottomSheet
@@ -104,19 +100,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddCardScreen(
     cardId: Int,
-    isOwned: Boolean
+    isOwned: Boolean,
+    viewModel: AddCardViewModel = viewModel()
 ) {
     val scope = rememberCoroutineScope()
     val toaster = rememberToasterState()
-    val context = LocalContext.current
     val activity = LocalActivity.current
     val resources = LocalResources.current
     val focusManager = LocalFocusManager.current
     val jalaliCalendar = JalaliCalendar()
-    val db = KartamDatabase.getInstance(context)
-    val backupManager by lazy { BackupManager.getInstance(context.noBackupFilesDir, db) }
-    val factory = remember { AddCardViewModelFactory(db, cardId, isOwned, backupManager) }
-    val viewModel: AddCardViewModel = viewModel(factory = factory)
     val scrollState = rememberScrollState()
     val datePickerController = rememberDialogDatePicker()
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -145,6 +137,10 @@ fun AddCardScreen(
     val isOthersCard by viewModel.isOthersCard.collectAsState()
     val initialMonth = jalaliCalendar.month
     val initialYear = jalaliCalendar.year
+
+    LaunchedEffect(Unit) {
+        viewModel.initialize(cardId, isOwned)
+    }
 
     LaunchedEffect(result) {
         result?.let {

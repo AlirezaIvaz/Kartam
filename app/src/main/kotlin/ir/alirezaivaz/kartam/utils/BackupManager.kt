@@ -1,19 +1,20 @@
 package ir.alirezaivaz.kartam.utils
 
 import com.google.gson.Gson
+import ir.alirezaivaz.kartam.App
 import ir.alirezaivaz.kartam.BuildConfig
 import ir.alirezaivaz.kartam.dto.Backup
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 
-class BackupManager(
-    private val backupDir: File,
-    private val db: KartamDatabase
-) {
-    private val dao = db.cardDao()
+object BackupManager {
+    private val db by lazy { KartamDatabase.instance }
+    private val dao by lazy { db.cardDao() }
     private val gson = Gson()
-    private val backupFile = File(backupDir, BACKUP_FILE_NAME)
+    private val backupFile by lazy { File(App.appContext.noBackupFilesDir, BACKUP_FILE_NAME) }
 
-    suspend fun backupNow() {
+    suspend fun backupNow() = withContext(Dispatchers.IO) {
         val cards = dao.getAll()
         val backup = Backup(
             version = BuildConfig.VERSION_CODE,
@@ -23,8 +24,8 @@ class BackupManager(
         backupFile.writeText(gson.toJson(backup))
     }
 
-    suspend fun restoreIfNeeded() {
-        if (!backupFile.exists()) return
+    suspend fun restoreIfNeeded() = withContext(Dispatchers.IO) {
+        if (!backupFile.exists()) return@withContext
         val backup = gson.fromJson(backupFile.readText(), Backup::class.java)
         val cardCount = dao.getCount()
         if (cardCount == 0 && backup.cards.isNotEmpty()) {
@@ -32,14 +33,5 @@ class BackupManager(
         }
     }
 
-    companion object {
-        private var _instance: BackupManager? = null
-        private const val BACKUP_FILE_NAME = "cards_backup.json"
-        fun getInstance(backupDir: File, db: KartamDatabase): BackupManager {
-            if (_instance == null) {
-                _instance = BackupManager(backupDir, db)
-            }
-            return _instance!!
-        }
-    }
+    private const val BACKUP_FILE_NAME = "cards_backup.json"
 }

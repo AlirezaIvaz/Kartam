@@ -1,6 +1,12 @@
 package ir.alirezaivaz.kartam.ui.screens
 
+import android.app.Activity
+import android.content.Intent
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -30,13 +36,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
@@ -49,9 +55,7 @@ import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.ui.widgets.KartamSearchBar
 import ir.alirezaivaz.kartam.ui.widgets.list.CardList
-import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.BiometricHelper
-import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,9 +66,9 @@ fun ListScreen(
     cards: List<CardInfo>,
     isOwned: Boolean,
     toaster: ToasterState,
-    viewModel: MainViewModel,
-    onEditRequest: (id: Int?) -> Unit,
-    onAddCardClick: () -> Unit,
+    viewModel: MainViewModel = viewModel(),
+    onEditRequest: (launcher: ManagedActivityResultLauncher<Intent, ActivityResult>, id: Int?) -> Unit,
+    onAddCardClick: (launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -72,6 +76,14 @@ fun ListScreen(
     val hapticFeedback = LocalHapticFeedback.current
     val isLoading by viewModel.isLoading.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
+    val activityLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                scope.launch {
+                    viewModel.loadCards(isRefreshing = true)
+                }
+            }
+        }
     var selectedCard by remember { mutableStateOf<CardInfo?>(null) }
     var selectedCardSnapshot by remember { mutableStateOf<ImageBitmap?>(null) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
@@ -114,7 +126,7 @@ fun ListScreen(
                         onResult = {
                             if (it) {
                                 showCardOptionsSheet = false
-                                onEditRequest(selectedCard?.id)
+                                onEditRequest(activityLauncher, selectedCard?.id)
                             } else {
                                 toaster.show(
                                     message = resources.getString(R.string.error_authentication_failed),
@@ -125,7 +137,7 @@ fun ListScreen(
                     ).authenticate()
                 } else {
                     showCardOptionsSheet = false
-                    onEditRequest(selectedCard?.id)
+                    onEditRequest(activityLauncher, selectedCard?.id)
                 }
             },
             onDeleteRequest = {
@@ -245,7 +257,9 @@ fun ListScreen(
                             contentDescription = stringResource(R.string.action_add_card)
                         )
                     },
-                    onClick = onAddCardClick
+                    onClick = {
+                        onAddCardClick(activityLauncher)
+                    }
                 )
             }
         },
@@ -316,16 +330,11 @@ fun ListScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    val context = LocalContext.current
-    val db = KartamDatabase.getInstance(context)
-    val backupManager by lazy { BackupManager.getInstance(context.noBackupFilesDir, db) }
-    val viewModel = MainViewModel.getInstance(db, backupManager)
     ListScreen(
         cards = emptyList(),
         isOwned = true,
-        viewModel = viewModel,
         toaster = rememberToasterState(),
-        onEditRequest = {},
+        onEditRequest = { _, _ -> },
         onAddCardClick = {}
     )
 }

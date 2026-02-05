@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.WindowInsets
@@ -28,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -41,27 +41,10 @@ import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
-import ir.alirezaivaz.kartam.utils.BackupManager
-import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.SettingsManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ActivityMain : KartamActivity() {
-    val activityMain = this@ActivityMain
-    val db by lazy { KartamDatabase.getInstance(activityMain) }
-    val backupManager by lazy { BackupManager.getInstance(activityMain.noBackupFilesDir, db) }
-    val viewModel by lazy { MainViewModel.getInstance(db, backupManager) }
-    private val addEditCardLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.loadCards(isRefreshing = true)
-                }
-            }
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
@@ -73,8 +56,6 @@ class ActivityMain : KartamActivity() {
             val toaster = rememberToasterState()
             val navController = rememberNavController()
             val context = LocalContext.current
-            val ownedCards by viewModel.ownedCards.collectAsState()
-            val othersCards by viewModel.othersCards.collectAsState()
             var currentDestination by remember { mutableStateOf(Destination.DEFAULT_DESTINATION) }
             var showChangelogSheet by remember { mutableStateOf(SettingsManager.isAppUpdated()) }
             navController.addOnDestinationChangedListener { controller, destination, arguments ->
@@ -128,43 +109,54 @@ class ActivityMain : KartamActivity() {
                         )
                     }
                     NavHost(
+                        route = Destination.GRAPH_ROUTE,
                         navController = navController,
                         startDestination = Destination.DEFAULT_DESTINATION.route,
                         modifier = Modifier.padding(contentPadding)
                     ) {
                         composable(Destination.MY_CARDS.route) { backStackEntry ->
+                            val parentEntry = remember(backStackEntry) {
+                                navController.getBackStackEntry(Destination.GRAPH_ROUTE)
+                            }
+                            val viewModel: MainViewModel = viewModel(parentEntry)
+                            val ownedCards by viewModel.ownedCards.collectAsState()
                             ListScreen(
                                 cards = ownedCards,
                                 isOwned = true,
                                 toaster = toaster,
                                 viewModel = viewModel,
-                                onEditRequest = {
+                                onEditRequest = { launcher, id ->
                                     val intent = Intent(context, AddCardActivity::class.java)
-                                    intent.putExtra("id", it)
-                                    addEditCardLauncher.launch(intent)
+                                    intent.putExtra("id", id)
+                                    launcher.launch(intent)
                                 },
-                                onAddCardClick = {
+                                onAddCardClick = { launcher ->
                                     val intent = Intent(context, AddCardActivity::class.java)
                                     intent.putExtra("owned", true)
-                                    addEditCardLauncher.launch(intent)
+                                    launcher.launch(intent)
                                 }
                             )
                         }
                         composable(Destination.OTHERS_CARDS.route) { backStackEntry ->
+                            val parentEntry = remember(backStackEntry) {
+                                navController.getBackStackEntry(Destination.GRAPH_ROUTE)
+                            }
+                            val viewModel: MainViewModel = viewModel(parentEntry)
+                            val othersCards by viewModel.othersCards.collectAsState()
                             ListScreen(
                                 cards = othersCards,
                                 isOwned = false,
                                 toaster = toaster,
                                 viewModel = viewModel,
-                                onEditRequest = {
+                                onEditRequest = { launcher, id ->
                                     val intent = Intent(context, AddCardActivity::class.java)
-                                    intent.putExtra("id", it)
-                                    addEditCardLauncher.launch(intent)
+                                    intent.putExtra("id", id)
+                                    launcher.launch(intent)
                                 },
-                                onAddCardClick = {
+                                onAddCardClick = { launcher ->
                                     val intent = Intent(context, AddCardActivity::class.java)
                                     intent.putExtra("owned", false)
-                                    addEditCardLauncher.launch(intent)
+                                    launcher.launch(intent)
                                 }
                             )
                         }
@@ -231,6 +223,7 @@ enum class Destination(
     );
 
     companion object {
+        val GRAPH_ROUTE = "kartam_graph"
         val DEFAULT_DESTINATION = MY_CARDS
         fun findBy(route: String?): Destination {
             return entries.find { it.route == route } ?: DEFAULT_DESTINATION

@@ -10,12 +10,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainViewModel(
-    db: KartamDatabase,
-    private val backupManager: BackupManager
-) : ViewModel() {
-    private val _cardDao = db.cardDao()
+class MainViewModel : ViewModel() {
+    private val _db by lazy { KartamDatabase.instance }
+    private val _cardDao by lazy { _db.cardDao() }
 
     private val _isLocked = MutableStateFlow(true)
     val isLocked: StateFlow<Boolean> = _isLocked
@@ -29,7 +28,7 @@ class MainViewModel(
     val othersCards: StateFlow<List<CardInfo>> = _othersCards
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             loadCards()
         }
     }
@@ -53,8 +52,10 @@ class MainViewModel(
         } else {
             updateIsLoading(true)
         }
-        backupManager.restoreIfNeeded()
-        val cards = _cardDao.getAll()
+        BackupManager.restoreIfNeeded()
+        val cards = withContext(Dispatchers.IO) {
+            _cardDao.getAll()
+        }
         updateCards(cards)
         delay(500)
         if (isRefreshing) {
@@ -76,7 +77,9 @@ class MainViewModel(
             viewModelScope.launch {
                 currentList.forEachIndexed { index, card ->
                     if (card.position != index) {
-                        _cardDao.update(card.copy(position = index))
+                        withContext(Dispatchers.IO) {
+                            _cardDao.update(card.copy(position = index))
+                        }
                     }
                 }
                 if (isOwned) {
@@ -84,7 +87,7 @@ class MainViewModel(
                 } else {
                     _othersCards.value = currentList
                 }
-                backupManager.backupNow()
+                BackupManager.backupNow()
             }
         } catch (_: Exception) {
             return
@@ -93,25 +96,10 @@ class MainViewModel(
 
     suspend fun deleteCard(card: CardInfo) {
         updateIsRefreshing(true)
-        _cardDao.delete(card)
-        backupManager.backupNow()
+        withContext(Dispatchers.IO) {
+            _cardDao.delete(card)
+        }
+        BackupManager.backupNow()
         updateIsRefreshing(false)
-    }
-
-    companion object {
-        private var _instance: MainViewModel? = null
-
-        fun getInstance(db: KartamDatabase, backupManager: BackupManager): MainViewModel {
-            if (_instance == null) {
-                _instance = MainViewModel(db, backupManager)
-            }
-            return _instance!!
-        }
-
-        fun disposeInstance() {
-            if (_instance != null) {
-                _instance = null
-            }
-        }
     }
 }
