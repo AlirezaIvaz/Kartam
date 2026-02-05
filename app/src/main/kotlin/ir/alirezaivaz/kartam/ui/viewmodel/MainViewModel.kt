@@ -6,7 +6,6 @@ import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -55,7 +54,6 @@ class MainViewModel : ViewModel() {
             _cardDao.getAll()
         }
         updateCards(cards)
-        delay(500)
         if (isRefreshing) {
             updateIsRefreshing(false)
         } else {
