@@ -73,17 +73,18 @@ class MainViewModel : ViewModel() {
             val item = currentList.removeAt(from)
             currentList.add(to, item)
             viewModelScope.launch {
-                currentList.forEachIndexed { index, card ->
-                    if (card.position != index) {
-                        withContext(Dispatchers.IO) {
-                            _cardDao.update(card.copy(position = index))
-                        }
+                val updatedList = currentList.mapIndexed { index, card ->
+                    if (card.position != index) card.copy(position = index) else card
+                }
+                withContext(Dispatchers.IO) {
+                    updatedList.forEach { card ->
+                        _cardDao.update(card)
                     }
                 }
                 if (isOwned) {
-                    _ownedCards.value = currentList
+                    _ownedCards.value = updatedList
                 } else {
-                    _othersCards.value = currentList
+                    _othersCards.value = updatedList
                 }
                 BackupManager.backupNow()
             }
