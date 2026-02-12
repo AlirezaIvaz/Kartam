@@ -51,10 +51,14 @@ object BackupManager {
 
     suspend fun restoreIfNeeded() = withContext(Dispatchers.IO) {
         if (!backupFile.exists()) return@withContext
-        val backup = gson.fromJson(backupFile.readText(), Backup::class.java)
-        val cardCount = dao.getCount()
-        if (cardCount == 0 && backup.cards.isNotEmpty()) {
-            dao.insertAll(backup.cards)
+        runCatching {
+            val cardCount = dao.getCount()
+            if (cardCount == 0) {
+                val backup = gson.fromJson(backupFile.readText(), Backup::class.java)
+                if (backup.cards.isNotEmpty()) {
+                    dao.insertAll(backup.cards)
+                }
+            }
         }
     }
 
