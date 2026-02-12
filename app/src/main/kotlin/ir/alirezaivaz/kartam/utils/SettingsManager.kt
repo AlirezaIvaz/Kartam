@@ -47,7 +47,7 @@ object SettingsManager {
     private const val PREF_AUTH_BEFORE_DELETE = "pref_auth_before_delete"
     private const val PREF_AUTH_BEFORE_DELETE_DEFAULT = true
 
-    private val _version = MutableStateFlow(settings[PREF_VERSION, 0])
+    private val _version = MutableStateFlow(settings[PREF_VERSION, BuildConfig.VERSION_CODE])
     val version: StateFlow<Int> = _version
     private val _isDynamicColors = MutableStateFlow(settings[PREF_DYNAMIC_COLORS, isDynamicColorsSupported])
     val isDynamicColors: StateFlow<Boolean> = _isDynamicColors
