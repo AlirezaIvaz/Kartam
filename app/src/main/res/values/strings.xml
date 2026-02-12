@@ -37,6 +37,7 @@
     <string name="action_new_backup">New Backup</string>
     <string name="action_restore">Restore</string>
     <string name="action_restore_backup">Restore Backup</string>
+    <string name="action_telegram_channel">Telegram Channel</string>
 
     <!-- Labels -->
     <string name="label_mine">Mine</string>

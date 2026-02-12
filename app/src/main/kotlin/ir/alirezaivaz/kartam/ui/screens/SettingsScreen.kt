@@ -57,6 +57,7 @@ import androidx.fragment.app.FragmentActivity
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
+import ir.alirezaivaz.kartam.App
 import ir.alirezaivaz.kartam.BuildConfig
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.AuthType
@@ -589,24 +590,52 @@ fun SettingsScreen(
                 }
             }
             Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
-            FilledTonalButton(
+            Row(
                 modifier = Modifier
-                    .handPointerIcon()
                     .fillMaxWidth()
                     .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
-                onClick = onChangelogRequest,
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                FilledTonalButton(
+                    modifier = Modifier
+                        .handPointerIcon()
+                        .weight(1f),
+                    onClick = {
+                        uriHandler.openUri(App.TELEGRAM_CHANNEL_URL)
+                    },
                 ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_list),
-                        contentDescription = stringResource(R.string.changelog)
-                    )
-                    Text(
-                        text = stringResource(R.string.changelog)
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_telegram),
+                            contentDescription = stringResource(R.string.action_telegram_channel)
+                        )
+                        Text(
+                            text = stringResource(R.string.action_telegram_channel)
+                        )
+                    }
+                }
+                FilledTonalButton(
+                    modifier = Modifier
+                        .handPointerIcon()
+                        .weight(1f),
+                    onClick = onChangelogRequest,
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_list),
+                            contentDescription = stringResource(R.string.changelog)
+                        )
+                        Text(
+                            text = stringResource(R.string.changelog)
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
