@@ -6,10 +6,10 @@ import ir.alirezaivaz.kartam.dto.SensitiveString
 
 class Converters {
     @TypeConverter
-    fun fromBank(bank: Bank): String = bank.name
+    fun fromBank(bank: Bank?): String = bank?.name ?: Bank.Unknown.name
 
     @TypeConverter
-    fun toBank(bankName: String): Bank = Bank.valueOf(bankName)
+    fun toBank(bankName: String): Bank = Bank.getBank(bankName)
 
     @TypeConverter
     fun fromSensitive(value: SensitiveString?): String? {
