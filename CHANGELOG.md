@@ -1,58 +1,60 @@
-# Changelog
+# گزارش تغییرات
 
-## v1.5.0 (18 January 2025)
+فارسی • [English](CHANGELOG.en.md)
 
-- **New:** Lock on start
-- **New:** Search in cards
-- **New:** Manual bank selection
-- **New:** Auto-detect card owner name from pasted text
-- **New:** Support for more neobanks and digital branches
-- **Fixed:** Some minor bugs
-- **Improved:** App UI
-- **Improved:** App functionality
-- Merge Ayandeh Bank into Bank Melli Iran
+## ۱٫۵٫۰ (۲۸ دی ۱۴۰۴)
 
-## v1.4.0 (23 September 2025)
+- **جدید:** قفل ورود به برنامه
+- **جدید:** جستجو در کارت‌ها
+- **جدید:** انتخاب دستی بانک
+- **جدید:** تشخیص خودکار نام صاحب کارت از متن جای‌گذاری‌شده
+- **جدید:** پشتیبانی از نئوبانک‌ها و شعبه‌های مجازی بیشتر
+- **حل‌شد:** برخی مشکلات جزئی
+- **بهبود یافته:** رابط کاربری برنامه
+- **بهبود یافته:** کارکرد برنامه
+- ادغام بانک آینده در بانک ملی ایران
 
-- **New:** First code field for owned cards
-- **New:** Comment and account type fields for cards
-- **New:** Auto-detect Persian/Arabic numbers
-- **New:** Biometric and non-biometric authentication options for sensitive parts
-- **Fixed:** Some minor bugs
-- **Improved:** App UI
+## ۱٫۴٫۰ (۱ مهر ۱۴۰۴)
 
-## v1.3.0 (26 August 2025)
+- **جدید:** امکان ثبت رمز اول کارت‌های شخصی
+- **جدید:** امکان ثبت یادداشت و نوع حساب کارت
+- **جدید:** تشخیص خودکار عددهای فارسی و عربی
+- **جدید:** گزینه‌های اعتبارسنجی زیستی و غیرزیستی برای بخش‌های حساس
+- **حل‌شد:** برخی مشکلات جزئی
+- **بهبود یافته:** رابط کاربری برنامه
 
-- **New:** Others' cards section
-- **New:** Auto backup/restore system
-- **New:** Show full year option
-- **New:** Reverse show expiration date option
-- **Fixed:** Some minor bugs
-- **Improved:** App size
-- **Improved:** App speed
-- **Improved:** App UI
+## ۱٫۳٫۰ (۴ شهریور ۱۴۰۴)
 
-## v1.2.0 (19 August 2025)
+- **جدید:** بخش کارت‌های دیگران
+- **جدید:** سیستم پشتیبان‌گیری/بازیابی خودکار
+- **جدید:** گزینهٔ نمایش تاریخ انقضا به‌صورت کامل
+- **جدید:** گزینهٔ جابه‌جا کردن ماه و سال در تاریخ انقضا
+- **حل‌شد:** برخی مشکلات جزئی
+- **بهبود یافته:** حجم برنامه
+- **بهبود یافته:** سرعت برنامه
+- **بهبود یافته:** رابط کاربری برنامه
 
-- **New:** Supported banks sheet
-- **New:** Branch code and name fields for cards
-- **Fixed:** Card position would change after editing
-- **Fixed:** Some minor bugs
-- **Improved:** App size
-- **Improved:** App UI
+## ۱٫۲٫۰ (۲۸ مرداد ۱۴۰۴)
 
-## v1.1.0 (7 August 2025)
+- **جدید:** صفحهٔ بانک‌های پشتیبانی‌شده
+- **جدید:** امکان ثبت شماره و نام شعبهٔ کارت
+- **حل‌شد:** جایگاه کارت بعد از ویرایش تغییر می‌کرد
+- **حل‌شد:** برخی مشکلات جزئی
+- **بهبود یافته:** حجم برنامه
+- **بهبود یافته:** رابط کاربری برنامه
 
-- **New:** Move cards with drag and drop
-- **New:** Support for HiBank and MetaBank
-- **New:** Predictive back gesture support
-- **New:** More customization options in settings
-- **Fixed:** Eghtesad Novin bank icon
-- **Fixed:** Pasting non-digit characters
-- **Fixed:** Resetting the expiration date in the picker sheet
-- **Improved:** App size
-- Expiration date is no longer required
+## ۱٫۱٫۰ (۱۵ مرداد ۱۴۰۴)
 
-## v1.0.0 (2 August 2025)
+- **جدید:** پشتیبانی از های‌بانک و متابانک
+- **جدید:** پشتیبانی از ژست برگشت پیش‌بینانه
+- **جدید:** گزینه‌های شخصی‌سازی بیشتر در تنظیمات
+- **جدید:** جابه‌جا کردن کارت‌ها با کشیدن و رهاکردن
+- **حل‌شد:** مشکل آیکون بانک اقتصاد نوین
+- **حل‌شد:** مشکل چسباندن کاراکترهای غیر عددی
+- **حل‌شده:** مشکل بازنشانی‌شدن تاریخ انقضا در پنجرهٔ انتخاب
+- **بهبود یافته:** حجم برنامه
+- تاریخ انقضا دیگر اجباری نیست
 
-- First release
+## ۱٫۰٫۰ (۱۱ مرداد ۱۴۰۴)
+
+- انتشار اولیه
