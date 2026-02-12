@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="۱٫۶٫۱" date="۲۳ بهمن ۱۴۰۴">
+        <fixed>مشکلات پشتیبان‌گیری و بازیابی</fixed>
+        <fixed>برخی مشکلات جزئی</fixed>
+    </version>
     <version name="۱٫۶٫۰" date="۲۳ بهمن ۱۴۰۴">
         <new>پشتیبان‌گیری و بازیابی دستی</new>
         <fixed>برخی مشکلات جزئی</fixed>

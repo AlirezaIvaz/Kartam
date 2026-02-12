@@ -2,6 +2,11 @@
 
 [فارسی](CHANGELOG.md) • English
 
+## v1.6.1 (12 February 2026)
+
+- **Fixed:** Backup and restore issues
+- **Fixed:** Some minor bugs
+
 ## v1.6.0 (12 February 2026)
 
 - **New:** Manual backup and restore
