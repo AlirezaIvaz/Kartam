@@ -3,8 +3,7 @@
 
     <!-- Actions -->
     <string name="action_home">خانه</string>
-    <string name="action_my_cards">کارت‌های من</string>
-    <string name="action_others_cards">کارت‌های دیگران</string>
+    <string name="action_data">داده‌ها</string>
     <string name="action_search">جستجو</string>
     <string name="action_search_in_owned">جستجو در کارت‌های من</string>
     <string name="action_search_in_others">جستجو در کارت‌های دیگران</string>
@@ -15,11 +14,13 @@
     <string name="action_confirm">تایید</string>
     <string name="action_dismiss">انصراف</string>
     <string name="action_i_got_it">فهمیدم</string>
+    <string name="action_grant_permission">اجازه‌دادن</string>
     <string name="action_add_card">افزودن کارت</string>
     <string name="action_stay_here">همینجا بمان</string>
     <string name="action_edit_card">ویرایش کارت</string>
     <string name="action_delete_card">حذف کارت</string>
     <string name="action_choose_exp">انتخاب تاریخ انقضا</string>
+    <string name="action_open_settings">بازکردن تنظیمات</string>
     <string name="action_reload">تازه‌سازی</string>
     <string name="action_remove">حذف</string>
     <string name="action_scan_biometric">اسکن زیستی</string>
@@ -33,8 +34,16 @@
     <string name="action_enter_pin">پین را وارد کنید</string>
     <string name="action_create_pin">پین را انتخاب کنید</string>
     <string name="action_confirm_pin">پین را دوباره وارد کنید</string>
+    <string name="action_new_backup">پشتیبان‌گیری جدید</string>
+    <string name="action_restore">بازیابی</string>
+    <string name="action_restore_backup">بازیابی پروندهٔ پشتیبان</string>
+    <string name="label_storage_permission">دسترسی حافظه</string>
 
     <!-- Labels -->
+    <string name="label_mine">خودم</string>
+    <string name="label_others">دیگران</string>
+    <string name="label_manage_data">مدیریت داده‌ها</string>
+    <string name="label_restore_backup">بازیابی پروندهٔ پشتیبان</string>
     <string name="label_auto_detect">تشخیص خودکار</string>
     <string name="label_auto_detected">تشخیص خودکار - %s</string>
     <string name="label_card_number">شمارهٔ کارت</string>
@@ -51,16 +60,35 @@
     <string name="label_cvv2">CVV2</string>
     <string name="label_first_code">رمز اول</string>
     <string name="label_comment">یادداشت</string>
+    <string name="label_current_data">داده‌های فعلی</string>
+    <string name="label_backup_history">تاریخچهٔ پشتیبان‌گیری</string>
+    <string name="label_backup_title">%d کارت خودم، %d کارت دیگران</string>
+    <string name="label_last_backup_time">آخرین پشتیبان‌گیری: %s</string>
 
     <!-- Messages -->
     <string name="message_card_added">کارت با موفقیت اضافه شد!</string>
     <string name="message_card_updated">کارت با موفقیت به‌روزرسانی شد!</string>
     <string name="message_card_deleted">کارت با موفقیت حذف شد!</string>
+    <string name="message_backup_restored">پروندهٔ پشتیبان با موفقیت بازیابی شد!</string>
     <string name="message_copied_to_clipboard">%s در بریده‌دان کپی شد!</string>
     <string name="message_no_card">هیچ کارتی یافت نشد!</string>
     <string name="message_no_card_description">اولین کارت خود را با کلیک روی دکمهٔ + در پایین صفحه اضافه کنید.</string>
+    <string name="message_no_backup">هیچ پروندهٔ پشتیبانی برای نمایش وجود ندارد.x</string>
     <string name="message_auth">اعتبارسنجی</string>
     <string name="message_auth_description">لطفا برای ادامه‌دادن اعتبارسنجی کنید</string>
+    <string name="message_backup_storage_permission">
+        "برای ساختن و فهرست‌کردن پرونده‌های پشتیبان به دسترسی حافظه نیاز داریم.\n"
+        "نکته: همیشه می‌توانید این دسترسی را در تنظیمات دستگاه از برنامه پس بگیرید."
+    </string>
+    <string name="message_backup_storage_permission_list">
+        "برای نمایش فهرست پرونده‌های پشتیبان به دسترسی حافظه نیاز داریم."
+    </string>
+    <string name="message_backup_storage_permission_rationale">
+        "برای ساختن و فهرست‌کردن پرونده‌های پشتیبان به دسترسی حافظه نیاز داریم."
+        "لطفا آن‌را از تنظیمات دستگاه به برنامه بدهید.\n"
+        "نکته: همیشه می‌توانید این دسترسی را در تنظیمات دستگاه از برنامه پس بگیرید."
+    </string>
+    <string name="message_permission_granted">دسترسی به برنامه داده شد!</string>
     <string name="message_went_wrong">مشکلی پیش آمد!</string>
     <string name="message_went_wrong_description">نتوانستیم چیزی که به‌دنبال آن هستید را پیدا کنیم. لطفا برگردید و دوباره تلاش کنید.</string>
 
@@ -81,6 +109,10 @@
     <string name="error_invalid_exp_year">سال انقضای کارت نامعتبر یا گذشته است!</string>
     <string name="error_request_run_failed">امکان اجرای درخواست شما وجود ندارد!</string>
     <string name="error_authentication_failed">اعتبارسنجی ناموفق بود!</string>
+    <string name="error_invalid_backup_file">پروندهٔ پشتیبان خراب یا نامعتبر است!</string>
+    <string name="error_restore_backup_failed">بازیابی پروندهٔ پشتیبان ناموفق بود!</string>
+    <string name="error_permission_denied">دسترسی به برنامه داده نشد!</string>
+    <string name="error_unknown">خطای ناشناخته رخ داد!</string>
 
     <!-- Card added dialog -->
     <string name="card_added_title">کارت اضافه شد</string>

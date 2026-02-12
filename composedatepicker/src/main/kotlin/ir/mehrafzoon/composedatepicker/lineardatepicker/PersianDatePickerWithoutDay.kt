@@ -26,16 +26,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import ir.mehrafzoon.composedatepicker.R
 import ir.mehrafzoon.composedatepicker.core.component.CustomNumberPicker
 import ir.mehrafzoon.composedatepicker.core.component.NumberPicker
 import ir.mehrafzoon.composedatepicker.core.component.PersianDatePickerController
-import ir.mehrafzoon.composedatepicker.utils.Constant
-import ir.mehrafzoon.composedatepicker.utils.Tools.convertNumberToPersian
 import ir.mehrafzoon.composedatepicker.utils.Tools.toPersianDigits
 
 @Composable
@@ -47,6 +44,7 @@ internal fun PersianDatePickerWithoutDay(
     @FontRes font: Int?,
     onDateChanged: ((year: Int, month: Int, day: Int) -> Unit)? = null,
 ) {
+    val resources = LocalResources.current
 
     controller.initDate()
 
@@ -57,20 +55,7 @@ internal fun PersianDatePickerWithoutDay(
         }
         .toTypedArray()
 
-    val monthNames = arrayOf(
-        stringResource(R.string.month_farvardin),
-        stringResource(R.string.month_ordibehesht),
-        stringResource(R.string.month_khordad),
-        stringResource(R.string.month_tir),
-        stringResource(R.string.month_mordad),
-        stringResource(R.string.month_shahrivar),
-        stringResource(R.string.month_mehr),
-        stringResource(R.string.month_aban),
-        stringResource(R.string.month_azar),
-        stringResource(R.string.month_dey),
-        stringResource(R.string.month_bahman),
-        stringResource(R.string.month_esfand),
-    )
+    val monthNames = resources.getStringArray(R.array.jalali_months)
 
     Row(
         modifier = modifier,

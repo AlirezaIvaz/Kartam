@@ -1,7 +1,12 @@
 package ir.alirezaivaz.kartam.utils
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.util.Locale
 
 object Utils {
@@ -51,5 +56,20 @@ object Utils {
                 .toLanguageTag()
         }
         return tag
+    }
+
+    fun isStoragePermissionGranted(context: Context): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q || ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun isStoragePermissionRequestRationale(activity: Activity?): Boolean {
+        if (activity == null) return false
+        return ActivityCompat.shouldShowRequestPermissionRationale(
+            activity,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
     }
 }

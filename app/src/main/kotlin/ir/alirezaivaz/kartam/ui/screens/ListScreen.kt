@@ -104,6 +104,10 @@ fun ListScreen(
         hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.loadCards(isRefreshing = true)
+    }
+
     LaunchedEffect(isSearching) {
         if (isSearching) {
             filteredCards.clear()

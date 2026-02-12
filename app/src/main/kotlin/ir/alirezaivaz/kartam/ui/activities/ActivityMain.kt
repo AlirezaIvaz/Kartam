@@ -35,6 +35,7 @@ import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.screens.ListScreen
+import ir.alirezaivaz.kartam.ui.screens.ManageDataScreen
 import ir.alirezaivaz.kartam.ui.screens.SettingsScreen
 import ir.alirezaivaz.kartam.ui.screens.SupportedBanksScreen
 import ir.alirezaivaz.kartam.ui.sheets.ChangelogSheet
@@ -163,6 +164,9 @@ class ActivityMain : KartamActivity() {
                         composable(Destination.SUPPORTED_BANKS.route) {
                             SupportedBanksScreen()
                         }
+                        composable(Destination.MANAGE_DATA.route) {
+                            ManageDataScreen(toaster = toaster)
+                        }
                         composable(Destination.SETTINGS.route) {
                             SettingsScreen(
                                 toaster = toaster,
@@ -199,13 +203,13 @@ enum class Destination(
 ) {
     MY_CARDS(
         route = "my_cards",
-        label = R.string.action_my_cards,
+        label = R.string.label_mine,
         icon = R.drawable.ic_credit_card,
         filledIcon = R.drawable.ic_credit_card_filled,
     ),
     OTHERS_CARDS(
         route = "others_cards",
-        label = R.string.action_others_cards,
+        label = R.string.label_others,
         icon = R.drawable.ic_cards,
         filledIcon = R.drawable.ic_cards_filled,
     ),
@@ -214,6 +218,12 @@ enum class Destination(
         label = R.string.action_banks,
         icon = R.drawable.ic_building_bank,
         filledIcon = R.drawable.ic_building_bank,
+    ),
+    MANAGE_DATA(
+        route = "manage_data",
+        label = R.string.action_data,
+        icon = R.drawable.ic_archive,
+        filledIcon = R.drawable.ic_archive_filled
     ),
     SETTINGS(
         route = "settings",

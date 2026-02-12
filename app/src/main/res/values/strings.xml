@@ -3,8 +3,7 @@
 
     <!-- Actions -->
     <string name="action_home">Home</string>
-    <string name="action_my_cards">My cards</string>
-    <string name="action_others_cards">Others\' cards</string>
+    <string name="action_data">Data</string>
     <string name="action_search">Search</string>
     <string name="action_search_in_owned">Search in my cards</string>
     <string name="action_search_in_others">Search in others\' cards</string>
@@ -15,11 +14,13 @@
     <string name="action_confirm">Confirm</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_i_got_it">I got it</string>
+    <string name="action_grant_permission">Grant permission</string>
     <string name="action_add_card">Add Card</string>
     <string name="action_stay_here">Stay here</string>
     <string name="action_edit_card">Edit Card</string>
     <string name="action_delete_card">Delete Card</string>
     <string name="action_choose_exp">Choose expiration date</string>
+    <string name="action_open_settings">Open Settings</string>
     <string name="action_reload">Reload</string>
     <string name="action_remove">Remove</string>
     <string name="action_scan_biometric">Scan Biometric</string>
@@ -33,8 +34,15 @@
     <string name="action_enter_pin">Enter PIN Code</string>
     <string name="action_create_pin">Create PIN</string>
     <string name="action_confirm_pin">Confirm PIN</string>
+    <string name="action_new_backup">New Backup</string>
+    <string name="action_restore">Restore</string>
+    <string name="action_restore_backup">Restore Backup</string>
 
     <!-- Labels -->
+    <string name="label_mine">Mine</string>
+    <string name="label_others">Others</string>
+    <string name="label_manage_data">Manage Data</string>
+    <string name="label_restore_backup">Restore backup file</string>
     <string name="label_auto_detect">Auto Detect</string>
     <string name="label_auto_detected">Auto Detect - %s</string>
     <string name="label_card_number">Card number</string>
@@ -52,6 +60,11 @@
     <string name="label_cvv2" translatable="false">CVV2</string>
     <string name="label_first_code">First Code</string>
     <string name="label_comment">Comment</string>
+    <string name="label_current_data">Current Data</string>
+    <string name="label_backup_history">Backup History</string>
+    <string name="label_backup_title">%d Owned cards, %d Others cards</string>
+    <string name="label_last_backup_time">Last backup: %s</string>
+    <string name="label_storage_permission">Storage Permission</string>
     <string name="label_required" translatable="false">*</string>
 
     <!-- Formatters -->
@@ -62,11 +75,26 @@
     <string name="message_card_added">Card added successfully!</string>
     <string name="message_card_updated">Card updated successfully!</string>
     <string name="message_card_deleted">Card deleted successfully!</string>
+    <string name="message_backup_restored">Backup restored successfully!</string>
     <string name="message_copied_to_clipboard">%s copied to clipboard!</string>
     <string name="message_no_card">No cards found!</string>
     <string name="message_no_card_description">Add your first card by tapping over + button at the bottom.</string>
+    <string name="message_no_backup">There is no backup file to be shown.</string>
     <string name="message_auth">Authentication</string>
     <string name="message_auth_description">Please authenticate to continue</string>
+    <string name="message_backup_storage_permission">
+        "Storage permission is required in order to create and list backup files.\n"
+        "Note: You can always revoke it from device settings."
+    </string>
+    <string name="message_backup_storage_permission_list">
+        "Storage permission is required in order to list backup files."
+    </string>
+    <string name="message_backup_storage_permission_rationale">
+        "Storage permission is required in order to create and list backup files."
+        "Please grant it to app from device settings.\n"
+        "Note: You can always revoke it from device settings."
+    </string>
+    <string name="message_permission_granted">Permission granted successfully!</string>
     <string name="message_went_wrong">Something went wrong!</string>
     <string name="message_went_wrong_description">We can\'t find what you\'re looking for. Please back and try again.</string>
 
@@ -87,6 +115,10 @@
     <string name="error_invalid_exp_year">Expiration year is invalid or has passed!</string>
     <string name="error_request_run_failed">Your request can\'t be run!</string>
     <string name="error_authentication_failed">Authentication failed!</string>
+    <string name="error_invalid_backup_file">The backup file is corrupt or invalid!</string>
+    <string name="error_restore_backup_failed">Backup file restoration failed!</string>
+    <string name="error_permission_denied">Permission denied!</string>
+    <string name="error_unknown">Unknown error!</string>
 
     <!-- Card added dialog -->
     <string name="card_added_title">Card added</string>
