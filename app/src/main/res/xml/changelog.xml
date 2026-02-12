@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="1.6.0" date="2026-02-23">
+        <new>Manual backup and restore</new>
+        <fixed>Some minor bugs</fixed>
+        <improved>App functionality</improved>
+    </version>
     <version name="1.5.0" date="2026-01-18">
         <new>Lock on start</new>
         <new>Search in cards</new>

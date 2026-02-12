@@ -2,7 +2,13 @@
 
 [فارسی](CHANGELOG.md) • English
 
-## v1.5.0 (18 January 2025)
+## v1.6.0 (12 February 2026)
+
+- **New:** Manual backup and restore
+- **Fixed:** Some minor bugs
+- **Improved:** App functionality
+
+## v1.5.0 (18 January 2026)
 
 - **New:** Lock on start
 - **New:** Search in cards

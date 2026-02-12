@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="۱٫۶٫۰" date="۲۳ بهمن ۱۴۰۴">
+        <new>پشتیبان‌گیری و بازیابی دستی</new>
+        <fixed>برخی مشکلات جزئی</fixed>
+        <improved>کارکرد برنامه</improved>
+    </version>
     <version name="۱٫۵٫۰" date="۲۸ دی ۱۴۰۴">
         <new>قفل ورود به برنامه</new>
         <new>جستجو در کارت‌ها</new>
