@@ -99,6 +99,15 @@ enum class Bank(
         isNeo = true,
         supportedAccountTypes = listOf(AccountType.ShortTermDeposit)
     ),
+    @SerializedName("GreenBank")
+    GreenBank(
+        type = BankType.NeoBank,
+        icon = R.drawable.ic_bank_greenbank,
+        logo = R.drawable.ic_bank_greenbank_logo,
+        title = R.string.bank_greenbank,
+        isNeo = true,
+        prefixes = listOf(),
+    ),
     @SerializedName("HiBank")
     HiBank(
         type = BankType.NeoBank,
@@ -462,7 +471,7 @@ val Bank.parentBank: Bank?
         Bank.OmidBank, Bank.Ansar -> Bank.Sepah
         Bank.QBank, Bank.Banket -> Bank.Mehr
         Bank.Sepino -> Bank.Saderat
-        Bank.Sibank -> Bank.Sina
+        Bank.Sibank, Bank.GreenBank -> Bank.Sina
         Bank.ToBank -> Bank.Gardeshgari
         else -> null
     }
@@ -481,7 +490,7 @@ val Bank.childBanks: List<Bank>
         Bank.Melli -> listOf(Bank.Baam, Bank.Ayandeh, Bank.ABank, Bank.Noor)
         Bank.Saderat -> listOf(Bank.Sepino)
         Bank.Sepah -> listOf(Bank.OmidBank, Bank.Ansar)
-        Bank.Sina -> listOf(Bank.Sibank)
+        Bank.Sina -> listOf(Bank.Sibank, Bank.GreenBank)
         Bank.Tejarat -> listOf(Bank.Bajet)
         Bank.ToseTaavon -> listOf(Bank.Bankvareh)
         else -> emptyList()
