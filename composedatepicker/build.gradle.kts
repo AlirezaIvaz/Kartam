@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
 
@@ -35,6 +35,7 @@ android {
 
 kotlin {
     compilerOptions {
+        languageVersion = KotlinVersion.KOTLIN_2_3
         jvmTarget = JvmTarget.JVM_21
     }
 }
