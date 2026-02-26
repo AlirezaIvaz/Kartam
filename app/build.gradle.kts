@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -26,9 +27,23 @@ android {
         versionName = "1.6.1"
     }
 
+    signingConfigs {
+        create("release") {
+            val releaseProperties = Properties()
+            val releasePropertiesFile = rootProject.file("release.properties")
+            if (releasePropertiesFile.exists()) {
+                releaseProperties.load(releasePropertiesFile.inputStream())
+                keyAlias = releaseProperties.getProperty("key.alias")
+                keyPassword = releaseProperties.getProperty("key.password")
+                storeFile = file(releaseProperties.getProperty("store.file"))
+                storePassword = releaseProperties.getProperty("store.password")
+            }
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

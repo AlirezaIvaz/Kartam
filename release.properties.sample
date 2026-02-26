@@ -1,0 +1,4 @@
+store.file=/home/user/keystore.jks
+store.password=1234
+key.alias=test
+key.password=1234
