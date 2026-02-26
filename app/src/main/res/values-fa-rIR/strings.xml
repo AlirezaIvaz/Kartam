@@ -62,7 +62,7 @@
     <string name="label_comment">یادداشت</string>
     <string name="label_current_data">داده‌های فعلی</string>
     <string name="label_backup_history">تاریخچهٔ پشتیبان‌گیری</string>
-    <string name="label_backup_title">%d کارت خودم، %d کارت دیگران</string>
+    <string name="label_backup_title">%1$d کارت خودم، %2$d کارت دیگران</string>
     <string name="label_last_backup_time">آخرین پشتیبان‌گیری: %s</string>
     <string name="label_storage_permission">دسترسی حافظه</string>
 
@@ -172,7 +172,7 @@
     <string name="supported_banks_normal">بانک‌ها</string>
     <string name="supported_banks_neo">نئوبانک‌ها و شعبه‌های دیجیتال</string>
     <string name="supported_banks_credit_institutions">مؤسسه‌های اعتباری</string>
-    <string name="supported_bank_merged">%s در %s ادغام شده است.</string>
+    <string name="supported_bank_merged">%1$s در %2$s ادغام شده است.</string>
     <string name="supported_bank_no_auto_detect">امکان تشخیص خودکار کارت‌های %s وجود ندارد.</string>
 
     <!-- Account types -->

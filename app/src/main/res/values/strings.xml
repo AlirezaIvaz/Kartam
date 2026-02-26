@@ -63,13 +63,13 @@
     <string name="label_comment">Comment</string>
     <string name="label_current_data">Current Data</string>
     <string name="label_backup_history">Backup History</string>
-    <string name="label_backup_title">%d Owned cards, %d Others cards</string>
+    <string name="label_backup_title">%1$d Owned cards, %2$d Others cards</string>
     <string name="label_last_backup_time">Last backup: %s</string>
     <string name="label_storage_permission">Storage Permission</string>
     <string name="label_required" translatable="false">*</string>
 
     <!-- Formatters -->
-    <string name="formatter_exp_date" translatable="false">%s/%s</string>
+    <string name="formatter_exp_date" translatable="false">%1$s/%2$s</string>
     <string name="formatter_shaba_number" translatable="false">IR%s</string>
 
     <!-- Messages -->
@@ -153,7 +153,7 @@
     <string name="settings_auth_secret_data">Authenticate for secret data</string>
     <string name="settings_auth_before_edit">Authenticate before edit</string>
     <string name="settings_auth_before_delete">Authenticate before delete</string>
-    <string name="settings_app_version" translatable="false">%s - v%s</string>
+    <string name="settings_app_version" translatable="false">%1$s - v%2$s</string>
 
     <!-- Languages -->
     <string name="language_en" translatable="false">English</string>
@@ -184,7 +184,7 @@
     <string name="supported_banks_normal">Banks</string>
     <string name="supported_banks_neo">Neobanks &amp; Digital Branches</string>
     <string name="supported_banks_credit_institutions">Credit Institutions</string>
-    <string name="supported_bank_merged">%s has merged to %s.</string>
+    <string name="supported_bank_merged">%1$s has merged to %2$s.</string>
     <string name="supported_bank_no_auto_detect">Automatic detection of %s cards is not possible.</string>
 
     <!-- Account types -->
