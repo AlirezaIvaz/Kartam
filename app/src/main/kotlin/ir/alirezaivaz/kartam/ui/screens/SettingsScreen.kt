@@ -450,6 +450,27 @@ fun SettingsScreen(
                         .handPointerIcon()
                         .weight(1f),
                     onClick = {
+                        uriHandler.openUri(App.SUPPORT_URL)
+                    },
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_headset),
+                            contentDescription = stringResource(R.string.action_support)
+                        )
+                        Text(
+                            text = stringResource(R.string.action_support)
+                        )
+                    }
+                }
+                FilledTonalButton(
+                    modifier = Modifier
+                        .handPointerIcon()
+                        .weight(1f),
+                    onClick = {
                         uriHandler.openUri(App.TELEGRAM_CHANNEL_URL)
                     },
                 ) {
@@ -466,24 +487,26 @@ fun SettingsScreen(
                         )
                     }
                 }
-                FilledTonalButton(
-                    modifier = Modifier
-                        .handPointerIcon()
-                        .weight(1f),
-                    onClick = onChangelogRequest,
+            }
+            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            FilledTonalButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                    .handPointerIcon(),
+                onClick = onChangelogRequest,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_list),
-                            contentDescription = stringResource(R.string.changelog)
-                        )
-                        Text(
-                            text = stringResource(R.string.changelog)
-                        )
-                    }
+                    Icon(
+                        painter = painterResource(R.drawable.ic_list),
+                        contentDescription = stringResource(R.string.changelog)
+                    )
+                    Text(
+                        text = stringResource(R.string.changelog)
+                    )
                 }
             }
             Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))

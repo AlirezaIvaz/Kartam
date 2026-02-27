@@ -16,6 +16,7 @@ class App : Application() {
         lateinit var appContext: Context
             private set
         const val DEFAULT_PIN_LENGTH = 6
+        const val SUPPORT_URL = "https://t.me/AlirezaIvaz"
         const val TELEGRAM_CHANNEL_URL = "https://t.me/KartamApp"
     }
 }

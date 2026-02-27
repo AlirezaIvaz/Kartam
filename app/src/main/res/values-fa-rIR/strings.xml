@@ -37,6 +37,7 @@
     <string name="action_new_backup">پشتیبان‌گیری جدید</string>
     <string name="action_restore">بازیابی</string>
     <string name="action_restore_backup">بازیابی پروندهٔ پشتیبان</string>
+    <string name="action_support">پشتیبانی</string>
     <string name="action_telegram_channel">کانال تلگرام</string>
 
     <!-- Labels -->
