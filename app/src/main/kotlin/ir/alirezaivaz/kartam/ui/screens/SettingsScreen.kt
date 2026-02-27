@@ -360,6 +360,7 @@ fun SettingsScreen(
                         .weight(1f),
                     onClick = {
                         try {
+                            @Suppress("SimplifyBooleanWithConstants", "KotlinConstantConditions")
                             if (BuildConfig.FLAVOR == "telegram") {
                                 uriHandler.openUri(BuildConfig.RATE_URL)
                             } else {
@@ -402,6 +403,7 @@ fun SettingsScreen(
                         .weight(1f),
                     onClick = {
                         try {
+                            @Suppress("SimplifyBooleanWithConstants", "KotlinConstantConditions")
                             if (BuildConfig.FLAVOR == "telegram") {
                                 uriHandler.openUri(BuildConfig.APPS_URL)
                             } else {
