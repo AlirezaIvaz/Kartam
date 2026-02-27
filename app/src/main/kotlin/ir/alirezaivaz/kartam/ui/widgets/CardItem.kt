@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -147,7 +146,7 @@ fun CardItem(
                             style = MaterialTheme.typography.headlineSmall,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(12.dp))
+                                .clip(MaterialTheme.shapes.medium)
                                 .then(
                                     if (card.englishName.isNullOrBlank()) {
                                         Modifier
@@ -234,7 +233,6 @@ fun CardItem(
                             exit = fadeOut()
                         ) {
                             Row(
-                                modifier = Modifier.clip(RoundedCornerShape(12.dp)),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
                             ) {
@@ -267,7 +265,7 @@ fun CardItem(
                             Row(
                                 modifier = Modifier
                                     .handPointerIcon()
-                                    .clip(RoundedCornerShape(12.dp))
+                                    .clip(MaterialTheme.shapes.medium)
                                     .clickable {
                                         if (authType != AuthType.None && isAuthenticationRequired) {
                                             if (isCvv2Visible) {
