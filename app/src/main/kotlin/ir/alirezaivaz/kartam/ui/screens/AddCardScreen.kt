@@ -91,6 +91,7 @@ import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.FilterChip
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.ui.widgets.KartamTopBar
+import ir.alirezaivaz.kartam.ui.widgets.SwitchItem
 import ir.huri.jcal.JalaliCalendar
 import ir.mehrafzoon.composedatepicker.core.component.rememberDialogDatePicker
 import ir.mehrafzoon.composedatepicker.sheet.DatePickerModalBottomSheet
