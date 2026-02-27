@@ -12,7 +12,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -53,7 +51,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalResources
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -85,13 +82,16 @@ import ir.alirezaivaz.kartam.extensions.isValidYear
 import ir.alirezaivaz.kartam.extensions.takeDigits
 import ir.alirezaivaz.kartam.ui.dialogs.CardAddedDialog
 import ir.alirezaivaz.kartam.ui.sheets.SelectOptionsSheet
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.viewmodel.AddCardViewModel
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.FilterChip
+import ir.alirezaivaz.kartam.ui.widgets.HorizontalSpacer
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.ui.widgets.KartamTopBar
 import ir.alirezaivaz.kartam.ui.widgets.SwitchItem
+import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 import ir.huri.jcal.JalaliCalendar
 import ir.mehrafzoon.composedatepicker.core.component.rememberDialogDatePicker
 import ir.mehrafzoon.composedatepicker.sheet.DatePickerModalBottomSheet
@@ -289,7 +289,7 @@ fun AddCardScreen(
                 Column(
                     modifier = Modifier.verticalScroll(scrollState)
                 ) {
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                    VerticalSpacer(height = Dimens.large)
                     CardItem(
                         card = CardInfo(
                             name = ownerName.text,
@@ -306,15 +306,15 @@ fun AddCardScreen(
                         ),
                         isCvv2VisibleByDefault = true,
                         isAuthenticationRequired = false,
-                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        modifier = Modifier.padding(horizontal = Dimens.large),
                     )
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     Row(
                         modifier = Modifier.horizontalScroll(rememberScrollState()),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                     ) {
-                        Spacer(Modifier.width(dimensionResource(R.dimen.padding_spacing)))
+                        HorizontalSpacer(width = Dimens.small)
                         FilterChip(
                             icon = R.drawable.ic_check,
                             label = if (autoDetectedBank == Bank.Unknown) {
@@ -340,21 +340,21 @@ fun AddCardScreen(
                                 }
                             )
                         }
-                        Spacer(Modifier.width(dimensionResource(R.dimen.padding_spacing)))
+                        HorizontalSpacer(width = Dimens.small)
                     }
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     OutlinedTextField(
                         value = cardNumber,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                            .padding(horizontal = Dimens.large),
                         enabled = !isLoading,
                         singleLine = true,
                         isError = !cardNumber.text.isValidCardNumber(),
                         label = {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                horizontalArrangement = Arrangement.spacedBy(Dimens.extraSmall)
                             ) {
                                 Text(
                                     text = stringResource(R.string.label_card_number),
@@ -380,7 +380,7 @@ fun AddCardScreen(
                             }
                         }
                     )
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                    VerticalSpacer(height = Dimens.large)
                     SwitchItem(
                         title = stringResource(R.string.label_others_card),
                         titleStyle = MaterialTheme.typography.bodyLarge,
@@ -388,7 +388,7 @@ fun AddCardScreen(
                         isChecked = isOthersCard,
                         modifier = Modifier
                             .heightIn(min = 56.dp)
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                            .padding(horizontal = Dimens.large)
                             .clip(OutlinedTextFieldDefaults.shape)
                             .border(
                                 width = 1.dp,
@@ -397,24 +397,24 @@ fun AddCardScreen(
                                 ),
                                 shape = OutlinedTextFieldDefaults.shape
                             ),
-                        paddingEnd = dimensionResource(R.dimen.padding_spacing),
+                        paddingEnd = Dimens.small,
                         onCheckedChanged = {
                             viewModel.updateIsOthersCard(it)
                         }
                     )
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     OutlinedTextField(
                         value = ownerName,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                            .padding(horizontal = Dimens.large),
                         enabled = !isLoading,
                         singleLine = true,
                         isError = !ownerName.text.isValidName(),
                         label = {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                horizontalArrangement = Arrangement.spacedBy(Dimens.extraSmall)
                             ) {
                                 Text(
                                     text = stringResource(R.string.label_card_owner),
@@ -433,12 +433,12 @@ fun AddCardScreen(
                             viewModel.updateOwnerName(it)
                         }
                     )
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     OutlinedTextField(
                         value = ownerEnglishName,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                            .padding(horizontal = Dimens.large),
                         enabled = !isLoading,
                         singleLine = true,
                         isError = ownerEnglishName.text.isNotEmpty() && !ownerEnglishName.text.isValidName(),
@@ -455,12 +455,12 @@ fun AddCardScreen(
                             viewModel.updateOwnerEnglishName(it)
                         }
                     )
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     OutlinedTextField(
                         value = shabaNumber,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                            .padding(horizontal = Dimens.large),
                         enabled = !isLoading,
                         singleLine = true,
                         isError = shabaNumber.text.isNotEmpty() && !shabaNumber.text.isValidShabaNumber(),
@@ -480,12 +480,12 @@ fun AddCardScreen(
                             }
                         }
                     )
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     OutlinedTextField(
                         value = accountNumber,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                            .padding(horizontal = Dimens.large),
                         enabled = !isLoading,
                         singleLine = true,
                         isError = accountNumber.text.isNotEmpty() && !accountNumber.text.isValidAccountNumber(),
@@ -505,11 +505,11 @@ fun AddCardScreen(
                             }
                         }
                     )
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
-                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small),
+                        modifier = Modifier.padding(horizontal = Dimens.large),
                     ) {
                         OutlinedTextField(
                             value = cvv2,
@@ -556,7 +556,7 @@ fun AddCardScreen(
                             }
                         )
                     }
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                    VerticalSpacer(height = Dimens.large)
                     Card(
                         shape = OutlinedTextFieldDefaults.shape,
                         border = BorderStroke(
@@ -571,7 +571,7 @@ fun AddCardScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp)
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                            .padding(horizontal = Dimens.large)
                             .clickable(enabled = !isLoading) {
                                 showChooseAccountTypeSheet = true
                             }
@@ -581,7 +581,7 @@ fun AddCardScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                                .padding(horizontal = Dimens.large)
                         ) {
                             Text(
                                 text = stringResource(R.string.account_type),
@@ -599,11 +599,11 @@ fun AddCardScreen(
                             )
                         }
                     }
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
-                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small),
+                        modifier = Modifier.padding(horizontal = Dimens.large),
                     ) {
                         OutlinedTextField(
                             value = branchCode,
@@ -645,11 +645,11 @@ fun AddCardScreen(
                             }
                         )
                     }
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
-                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small),
+                        modifier = Modifier.padding(horizontal = Dimens.large),
                     ) {
                         OutlinedTextField(
                             value = expirationMonth,
@@ -700,7 +700,7 @@ fun AddCardScreen(
                             shape = FloatingActionButtonDefaults.shape,
                             modifier = Modifier
                                 .handPointerIcon()
-                                .padding(top = 8.dp)
+                                .padding(top = Dimens.small)
                                 .size(56.dp),
                             content = {
                                 Icon(
@@ -715,12 +715,12 @@ fun AddCardScreen(
                             }
                         )
                     }
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                    VerticalSpacer(height = Dimens.small)
                     OutlinedTextField(
                         value = comment,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                            .padding(horizontal = Dimens.large),
                         enabled = !isLoading,
                         label = {
                             Text(
@@ -734,7 +734,7 @@ fun AddCardScreen(
                             viewModel.updateComment(it)
                         }
                     )
-                    Spacer(Modifier.height(80.dp))
+                    VerticalSpacer(height = Dimens.screenBottomPadding)
                 }
             }
         }

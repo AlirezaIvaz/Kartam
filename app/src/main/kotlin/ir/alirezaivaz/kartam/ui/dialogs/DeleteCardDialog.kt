@@ -3,9 +3,7 @@ package ir.alirezaivaz.kartam.ui.dialogs
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,11 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
+import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +53,7 @@ fun DeleteCardDialog(
                             contentDescription = null,
                         )
                     }
-                    Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                    VerticalSpacer(height = Dimens.large)
                 }
                 Text(text = stringResource(R.string.delete_message))
             }

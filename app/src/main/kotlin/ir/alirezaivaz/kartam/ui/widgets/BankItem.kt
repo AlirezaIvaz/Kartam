@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -31,6 +29,7 @@ import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.BankType
 import ir.alirezaivaz.kartam.dto.parentBank
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,11 +46,11 @@ fun BankItem(
         enableUserInput = bank.prefixes.isEmpty(),
         tooltip = {
             RichTooltip(
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = Dimens.large)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                 ) {
                     Image(
                         painter = painterResource(
@@ -62,8 +61,8 @@ fun BankItem(
                             }
                         ),
                         modifier = Modifier
-                            .padding(start = dimensionResource(R.dimen.padding_spacing))
-                            .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                            .padding(start = Dimens.small)
+                            .padding(vertical = Dimens.small)
                             .size(24.dp),
                         contentDescription = stringResource(bank.title)
                     )
@@ -101,19 +100,19 @@ fun BankItem(
             Image(
                 painter = painterResource(bank.icon),
                 modifier = Modifier
-                    .padding(start = dimensionResource(R.dimen.padding_horizontal))
-                    .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                    .padding(start = Dimens.large)
+                    .padding(vertical = Dimens.small)
                     .height(48.dp)
                     .width(48.dp),
                 contentDescription = stringResource(bank.title)
             )
-            Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
+            HorizontalSpacer(width = Dimens.large)
             Text(
                 text = stringResource(bank.title),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.weight(1f)
             )
-            Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
+            HorizontalSpacer(width = Dimens.large)
             if (bank.prefixes.isEmpty()) {
                 Icon(
                     painter = painterResource(
@@ -135,13 +134,13 @@ fun BankItem(
                 Image(
                     painter = painterResource(bank.parentBank!!.icon),
                     modifier = Modifier
-                        .padding(start = dimensionResource(R.dimen.padding_spacing))
-                        .padding(vertical = dimensionResource(R.dimen.padding_spacing))
+                        .padding(start = Dimens.small)
+                        .padding(vertical = Dimens.small)
                         .size(24.dp),
                     contentDescription = stringResource(bank.title)
                 )
             }
-            Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
+            HorizontalSpacer(width = Dimens.large)
         }
     }
 }

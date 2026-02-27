@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -30,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalResources
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,11 +40,13 @@ import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.dto.toStringOrNull
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.ui.widgets.CardOptionItem
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.ui.widgets.SnapshotableCard
+import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 import ir.alirezaivaz.kartam.utils.SettingsManager
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -95,7 +94,7 @@ fun CardOptionsSheetContent(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = dimensionResource(R.dimen.padding_vertical)),
+            .padding(bottom = Dimens.large),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -107,11 +106,11 @@ fun CardOptionsSheetContent(
     }
     Column(
         modifier = Modifier
-            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+            .padding(horizontal = Dimens.large)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        VerticalSpacer(height = Dimens.large)
         SnapshotableCard(
             onSnapshotReady = onSnapshotReady
         ) {
@@ -127,16 +126,16 @@ fun CardOptionsSheetContent(
                 }
             )
         }
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        VerticalSpacer(height = Dimens.large)
         HorizontalDivider()
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        VerticalSpacer(height = Dimens.large)
         if (card.number.isNotEmpty()) {
             CardOptionItem(
                 title = stringResource(R.string.label_card_number),
                 subtitle = card.number,
                 toaster = toaster
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
         }
         if (!card.shabaNumber.isNullOrEmpty()) {
             CardOptionItem(
@@ -144,7 +143,7 @@ fun CardOptionsSheetContent(
                 subtitle = stringResource(R.string.formatter_shaba_number).format(card.shabaNumber),
                 toaster = toaster
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
         }
         if (!card.accountNumber.isNullOrEmpty()) {
             CardOptionItem(
@@ -152,7 +151,7 @@ fun CardOptionsSheetContent(
                 subtitle = card.accountNumber,
                 toaster = toaster
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
         }
         card.firstCode.toStringOrNull()?.let {
             CardOptionItem(
@@ -161,7 +160,7 @@ fun CardOptionsSheetContent(
                 showCopyShareButtons = false,
                 toaster = toaster
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
         }
         if (card.branchCode != null && card.branchCode > 0) {
             CardOptionItem(
@@ -169,7 +168,7 @@ fun CardOptionsSheetContent(
                 subtitle = card.branchCode.toString(),
                 toaster = toaster
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
         }
         if (!card.branchName.isNullOrEmpty()) {
             CardOptionItem(
@@ -178,7 +177,7 @@ fun CardOptionsSheetContent(
                 subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
                 toaster = toaster
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
         }
         card.accountType?.let {
             CardOptionItem(
@@ -188,7 +187,7 @@ fun CardOptionsSheetContent(
                 showCopyShareButtons = false,
                 toaster = toaster
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
         }
         if (!card.comment.isNullOrEmpty()) {
             CardOptionItem(
@@ -199,14 +198,14 @@ fun CardOptionsSheetContent(
                 showCopyShareButtons = false,
                 toaster = toaster
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
         }
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+        VerticalSpacer(height = Dimens.small)
         HorizontalDivider()
-        Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+        VerticalSpacer(height = Dimens.large)
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_horizontal))
+            horizontalArrangement = Arrangement.spacedBy(Dimens.large)
         ) {
             ExtendedFloatingActionButton(
                 modifier = Modifier
@@ -251,7 +250,7 @@ fun CardOptionsSheetContent(
                 }
             )
         }
-        Spacer(Modifier.height(80.dp))
+        VerticalSpacer(height = Dimens.screenBottomPadding)
     }
 }
 

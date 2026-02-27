@@ -20,7 +20,6 @@ import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -33,6 +32,7 @@ import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
 import kotlinx.coroutines.launch
@@ -55,11 +55,11 @@ fun CardOptionItem(
     ) {
         Row(
             modifier = Modifier.padding(
-                vertical = dimensionResource(R.dimen.padding_vertical),
-                horizontal = dimensionResource(R.dimen.padding_horizontal)
+                vertical = Dimens.large,
+                horizontal = Dimens.large
             ),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+            horizontalArrangement = Arrangement.spacedBy(Dimens.small)
         ) {
             Column(
                 modifier = Modifier.weight(1f)

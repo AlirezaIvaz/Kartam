@@ -5,9 +5,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.dto.ChangelogItem
 import ir.alirezaivaz.kartam.extensions.buildChangelogAnnotatedString
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 
 @Composable
 fun ChangelogLine(item: ChangelogItem, modifier: Modifier = Modifier) {
@@ -16,6 +16,6 @@ fun ChangelogLine(item: ChangelogItem, modifier: Modifier = Modifier) {
     Text(
         text = annotated,
         style = MaterialTheme.typography.bodyMedium,
-        modifier = modifier.padding(bottom = 4.dp)
+        modifier = modifier.padding(bottom = Dimens.extraSmall)
     )
 }

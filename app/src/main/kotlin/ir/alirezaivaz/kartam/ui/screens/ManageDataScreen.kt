@@ -29,16 +29,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sonner.ToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.extensions.rememberBackupPicker
 import ir.alirezaivaz.kartam.ui.sheets.RestoreBackupSheet
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.viewmodel.ManageDataViewModel
 import ir.alirezaivaz.kartam.ui.widgets.KartamTopBar
 import ir.alirezaivaz.kartam.ui.widgets.backup.BackupFolderPath
@@ -105,16 +104,16 @@ fun ManageDataScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(it)
                 .padding(
-                    top = dimensionResource(R.dimen.padding_vertical),
-                    bottom = 80.dp
+                    top = Dimens.large,
+                    bottom = Dimens.screenBottomPadding
                 ),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(Dimens.large)
         ) {
             Column(
                 modifier = Modifier
                     .animateContentSize()
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .padding(horizontal = Dimens.large),
+                verticalArrangement = Arrangement.spacedBy(Dimens.small)
             ) {
                 Text(
                     text = stringResource(R.string.label_current_data),
@@ -127,7 +126,7 @@ fun ManageDataScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp),
+                                .padding(vertical = Dimens.small),
                             contentAlignment = Alignment.Center
                         ) {
                             CircularProgressIndicator()
@@ -150,9 +149,9 @@ fun ManageDataScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = Dimens.large),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                horizontalArrangement = Arrangement.spacedBy(Dimens.small)
             ) {
                 Button(
                     enabled = !state.isLoading,
@@ -195,18 +194,18 @@ fun ManageDataScreen(
             Text(
                 text = stringResource(R.string.label_backup_history),
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = Dimens.large)
             )
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = Dimens.large),
             ) {
                 Column(
                     modifier = Modifier
                         .animateContentSize()
-                        .padding(vertical = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                        .padding(vertical = Dimens.large),
+                    verticalArrangement = Arrangement.spacedBy(Dimens.small)
                 ) {
                     BackupFolderPath(
                         path = BackupManager.getBackupFolderPath()
@@ -218,7 +217,7 @@ fun ManageDataScreen(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 16.dp),
+                                    .padding(vertical = Dimens.large),
                                 contentAlignment = Alignment.Center
                             ) {
                                 CircularProgressIndicator()
@@ -227,8 +226,8 @@ fun ManageDataScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 16.dp),
-                                verticalArrangement = Arrangement.spacedBy(8.dp),
+                                    .padding(horizontal = Dimens.large),
+                                verticalArrangement = Arrangement.spacedBy(Dimens.small),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
@@ -260,7 +259,7 @@ fun ManageDataScreen(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(16.dp),
+                                    .padding(Dimens.large),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -279,7 +278,7 @@ fun ManageDataScreen(
                                     )
                                     if (index < state.backups.lastIndex) {
                                         HorizontalDivider(
-                                            modifier = Modifier.padding(horizontal = 16.dp)
+                                            modifier = Modifier.padding(horizontal = Dimens.large)
                                         )
                                     }
                                 }

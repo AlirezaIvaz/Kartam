@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.widgets.DirectionLayout
 
 private val keypadKeys = listOf(
@@ -27,11 +27,11 @@ fun PinKeypad(
     DirectionLayout(layoutDirection = LayoutDirection.Ltr) {
         Column(
             modifier = modifier,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(Dimens.medium)
         ) {
             keypadKeys.chunked(3).forEach { row ->
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.medium)
                 ) {
                     row.forEach { key ->
                         PinKey(

@@ -19,18 +19,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
-import androidx.compose.ui.unit.dp
 import com.dokar.sonner.ToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.widgets.list.CardList
 import sh.calvin.reorderable.ReorderableLazyListState
 
@@ -60,9 +59,9 @@ fun KartamSearchBar(
             .fillMaxWidth()
             .padding(
                 bottom = if (isExpanded) {
-                    0.dp
+                    Dimens.zero
                 } else {
-                    8.dp
+                    Dimens.small
                 }
             )
             .semantics { isTraversalGroup = true }

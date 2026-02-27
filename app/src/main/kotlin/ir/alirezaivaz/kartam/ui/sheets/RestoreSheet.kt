@@ -4,9 +4,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,10 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.RestoreUiState
+import ir.alirezaivaz.kartam.ui.theme.Dimens
+import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 import ir.alirezaivaz.kartam.ui.widgets.backup.BackupItemCard
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import ir.mehrafzoon.composedatepicker.dto.toMixedCalendar
@@ -49,8 +48,8 @@ fun RestoreBackupSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .animateContentSize()
-                .padding(bottom = 50.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(bottom = Dimens.large),
+            verticalArrangement = Arrangement.spacedBy(Dimens.small)
         ) {
             Text(
                 text = stringResource(R.string.label_restore_backup),
@@ -58,14 +57,14 @@ fun RestoreBackupSheet(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = Dimens.large)
             )
-            Spacer(Modifier.height(16.dp))
+            VerticalSpacer(height = Dimens.large)
             if (state.backup == null || isRestoring) {
                 LinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp)
+                        .padding(vertical = Dimens.large)
                 )
             }
             state.backup?.let {
@@ -73,15 +72,15 @@ fun RestoreBackupSheet(
                     ownedCount = state.ownedCount,
                     othersCount = state.othersCount,
                     backupTime = it.timestamp.toMixedCalendar().toPrettyFormatted(isJalali),
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = Dimens.large)
                 )
-                Spacer(Modifier.height(16.dp))
+                VerticalSpacer(height = Dimens.large)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = Dimens.large),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                 ) {
                     OutlinedButton(
                         onClick = onDismiss,

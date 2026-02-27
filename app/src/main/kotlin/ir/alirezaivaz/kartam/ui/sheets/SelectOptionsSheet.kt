@@ -2,12 +2,10 @@ package ir.alirezaivaz.kartam.ui.sheets
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,12 +17,13 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
+import ir.alirezaivaz.kartam.ui.widgets.HorizontalSpacer
+import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,18 +62,21 @@ fun SelectOptionsSheetContent(
     onItemSelectedListener: (value: String) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier
+        modifier = Modifier,
+        contentPadding = PaddingValues(
+            bottom = Dimens.extraLarge
+        )
     ) {
         item {
             Text(
                 text = title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    .padding(horizontal = Dimens.large),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+            VerticalSpacer(height = Dimens.large)
         }
         items(items) { item ->
             val index = items.indexOf(item)
@@ -93,21 +95,18 @@ fun SelectOptionsSheetContent(
                     text = item,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
-                        .padding(vertical = dimensionResource(R.dimen.padding_vertical))
-                        .padding(start = dimensionResource(R.dimen.padding_horizontal)),
+                        .padding(vertical = Dimens.large)
+                        .padding(start = Dimens.large),
                 )
-                Spacer(Modifier.width(dimensionResource(R.dimen.padding_horizontal)))
+                HorizontalSpacer(width = Dimens.large)
                 if (values[index] == selectedItem) {
                     Icon(
                         painter = painterResource(R.drawable.ic_check),
                         contentDescription = null,
-                        modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_horizontal))
+                        modifier = Modifier.padding(end = Dimens.large)
                     )
                 }
             }
-        }
-        item {
-            Spacer(Modifier.height(80.dp))
         }
     }
 }

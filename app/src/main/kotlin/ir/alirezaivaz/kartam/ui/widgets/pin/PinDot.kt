@@ -7,7 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 
 @Composable
 fun PinDot(
@@ -22,7 +22,7 @@ fun PinDot(
     }
     Box(
         modifier = modifier
-            .size(14.dp)
+            .size(Dimens.semiLarge)
             .background(
                 color = backgroundColor,
                 shape = CircleShape

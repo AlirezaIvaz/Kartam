@@ -5,10 +5,8 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
@@ -33,12 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import com.dokar.sonner.ToastType
@@ -53,11 +49,13 @@ import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.activities.ActivityLockSetup
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.KartamTopBar
 import ir.alirezaivaz.kartam.ui.widgets.SegmentedButton
 import ir.alirezaivaz.kartam.ui.widgets.SwitchItem
 import ir.alirezaivaz.kartam.ui.widgets.TooltipHelpRow
+import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.SettingsManager
 
@@ -108,20 +106,20 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+            VerticalSpacer(height = Dimens.large)
             Text(
                 text = stringResource(R.string.settings_theme),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                    .padding(horizontal = Dimens.large)
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             SingleChoiceSegmentedButtonRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    .padding(horizontal = Dimens.large),
             ) {
                 themes.forEachIndexed { index, item ->
                     SegmentedButton(
@@ -138,20 +136,20 @@ fun SettingsScreen(
                     )
                 }
             }
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             Text(
                 text = stringResource(R.string.settings_language),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                    .padding(horizontal = Dimens.large)
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             SingleChoiceSegmentedButtonRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    .padding(horizontal = Dimens.large),
             ) {
                 languages.forEachIndexed { index, item ->
                     SegmentedButton(
@@ -166,7 +164,7 @@ fun SettingsScreen(
                     )
                 }
             }
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             if (isDynamicColorsSupported) {
                 SwitchItem(
                     title = stringResource(R.string.settings_dynamic_colors),
@@ -215,7 +213,7 @@ fun SettingsScreen(
                     SettingsManager.setSecretCvv2Details(it)
                 }
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             SwitchItem(
                 title = stringResource(R.string.settings_lock_on_start),
                 isChecked = isLockOnStart,
@@ -232,7 +230,7 @@ fun SettingsScreen(
                     }
                 }
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             SwitchItem(
                 title = stringResource(R.string.settings_unlock_with_biometric),
                 isChecked = isUnlockWithBiometric,
@@ -254,19 +252,19 @@ fun SettingsScreen(
                     ).authenticate()
                 }
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             TooltipHelpRow(
                 title = stringResource(R.string.settings_auth_type),
                 helpText = stringResource(R.string.settings_auth_type_description)
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             LazyRow {
                 item {
                     SingleChoiceSegmentedButtonRow(
                         modifier = Modifier
                             .handPointerIcon()
                             .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                            .padding(horizontal = Dimens.large),
                     ) {
                         authTypes.forEachIndexed { index, item ->
                             SegmentedButton(
@@ -310,7 +308,7 @@ fun SettingsScreen(
                     }
                 }
             }
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             SwitchItem(
                 title = stringResource(R.string.settings_auth_owned_card_details),
                 isChecked = isAuthOwnedCardDetails,
@@ -343,16 +341,15 @@ fun SettingsScreen(
                     SettingsManager.setAuthBeforeDelete(it)
                 }
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-            HorizontalDivider(Modifier.padding(horizontal = dimensionResource(R.dimen.padding_horizontal)))
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+            VerticalSpacer(height = Dimens.large)
+            HorizontalDivider(Modifier.padding(horizontal = Dimens.large))
+            VerticalSpacer(height = Dimens.extraLarge)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    .padding(horizontal = Dimens.large),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                horizontalArrangement = Arrangement.spacedBy(Dimens.small)
             ) {
                 FilledTonalButton(
                     modifier = Modifier
@@ -386,7 +383,7 @@ fun SettingsScreen(
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_message),
@@ -425,7 +422,7 @@ fun SettingsScreen(
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_apps),
@@ -437,13 +434,13 @@ fun SettingsScreen(
                     }
                 }
             }
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    .padding(horizontal = Dimens.large),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                horizontalArrangement = Arrangement.spacedBy(Dimens.small)
             ) {
                 FilledTonalButton(
                     modifier = Modifier
@@ -455,7 +452,7 @@ fun SettingsScreen(
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_headset),
@@ -476,7 +473,7 @@ fun SettingsScreen(
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_telegram),
@@ -488,17 +485,17 @@ fun SettingsScreen(
                     }
                 }
             }
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+            VerticalSpacer(height = Dimens.small)
             FilledTonalButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal))
+                    .padding(horizontal = Dimens.large)
                     .handPointerIcon(),
                 onClick = onChangelogRequest,
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_list),
@@ -509,7 +506,7 @@ fun SettingsScreen(
                     )
                 }
             }
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+            VerticalSpacer(height = Dimens.large)
             Text(
                 text = stringResource(R.string.settings_app_version).format(
                     stringResource(R.string.app_name),
@@ -519,9 +516,9 @@ fun SettingsScreen(
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    .padding(horizontal = Dimens.large),
             )
-            Spacer(Modifier.height(80.dp))
+            VerticalSpacer(height = Dimens.screenBottomPadding)
         }
     }
 }

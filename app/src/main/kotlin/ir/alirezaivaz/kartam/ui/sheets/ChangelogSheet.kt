@@ -2,9 +2,7 @@ package ir.alirezaivaz.kartam.ui.sheets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,16 +17,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.extensions.parseChangelog
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.ChangelogLine
+import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +53,7 @@ fun ChangelogSheetContent(
     val changelog = context.parseChangelog()
     LazyColumn(
         modifier = Modifier.padding(
-            horizontal = dimensionResource(R.dimen.padding_horizontal)
+            horizontal = Dimens.large
         )
     ) {
         item {
@@ -63,16 +61,16 @@ fun ChangelogSheetContent(
                 text = stringResource(R.string.changelog),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                    .padding(horizontal = Dimens.large),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+            VerticalSpacer(height = Dimens.large)
         }
         items(changelog) { version ->
             Row(
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = Dimens.small)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -89,7 +87,7 @@ fun ChangelogSheetContent(
             version.items.forEach { item ->
                 ChangelogLine(item)
             }
-            Spacer(modifier = Modifier.height(12.dp))
+            VerticalSpacer(height = Dimens.medium)
         }
         item {
             FilledTonalButton(
@@ -104,7 +102,7 @@ fun ChangelogSheetContent(
                     text = stringResource(R.string.action_i_got_it)
                 )
             }
-            Spacer(Modifier.height(80.dp))
+            VerticalSpacer(height = Dimens.screenBottomPadding)
         }
     }
 }

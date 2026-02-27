@@ -8,12 +8,10 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import com.dokar.sonner.ToasterState
-import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import sh.calvin.reorderable.ReorderableLazyListState
 
 @Composable
@@ -34,12 +32,12 @@ fun CardList(
     LazyColumn(
         state = lazyListState,
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing)),
+        verticalArrangement = Arrangement.spacedBy(Dimens.small),
         contentPadding = PaddingValues(
-            start = dimensionResource(R.dimen.padding_horizontal),
-            end = dimensionResource(R.dimen.padding_horizontal),
-            top = dimensionResource(R.dimen.padding_vertical),
-            bottom = 80.dp
+            start = Dimens.large,
+            end = Dimens.large,
+            top = Dimens.large,
+            bottom = Dimens.screenBottomPadding
         ),
     ) {
         items(

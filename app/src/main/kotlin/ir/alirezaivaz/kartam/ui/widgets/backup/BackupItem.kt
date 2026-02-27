@@ -16,9 +16,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.BackupFile
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.widgets.DirectionLayout
 import ir.mehrafzoon.composedatepicker.dto.toPrettyFormatted
 
@@ -34,13 +34,13 @@ fun BackupItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                start = 16.dp,
-                end = 8.dp,
-                top = 8.dp,
-                bottom = 8.dp
+                start = Dimens.large,
+                end = Dimens.small,
+                top = Dimens.small,
+                bottom = Dimens.small
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(Dimens.small)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_file_text),

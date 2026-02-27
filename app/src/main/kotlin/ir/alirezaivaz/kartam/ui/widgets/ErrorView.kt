@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -24,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 
 @Composable
@@ -51,12 +49,12 @@ fun ErrorView(
         val screenHeight = this.maxHeight
         val screenWidth = this.maxWidth
         val imageMaxHeight = screenHeight * 0.3f
-        val horizontalPadding = if (screenWidth < 500.dp) 24.dp else 80.dp
+        val horizontalPadding = if (screenWidth < 500.dp) Dimens.extraLarge else 80.dp
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = horizontalPadding, vertical = 24.dp),
+                .padding(horizontal = horizontalPadding, vertical = Dimens.extraLarge),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -73,7 +71,7 @@ fun ErrorView(
                         .heightIn(max = imageMaxHeight),
                     contentScale = ContentScale.Fit
                 )
-                Spacer(Modifier.height(24.dp))
+                VerticalSpacer(height = Dimens.extraLarge)
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleLarge,
@@ -81,7 +79,7 @@ fun ErrorView(
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(Modifier.height(8.dp))
+                VerticalSpacer(height = Dimens.small)
                 description?.let {
                     Text(
                         text = it,
@@ -91,13 +89,13 @@ fun ErrorView(
                     )
                 }
                 actionButtonText?.let {
-                    Spacer(Modifier.height(8.dp))
+                    VerticalSpacer(height = Dimens.small)
                     OutlinedButton(
                         modifier = Modifier.handPointerIcon(),
                         content = {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                                horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                             ) {
                                 actionButtonIcon?.let {
                                     Icon(

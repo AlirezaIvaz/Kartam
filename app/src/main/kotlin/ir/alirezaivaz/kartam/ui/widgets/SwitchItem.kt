@@ -11,11 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 
 @Composable
 fun SwitchItem(
@@ -25,8 +24,8 @@ fun SwitchItem(
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
     titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
-    paddingStart: Dp = dimensionResource(R.dimen.padding_horizontal),
-    paddingEnd: Dp = dimensionResource(R.dimen.padding_horizontal),
+    paddingStart: Dp = Dimens.large,
+    paddingEnd: Dp = Dimens.large,
 ) {
     Row(
         modifier = modifier

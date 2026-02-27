@@ -6,13 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.widgets.CardItem
 import ir.alirezaivaz.kartam.utils.BiometricHelper
 
@@ -31,7 +31,7 @@ fun CardListItem(
 ) {
     val activity = LocalActivity.current
     val resources = LocalResources.current
-    val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
+    val elevation by animateDpAsState(if (isDragging) Dimens.extraSmall else Dimens.zero)
     CardItem(
         card = card,
         modifier = modifier,

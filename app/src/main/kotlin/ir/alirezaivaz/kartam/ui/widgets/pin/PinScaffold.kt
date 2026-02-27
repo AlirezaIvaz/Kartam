@@ -4,18 +4,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import com.dokar.sonner.ToasterState
-import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.ui.widgets.KartamTopBar
+import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 
 @Composable
 fun PinScaffold(
@@ -53,8 +52,7 @@ fun PinScaffold(
                 onRemove = onRemove,
                 onBiometric = onBiometric
             )
-            Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+            VerticalSpacer(height = Dimens.large)
         }
     }
 }
-

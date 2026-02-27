@@ -16,8 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 
 @Composable
 fun BackupItemCard(
@@ -35,13 +35,13 @@ fun BackupItemCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = 16.dp,
-                    end = 8.dp,
-                    top = 8.dp,
-                    bottom = 8.dp
+                    start = Dimens.large,
+                    end = Dimens.small,
+                    top = Dimens.small,
+                    bottom = Dimens.small
                 ),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(Dimens.small)
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_file_text),

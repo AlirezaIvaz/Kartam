@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
 import ir.alirezaivaz.kartam.App
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.widgets.DirectionLayout
 
 @Composable
@@ -18,7 +18,7 @@ fun PinDots(
     DirectionLayout(layoutDirection = LayoutDirection.Ltr) {
         Row(
             modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(Dimens.medium)
         ) {
             repeat(App.DEFAULT_PIN_LENGTH) { index ->
                 PinDot(

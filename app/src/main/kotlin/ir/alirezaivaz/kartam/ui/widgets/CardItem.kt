@@ -32,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,6 +51,7 @@ import ir.alirezaivaz.kartam.dto.toStringOrNull
 import ir.alirezaivaz.kartam.extensions.formattedExpirationDate
 import ir.alirezaivaz.kartam.extensions.formattedShabaNumber
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.aradFontFamily
 import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
@@ -66,7 +66,7 @@ fun CardItem(
     card: CardInfo,
     modifier: Modifier = Modifier,
     dragHandleModifier: Modifier = Modifier,
-    cardElevation: Dp = 0.dp,
+    cardElevation: Dp = Dimens.zero,
     isCvv2VisibleByDefault: Boolean = false,
     isAuthenticationRequired: Boolean = false,
     onClick: (() -> Unit)? = null,
@@ -107,14 +107,14 @@ fun CardItem(
 //        }
             Column(
                 modifier = Modifier.padding(
-                    horizontal = dimensionResource(R.dimen.padding_horizontal),
-                    vertical = dimensionResource(R.dimen.padding_vertical)
+                    horizontal = Dimens.large,
+                    vertical = Dimens.large
                 )
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                 ) {
                     AnimatedContent(
                         targetState = card.bank,
@@ -185,7 +185,7 @@ fun CardItem(
                         )
                     }
                 }
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+                VerticalSpacer(height = Dimens.large)
                 AnimatedContent(
                     Utils.getCardNumber(card.number),
                     transitionSpec = {
@@ -208,8 +208,8 @@ fun CardItem(
                         style = MaterialTheme.typography.titleSmall,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = dimensionResource(R.dimen.padding_spacing))
-                            .padding(horizontal = dimensionResource(R.dimen.padding_horizontal)),
+                            .padding(top = Dimens.small)
+                            .padding(horizontal = Dimens.large),
                         textAlign = TextAlign.Start,
                         fontFamily = kodeMonoFontFamily,
                         fontWeight = FontWeight.Bold
@@ -222,10 +222,10 @@ fun CardItem(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = dimensionResource(R.dimen.padding_spacing))
-                            .padding(horizontal = dimensionResource(R.dimen.padding_spacing)),
+                            .padding(top = Dimens.small)
+                            .padding(horizontal = Dimens.small),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                     ) {
                         AnimatedVisibility(
                             visible = !card.expirationMonth?.toString().isNullOrBlank() && !card.expirationYear?.toString().isNullOrBlank(),
@@ -234,12 +234,12 @@ fun CardItem(
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                                horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                             ) {
                                 Text(
                                     text = stringResource(R.string.label_exp),
                                     style = MaterialTheme.typography.labelSmall,
-                                    modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_spacing)),
+                                    modifier = Modifier.padding(start = Dimens.small),
                                     fontWeight = FontWeight.W300
                                 )
                                 Text(
@@ -250,7 +250,7 @@ fun CardItem(
                                         expirationYear = card.expirationYear ?: 0
                                     ),
                                     style = MaterialTheme.typography.bodyLarge,
-                                    modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_spacing)),
+                                    modifier = Modifier.padding(end = Dimens.small),
                                     fontFamily = kodeMonoFontFamily,
                                     fontWeight = FontWeight.ExtraBold
                                 )
@@ -288,12 +288,12 @@ fun CardItem(
                                         }
                                     },
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_spacing))
+                                horizontalArrangement = Arrangement.spacedBy(Dimens.small)
                             ) {
                                 Text(
                                     text = stringResource(R.string.label_cvv2),
                                     style = MaterialTheme.typography.labelSmall,
-                                    modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_spacing)),
+                                    modifier = Modifier.padding(start = Dimens.small),
                                     fontWeight = FontWeight.W300
                                 )
                                 AnimatedContent(
@@ -313,7 +313,7 @@ fun CardItem(
                                         Text(
                                             text = cvv2,
                                             style = MaterialTheme.typography.bodyLarge,
-                                            modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_spacing)),
+                                            modifier = Modifier.padding(end = Dimens.small),
                                             fontFamily = kodeMonoFontFamily,
                                             fontWeight = FontWeight.ExtraBold
                                         )
@@ -323,7 +323,7 @@ fun CardItem(
                         }
                     }
                 }
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                VerticalSpacer(height = Dimens.small)
             }
         }
     }
@@ -337,11 +337,11 @@ fun CardItemPreview() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(Dimens.large),
         ) {
             FakeData.cards.forEach {
                 CardItem(card = it)
-                Spacer(Modifier.height(dimensionResource(R.dimen.padding_spacing)))
+                VerticalSpacer(height = Dimens.small)
             }
         }
     }
