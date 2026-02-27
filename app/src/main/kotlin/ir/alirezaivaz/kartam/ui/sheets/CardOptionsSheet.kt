@@ -75,7 +75,6 @@ fun CardOptionsSheet(
                 onEditRequest = onEditRequest,
                 onDeleteRequest = onDeleteRequest,
                 onSnapshotReady = onSnapshotReady,
-                onDismissRequest = onDismissRequest
             )
         }
     }
@@ -88,7 +87,6 @@ fun CardOptionsSheetContent(
     onEditRequest: () -> Unit,
     onDeleteRequest: () -> Unit,
     onSnapshotReady: (ImageBitmap) -> Unit,
-    onDismissRequest: () -> Unit,
 ) {
     val resources = LocalResources.current
     val isAuthSecretData by SettingsManager.isAuthSecretData.collectAsState()
@@ -268,7 +266,6 @@ fun CardOptionsSheetPreview() {
                 onEditRequest = {},
                 onDeleteRequest = {},
                 onSnapshotReady = {},
-                onDismissRequest = {}
             )
         }
     }
