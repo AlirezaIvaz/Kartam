@@ -75,7 +75,7 @@
     <string name="message_copied_to_clipboard">%s در بریده‌دان کپی شد!</string>
     <string name="message_no_card">هیچ کارتی یافت نشد!</string>
     <string name="message_no_card_description">اولین کارت خود را با کلیک روی دکمهٔ + در پایین صفحه اضافه کنید.</string>
-    <string name="message_no_backup">هیچ پروندهٔ پشتیبانی برای نمایش وجود ندارد.x</string>
+    <string name="message_no_backup">هیچ پروندهٔ پشتیبانی برای نمایش وجود ندارد.</string>
     <string name="message_auth">اعتبارسنجی</string>
     <string name="message_auth_description">لطفا برای ادامه‌دادن اعتبارسنجی کنید</string>
     <string name="message_backup_storage_permission">
