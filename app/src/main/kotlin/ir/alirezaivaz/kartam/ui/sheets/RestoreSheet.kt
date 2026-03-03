@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,17 +39,19 @@ fun RestoreBackupSheet(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val language by SettingsManager.language.collectAsState()
     val isJalali = language == Language.Persian
 
     ModalBottomSheet(
+        sheetState = sheetState,
         onDismissRequest = onDismiss
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .animateContentSize()
-                .padding(bottom = Dimens.large),
+                .padding(bottom = Dimens.extraLarge),
             verticalArrangement = Arrangement.spacedBy(Dimens.small)
         ) {
             Text(

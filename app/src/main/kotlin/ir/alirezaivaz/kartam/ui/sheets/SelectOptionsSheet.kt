@@ -35,7 +35,7 @@ fun SelectOptionsSheet(
     onDismissRequest: () -> Unit,
     onItemSelectedListener: (value: String) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
         sheetState = sheetState,

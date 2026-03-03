@@ -94,120 +94,129 @@ fun CardOptionsSheetContent(
     val isAuthSecretData by SettingsManager.isAuthSecretData.collectAsState()
     val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
     val isSecretCvv2InDetails by SettingsManager.isSecretCvv2InDetails.collectAsState()
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = Dimens.large),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = painterResource(card.bank.logo),
-            contentDescription = stringResource(card.bank.title),
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.heightIn(min = 50.dp)
-        )
-        IconButton(
-            onClick = onShareRequest,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = Dimens.small),
-            colors = IconButtonDefaults.filledTonalIconButtonColors()
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_share),
-                contentDescription = stringResource(R.string.action_share)
-            )
-        }
-    }
     Column(
         modifier = Modifier
-            .padding(horizontal = Dimens.large)
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth()
+            .padding(
+                start = Dimens.large,
+                end = Dimens.large,
+                bottom = Dimens.extraLarge
+            )
     ) {
-        VerticalSpacer(height = Dimens.large)
-        SnapshotableCard(
-            onSnapshotReady = onSnapshotReady
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-            CardItem(
-                card = card,
-                isCvv2VisibleByDefault = !isSecretCvv2InDetails,
-                isAuthenticationRequired = !isAuthOwnedCardDetails && isAuthSecretData,
-                onAuthenticationFailed = {
-                    toaster.show(
-                        message = resources.getString(R.string.error_authentication_failed),
-                        type = ToastType.Error
-                    )
-                }
+            Image(
+                painter = painterResource(card.bank.logo),
+                contentDescription = stringResource(card.bank.title),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.heightIn(min = 50.dp)
             )
+            IconButton(
+                onClick = onShareRequest,
+                modifier = Modifier.align(Alignment.TopEnd),
+                colors = IconButtonDefaults.filledTonalIconButtonColors()
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_share),
+                    contentDescription = stringResource(R.string.action_share)
+                )
+            }
         }
         VerticalSpacer(height = Dimens.large)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            VerticalSpacer(height = Dimens.large)
+            SnapshotableCard(
+                onSnapshotReady = onSnapshotReady
+            ) {
+                CardItem(
+                    card = card,
+                    isCvv2VisibleByDefault = !isSecretCvv2InDetails,
+                    isAuthenticationRequired = !isAuthOwnedCardDetails && isAuthSecretData,
+                    onAuthenticationFailed = {
+                        toaster.show(
+                            message = resources.getString(R.string.error_authentication_failed),
+                            type = ToastType.Error
+                        )
+                    }
+                )
+            }
+            VerticalSpacer(height = Dimens.large)
+            HorizontalDivider()
+            VerticalSpacer(height = Dimens.large)
+            if (card.number.isNotEmpty()) {
+                CardOptionItem(
+                    title = stringResource(R.string.label_card_number),
+                    subtitle = card.number,
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            if (!card.shabaNumber.isNullOrEmpty()) {
+                CardOptionItem(
+                    title = stringResource(R.string.label_shaba_number),
+                    subtitle = stringResource(R.string.formatter_shaba_number).format(card.shabaNumber),
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            if (!card.accountNumber.isNullOrEmpty()) {
+                CardOptionItem(
+                    title = stringResource(R.string.label_account_number),
+                    subtitle = card.accountNumber,
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            card.firstCode.toStringOrNull()?.let {
+                CardOptionItem(
+                    title = stringResource(R.string.label_first_code),
+                    subtitle = it,
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            if (card.branchCode != null && card.branchCode > 0) {
+                CardOptionItem(
+                    title = stringResource(R.string.label_branch_code),
+                    subtitle = card.branchCode.toString(),
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            if (!card.branchName.isNullOrEmpty()) {
+                CardOptionItem(
+                    title = stringResource(R.string.label_branch_name),
+                    subtitle = card.branchName,
+                    subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            card.accountType?.let {
+                CardOptionItem(
+                    title = stringResource(R.string.account_type),
+                    subtitle = stringResource(card.accountType.title),
+                    subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            if (!card.comment.isNullOrEmpty()) {
+                CardOptionItem(
+                    title = stringResource(R.string.label_comment),
+                    subtitle = card.comment,
+                    subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                    subtitleMaxLines = Int.MAX_VALUE,
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            VerticalSpacer(height = Dimens.small)
+        }
         HorizontalDivider()
-        VerticalSpacer(height = Dimens.large)
-        if (card.number.isNotEmpty()) {
-            CardOptionItem(
-                title = stringResource(R.string.label_card_number),
-                subtitle = card.number,
-            )
-            VerticalSpacer(height = Dimens.small)
-        }
-        if (!card.shabaNumber.isNullOrEmpty()) {
-            CardOptionItem(
-                title = stringResource(R.string.label_shaba_number),
-                subtitle = stringResource(R.string.formatter_shaba_number).format(card.shabaNumber),
-            )
-            VerticalSpacer(height = Dimens.small)
-        }
-        if (!card.accountNumber.isNullOrEmpty()) {
-            CardOptionItem(
-                title = stringResource(R.string.label_account_number),
-                subtitle = card.accountNumber,
-            )
-            VerticalSpacer(height = Dimens.small)
-        }
-        card.firstCode.toStringOrNull()?.let {
-            CardOptionItem(
-                title = stringResource(R.string.label_first_code),
-                subtitle = it,
-            )
-            VerticalSpacer(height = Dimens.small)
-        }
-        if (card.branchCode != null && card.branchCode > 0) {
-            CardOptionItem(
-                title = stringResource(R.string.label_branch_code),
-                subtitle = card.branchCode.toString(),
-            )
-            VerticalSpacer(height = Dimens.small)
-        }
-        if (!card.branchName.isNullOrEmpty()) {
-            CardOptionItem(
-                title = stringResource(R.string.label_branch_name),
-                subtitle = card.branchName,
-                subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
-            )
-            VerticalSpacer(height = Dimens.small)
-        }
-        card.accountType?.let {
-            CardOptionItem(
-                title = stringResource(R.string.account_type),
-                subtitle = stringResource(card.accountType.title),
-                subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
-            )
-            VerticalSpacer(height = Dimens.small)
-        }
-        if (!card.comment.isNullOrEmpty()) {
-            CardOptionItem(
-                title = stringResource(R.string.label_comment),
-                subtitle = card.comment,
-                subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
-                subtitleMaxLines = Int.MAX_VALUE,
-            )
-            VerticalSpacer(height = Dimens.small)
-        }
         VerticalSpacer(height = Dimens.small)
-        HorizontalDivider()
-        VerticalSpacer(height = Dimens.large)
         Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Dimens.large)
         ) {
@@ -254,7 +263,6 @@ fun CardOptionsSheetContent(
                 }
             )
         }
-        VerticalSpacer(height = Dimens.screenBottomPadding)
     }
 }
 

@@ -1,6 +1,7 @@
 package ir.alirezaivaz.kartam.ui.sheets
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -51,58 +52,60 @@ fun ChangelogSheetContent(
 ) {
     val context = LocalContext.current
     val changelog = context.parseChangelog()
-    LazyColumn(
-        modifier = Modifier.padding(
-            horizontal = Dimens.large
-        )
-    ) {
-        item {
-            Text(
-                text = stringResource(R.string.changelog),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Dimens.large),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = Dimens.large,
+                end = Dimens.large,
+                bottom = Dimens.extraLarge
             )
-            VerticalSpacer(height = Dimens.large)
+    ) {
+        Text(
+            text = stringResource(R.string.changelog),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge,
+        )
+        VerticalSpacer(height = Dimens.large)
+        LazyColumn(
+            modifier = Modifier.weight(1f)
+        ) {
+            items(changelog) { version ->
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = Dimens.small)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(R.string.changelog_version, version.version),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = version.date,
+                        style = MaterialTheme.typography.labelMedium,
+                    )
+                }
+                version.items.forEach { item ->
+                    ChangelogLine(item)
+                }
+                VerticalSpacer(height = Dimens.medium)
+            }
         }
-        items(changelog) { version ->
-            Row(
-                modifier = Modifier
-                    .padding(vertical = Dimens.small)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = stringResource(R.string.changelog_version, version.version),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                    text = version.date,
-                    style = MaterialTheme.typography.labelMedium,
-                )
-            }
-            version.items.forEach { item ->
-                ChangelogLine(item)
-            }
-            VerticalSpacer(height = Dimens.medium)
-        }
-        item {
-            FilledTonalButton(
-                modifier = Modifier
-                    .handPointerIcon()
-                    .fillMaxWidth(),
-                onClick = {
-                    onDismissRequest()
-                },
-            ) {
-                Text(
-                    text = stringResource(R.string.action_i_got_it)
-                )
-            }
-            VerticalSpacer(height = Dimens.screenBottomPadding)
+        VerticalSpacer(height = Dimens.small)
+        FilledTonalButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .handPointerIcon(),
+            onClick = {
+                onDismissRequest()
+            },
+        ) {
+            Text(
+                text = stringResource(R.string.action_i_got_it)
+            )
         }
     }
 }
