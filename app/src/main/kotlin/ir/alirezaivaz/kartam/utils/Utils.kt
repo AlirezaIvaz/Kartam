@@ -2,11 +2,20 @@ package ir.alirezaivaz.kartam.utils
 
 import android.Manifest
 import android.app.Activity
+import android.content.ClipData
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.os.Build
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.Clipboard
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.ShareUiState
+import ir.alirezaivaz.kartam.extensions.toPersianDigits
 import java.util.Locale
 
 object Utils {
@@ -71,5 +80,164 @@ object Utils {
             activity,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
+    }
+
+    fun buildShareText(
+        card: CardInfo,
+        state: ShareUiState,
+        isForeign: Boolean,
+        resources: Resources
+    ): String {
+        val ownerName = card.englishName?.takeIf { isForeign && it.isNotBlank() } ?: card.name
+        val bankName = resources.getString(card.bank.title)
+        val formattedCardNumber = if (state.useCardSeparator) {
+            card.number.chunked(4).joinToString("-")
+        } else {
+            card.number
+        }
+
+        if (state.advancedFormat) {
+            return buildAdvancedShareText(
+                card = card,
+                ownerName = ownerName,
+                bankName = bankName,
+                cardNumber = formattedCardNumber,
+                state = state,
+                resources = resources
+            )
+        } else {
+            return buildSimpleShareText(
+                card = card,
+                ownerName = ownerName,
+                bankName = bankName,
+                cardNumber = formattedCardNumber,
+                state = state,
+                resources = resources
+            )
+        }
+    }
+
+    private fun buildSimpleShareText(
+        card: CardInfo,
+        ownerName: String,
+        bankName: String,
+        cardNumber: String,
+        state: ShareUiState,
+        resources: Resources
+    ): String {
+        return buildString {
+            if (state.includeCardNumber) {
+                appendLine(cardNumber.toPersianDigits(state.usePersianDigits))
+            }
+            if (state.includeShabaNumber && card.shabaNumber != null) {
+                appendLine(resources.getString(
+                    R.string.formatter_shaba_number,
+                    card.shabaNumber.toPersianDigits(state.usePersianDigits)
+                ))
+            }
+            if (state.includeAccountNumber && card.accountNumber != null) {
+                appendLine(resources.getString(
+                    R.string.share_simple_account_number,
+                    card.accountNumber.toPersianDigits(state.usePersianDigits)
+                ))
+            }
+            if (state.includeOwnerName) {
+                appendLine(resources.getString(
+                    R.string.share_simple_owner_name,
+                    ownerName
+                ))
+            }
+            if (state.includeBankName) {
+                appendLine(resources.getString(
+                    R.string.share_simple_bank_name,
+                    bankName
+                ))
+            }
+        }.trim()
+    }
+
+    private fun buildAdvancedShareText(
+        card: CardInfo,
+        ownerName: String,
+        bankName: String,
+        cardNumber: String,
+        state: ShareUiState,
+        resources: Resources
+    ): String {
+        return buildString {
+            appendLine(resources.getString(R.string.share_advanced_title))
+            appendLine()
+            if (state.includeOwnerName) {
+                appendLine(resources.getString(
+                    R.string.share_advanced_owner_name,
+                    ownerName
+                ))
+            }
+            if (state.includeBankName) {
+                appendLine(resources.getString(
+                    R.string.share_advanced_bank_name,
+                    bankName
+                ))
+            }
+            if (state.includeCardNumber) {
+                appendLine(resources.getString(
+                    R.string.share_advanced_card_number,
+                    cardNumber.toPersianDigits(state.usePersianDigits)
+                ))
+            }
+            if (state.includeAccountNumber && card.accountNumber != null) {
+                appendLine(resources.getString(
+                    R.string.share_advanced_account_number,
+                    card.accountNumber.toPersianDigits(state.usePersianDigits)
+                ))
+            }
+            if (state.includeShabaNumber && card.shabaNumber != null) {
+                appendLine(resources.getString(
+                    R.string.share_advanced_shaba_number,
+                    card.shabaNumber.toPersianDigits(state.usePersianDigits)
+                ))
+            }
+        }.trim()
+    }
+
+    suspend fun copyTextToClipboard(
+        clipboard: Clipboard,
+        label: String,
+        text: String,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit,
+    ) {
+        try {
+            val clipData = ClipData.newPlainText(label, text)
+            val clipEntry = ClipEntry(clipData)
+            clipboard.setClipEntry(clipEntry)
+            onSuccess()
+        } catch (_: Exception) {
+            onFailure()
+        }
+    }
+
+    fun shareText(
+        text: String,
+        context: Context,
+        resources: Resources,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit,
+    ) {
+        try {
+            val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.app_name))
+                putExtra(Intent.EXTRA_TEXT, text)
+            }
+            val shareIntent = Intent.createChooser(
+                sendIntent,
+                resources.getString(R.string.action_share_via)
+            )
+            context.startActivity(shareIntent)
+            onSuccess()
+        } catch (_: Exception) {
+            onFailure()
+        }
     }
 }

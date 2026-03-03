@@ -51,13 +51,13 @@ import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.dialogs.DeleteCardDialog
 import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
+import ir.alirezaivaz.kartam.ui.sheets.ShareCardSheet
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.ui.widgets.KartamSearchBar
 import ir.alirezaivaz.kartam.ui.widgets.list.CardList
 import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.SettingsManager
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -87,6 +87,7 @@ fun ListScreen(
     var selectedCard by remember { mutableStateOf<CardInfo?>(null) }
     var selectedCardSnapshot by remember { mutableStateOf<ImageBitmap?>(null) }
     var showCardOptionsSheet by remember { mutableStateOf(false) }
+    var showShareCardSheet by remember { mutableStateOf(false) }
     var showDeleteCardDialog by remember { mutableStateOf(false) }
     val filteredCards = remember { mutableStateListOf<CardInfo>() }
     var searchFilter by remember { mutableStateOf("") }
@@ -122,6 +123,9 @@ fun ListScreen(
     if (showCardOptionsSheet) {
         CardOptionsSheet(
             card = selectedCard,
+            onShareRequest = {
+                showShareCardSheet = true
+            },
             onEditRequest = {
                 if (isAuthBeforeEdit) {
                     BiometricHelper(
@@ -173,6 +177,14 @@ fun ListScreen(
                 selectedCard = null
                 selectedCardSnapshot = null
                 showCardOptionsSheet = false
+            }
+        )
+    }
+    if (showShareCardSheet) {
+        ShareCardSheet(
+            card = selectedCard,
+            onDismissRequest = {
+                showShareCardSheet = false
             }
         )
     }

@@ -47,6 +47,7 @@
     <string name="label_restore_backup">بازیابی پروندهٔ پشتیبان</string>
     <string name="label_auto_detect">تشخیص خودکار</string>
     <string name="label_auto_detected">تشخیص خودکار - %s</string>
+    <string name="label_bank">بانک</string>
     <string name="label_card_number">شمارهٔ کارت</string>
     <string name="label_others_card">کارت دیگران</string>
     <string name="label_shaba_number">شمارهٔ شبا</string>
@@ -66,16 +67,31 @@
     <string name="label_backup_title">%1$d کارت خودم، %2$d کارت دیگران</string>
     <string name="label_last_backup_time">آخرین پشتیبان‌گیری: %s</string>
     <string name="label_storage_permission">دسترسی حافظه</string>
+    <string name="label_advanced_format">قالب پیشرفته</string>
+    <string name="label_persian_digits">عددهای فارسی</string>
+    <string name="label_card_number_separator">جداکنندهٔ شمارهٔ کارت</string>
+
+    <!-- Share -->
+    <string name="share_advanced_title">💳 اطلاعات کارت</string>
+    <string name="share_advanced_owner_name">👤 نام صاحب حساب: %s</string>
+    <string name="share_advanced_bank_name">🏦 بانک: %s</string>
+    <string name="share_advanced_card_number">💳 شماره کارت: %s</string>
+    <string name="share_advanced_account_number">🏧 شماره حساب: %s</string>
+    <string name="share_advanced_shaba_number">🧾 شماره شبا: IR%s</string>
+    <string name="share_simple_owner_name">به‌نام %s</string>
+    <string name="share_simple_bank_name">نزد %s</string>
+    <string name="share_simple_account_number">شماره حساب: %s</string>
 
     <!-- Messages -->
     <string name="message_card_added">کارت با موفقیت اضافه شد!</string>
     <string name="message_card_updated">کارت با موفقیت به‌روزرسانی شد!</string>
     <string name="message_card_deleted">کارت با موفقیت حذف شد!</string>
     <string name="message_backup_restored">پروندهٔ پشتیبان با موفقیت بازیابی شد!</string>
-    <string name="message_copied_to_clipboard">%s در بریده‌دان کپی شد!</string>
+    <string name="message_copied_to_clipboard">متن در بریده‌دان کپی شد!</string>
     <string name="message_no_card">هیچ کارتی یافت نشد!</string>
     <string name="message_no_card_description">اولین کارت خود را با کلیک روی دکمهٔ + در پایین صفحه اضافه کنید.</string>
     <string name="message_no_backup">هیچ پروندهٔ پشتیبانی برای نمایش وجود ندارد.</string>
+    <string name="message_nothing_to_share">چیزی برای اشتراک‌گذاری نیست.</string>
     <string name="message_auth">اعتبارسنجی</string>
     <string name="message_auth_description">لطفا برای ادامه‌دادن اعتبارسنجی کنید</string>
     <string name="message_backup_storage_permission">

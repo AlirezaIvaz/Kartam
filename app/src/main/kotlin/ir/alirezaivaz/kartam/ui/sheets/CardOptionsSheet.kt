@@ -14,6 +14,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
@@ -22,7 +24,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -53,12 +54,12 @@ import ir.alirezaivaz.kartam.utils.SettingsManager
 @Composable
 fun CardOptionsSheet(
     card: CardInfo?,
+    onShareRequest: () -> Unit,
     onEditRequest: () -> Unit,
     onDeleteRequest: () -> Unit,
     onSnapshotReady: (ImageBitmap) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
     val toaster = rememberToasterState()
     val sheetState = rememberModalBottomSheetState()
 
@@ -71,6 +72,7 @@ fun CardOptionsSheet(
             CardOptionsSheetContent(
                 card = card,
                 toaster = toaster,
+                onShareRequest = onShareRequest,
                 onEditRequest = onEditRequest,
                 onDeleteRequest = onDeleteRequest,
                 onSnapshotReady = onSnapshotReady,
@@ -83,6 +85,7 @@ fun CardOptionsSheet(
 fun CardOptionsSheetContent(
     card: CardInfo,
     toaster: ToasterState,
+    onShareRequest: () -> Unit,
     onEditRequest: () -> Unit,
     onDeleteRequest: () -> Unit,
     onSnapshotReady: (ImageBitmap) -> Unit,
@@ -103,6 +106,18 @@ fun CardOptionsSheetContent(
             contentScale = ContentScale.Crop,
             modifier = Modifier.heightIn(min = 50.dp)
         )
+        IconButton(
+            onClick = onShareRequest,
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(end = Dimens.small),
+            colors = IconButtonDefaults.filledTonalIconButtonColors()
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_share),
+                contentDescription = stringResource(R.string.action_share)
+            )
+        }
     }
     Column(
         modifier = Modifier
@@ -133,7 +148,6 @@ fun CardOptionsSheetContent(
             CardOptionItem(
                 title = stringResource(R.string.label_card_number),
                 subtitle = card.number,
-                toaster = toaster
             )
             VerticalSpacer(height = Dimens.small)
         }
@@ -141,7 +155,6 @@ fun CardOptionsSheetContent(
             CardOptionItem(
                 title = stringResource(R.string.label_shaba_number),
                 subtitle = stringResource(R.string.formatter_shaba_number).format(card.shabaNumber),
-                toaster = toaster
             )
             VerticalSpacer(height = Dimens.small)
         }
@@ -149,7 +162,6 @@ fun CardOptionsSheetContent(
             CardOptionItem(
                 title = stringResource(R.string.label_account_number),
                 subtitle = card.accountNumber,
-                toaster = toaster
             )
             VerticalSpacer(height = Dimens.small)
         }
@@ -157,8 +169,6 @@ fun CardOptionsSheetContent(
             CardOptionItem(
                 title = stringResource(R.string.label_first_code),
                 subtitle = it,
-                showCopyShareButtons = false,
-                toaster = toaster
             )
             VerticalSpacer(height = Dimens.small)
         }
@@ -166,7 +176,6 @@ fun CardOptionsSheetContent(
             CardOptionItem(
                 title = stringResource(R.string.label_branch_code),
                 subtitle = card.branchCode.toString(),
-                toaster = toaster
             )
             VerticalSpacer(height = Dimens.small)
         }
@@ -175,7 +184,6 @@ fun CardOptionsSheetContent(
                 title = stringResource(R.string.label_branch_name),
                 subtitle = card.branchName,
                 subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
-                toaster = toaster
             )
             VerticalSpacer(height = Dimens.small)
         }
@@ -184,8 +192,6 @@ fun CardOptionsSheetContent(
                 title = stringResource(R.string.account_type),
                 subtitle = stringResource(card.accountType.title),
                 subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
-                showCopyShareButtons = false,
-                toaster = toaster
             )
             VerticalSpacer(height = Dimens.small)
         }
@@ -195,8 +201,6 @@ fun CardOptionsSheetContent(
                 subtitle = card.comment,
                 subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
                 subtitleMaxLines = Int.MAX_VALUE,
-                showCopyShareButtons = false,
-                toaster = toaster
             )
             VerticalSpacer(height = Dimens.small)
         }
@@ -262,6 +266,7 @@ fun CardOptionsSheetPreview() {
             CardOptionsSheetContent(
                 card = FakeData.bluCard,
                 toaster = rememberToasterState(),
+                onShareRequest = {},
                 onEditRequest = {},
                 onDeleteRequest = {},
                 onSnapshotReady = {},

@@ -3,6 +3,16 @@ package ir.alirezaivaz.kartam.extensions
 import ir.alirezaivaz.kartam.dto.CardNumber
 import java.util.Locale
 
+fun String.toPersianDigits(enabled: Boolean = false): String {
+    if (!enabled) return this
+    return this.map {
+        when (it) {
+            in '0'..'9' -> '۰' + (it - '0')
+            else -> it
+        }
+    }.joinToString("")
+}
+
 fun String.toEnglishDigits(): String {
     val persian = listOf('۰','۱','۲','۳','۴','۵','۶','۷','۸','۹')
     val arabic = listOf('٠','١','٢','٣','٤','٥','٦','٧','٨','٩')

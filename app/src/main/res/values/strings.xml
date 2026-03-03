@@ -47,6 +47,7 @@
     <string name="label_restore_backup">Restore backup file</string>
     <string name="label_auto_detect">Auto Detect</string>
     <string name="label_auto_detected">Auto Detect - %s</string>
+    <string name="label_bank">Bank</string>
     <string name="label_card_number">Card number</string>
     <string name="label_others_card">Others\' card</string>
     <string name="label_shaba_number">Shaba number</string>
@@ -67,7 +68,21 @@
     <string name="label_backup_title">%1$d Owned cards, %2$d Others cards</string>
     <string name="label_last_backup_time">Last backup: %s</string>
     <string name="label_storage_permission">Storage Permission</string>
+    <string name="label_advanced_format">Advanced format</string>
+    <string name="label_persian_digits">Persian digits</string>
+    <string name="label_card_number_separator">Card number separator</string>
     <string name="label_required" translatable="false">*</string>
+
+    <!-- Share -->
+    <string name="share_advanced_title">💳 Card Information</string>
+    <string name="share_advanced_owner_name">👤 Owner name: %s</string>
+    <string name="share_advanced_bank_name">🏦 Bank: %s</string>
+    <string name="share_advanced_card_number">💳 Card number: %s</string>
+    <string name="share_advanced_account_number">🏧 Account number: %s</string>
+    <string name="share_advanced_shaba_number">🧾 Shaba number: IR%s</string>
+    <string name="share_simple_owner_name">in the name of %s</string>
+    <string name="share_simple_bank_name">at %s</string>
+    <string name="share_simple_account_number">Account number: %s</string>
 
     <!-- Formatters -->
     <string name="formatter_exp_date" translatable="false">%1$s/%2$s</string>
@@ -78,10 +93,11 @@
     <string name="message_card_updated">Card updated successfully!</string>
     <string name="message_card_deleted">Card deleted successfully!</string>
     <string name="message_backup_restored">Backup restored successfully!</string>
-    <string name="message_copied_to_clipboard">%s copied to clipboard!</string>
+    <string name="message_copied_to_clipboard">Text copied to clipboard!</string>
     <string name="message_no_card">No cards found!</string>
     <string name="message_no_card_description">Add your first card by tapping over + button at the bottom.</string>
     <string name="message_no_backup">There is no backup file to be shown.</string>
+    <string name="message_nothing_to_share">There is nothing to be share.</string>
     <string name="message_auth">Authentication</string>
     <string name="message_auth_description">Please authenticate to continue</string>
     <string name="message_backup_storage_permission">
