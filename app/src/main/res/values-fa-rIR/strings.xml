@@ -138,6 +138,12 @@
     <string name="delete_title">حذف کارت</string>
     <string name="delete_message">آیا مطمئن هستید که می‌خواهید این کارت را حذف کنید؟ این کار همیشگی است و نمی‌تواند بازگردانده شود!</string>
 
+    <!-- Invalid card number dialog -->
+    <string name="invalid_card_number_title">شمارهٔ کارت نامعتبر است!</string>
+    <string name="invalid_card_number_message">
+        "به‌نظر می‌رسد شمارهٔ کارتی که وارد کرده‌اید نامعتبر است، آیا مطمئن هستید که می‌خواهید ادامه دهید؟"
+    </string>
+
     <!-- Settings -->
     <string name="settings_dynamic_colors">رنگ‌بندی پویا</string>
     <string name="settings_show_shaba_number_in_card">نمایش شمارهٔ شبا در کارت</string>

@@ -144,6 +144,12 @@
     <string name="delete_title">Delete card</string>
     <string name="delete_message">Are you sure you want to delete this card? This action is permanent and can\'t be undone!</string>
 
+    <!-- Invalid card number dialog -->
+    <string name="invalid_card_number_title">Invalid card number!</string>
+    <string name="invalid_card_number_message">
+        "The card number you entered appears to be invalid, are you sure you want to continue?"
+    </string>
+
     <!-- Settings -->
     <string name="settings_dynamic_colors">Dynamic Colors</string>
     <string name="settings_show_shaba_number_in_card">Show Shaba number in card</string>

@@ -82,6 +82,7 @@ import ir.alirezaivaz.kartam.extensions.isValidShabaNumber
 import ir.alirezaivaz.kartam.extensions.isValidYear
 import ir.alirezaivaz.kartam.extensions.takeDigits
 import ir.alirezaivaz.kartam.ui.dialogs.CardAddedDialog
+import ir.alirezaivaz.kartam.ui.dialogs.InvalidCardNumberDialog
 import ir.alirezaivaz.kartam.ui.sheets.SelectOptionsSheet
 import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
@@ -115,6 +116,7 @@ fun AddCardScreen(
     val datePickerController = rememberDialogDatePicker()
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showCardAddedDialog by remember { mutableStateOf(false) }
+    var showInvalidCardNumberDialog by remember { mutableStateOf(false) }
     var showChooseAccountTypeSheet by remember { mutableStateOf(false) }
 
     val isEdit by viewModel.isEdit.collectAsState()
@@ -148,13 +150,19 @@ fun AddCardScreen(
             if (it.isSuccess) {
                 activity?.setResult(Activity.RESULT_OK)
             }
-            if (it == ActionState.CardAdded) {
-                showCardAddedDialog = true
-            } else {
-                toaster.show(
-                    message = resources.getString(it.message ?: R.string.error_unknown),
-                    type = if (it.isSuccess) ToastType.Success else ToastType.Error
-                )
+            when (it) {
+                ActionState.CardAdded -> {
+                    showCardAddedDialog = true
+                }
+                ActionState.InvalidCardNumber -> {
+                    showInvalidCardNumberDialog = true
+                }
+                else -> {
+                    toaster.show(
+                        message = resources.getString(it.message ?: R.string.error_unknown),
+                        type = if (it.isSuccess) ToastType.Success else ToastType.Error
+                    )
+                }
             }
         }
     }
@@ -185,14 +193,8 @@ fun AddCardScreen(
                             IconButton(
                                 modifier = Modifier.handPointerIcon(),
                                 onClick = {
-                                    scope.launch {
-                                        focusManager.clearFocus(true)
-                                        if (isEdit) {
-                                            viewModel.updateCard()
-                                        } else {
-                                            viewModel.addCard()
-                                        }
-                                    }
+                                    focusManager.clearFocus(true)
+                                    viewModel.addOrUpdateCard()
                                 }
                             ) {
                                 Icon(
@@ -219,6 +221,17 @@ fun AddCardScreen(
                     },
                     onDismissRequest = {
                         showCardAddedDialog = false
+                    }
+                )
+            }
+            if (showInvalidCardNumberDialog) {
+                InvalidCardNumberDialog(
+                    onConfirm = {
+                        showInvalidCardNumberDialog = false
+                        viewModel.addOrUpdateCard(force = true)
+                    },
+                    onDismissRequest = {
+                        showInvalidCardNumberDialog = false
                     }
                 )
             }

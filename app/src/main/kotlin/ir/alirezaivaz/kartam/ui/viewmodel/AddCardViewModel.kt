@@ -3,7 +3,7 @@ package ir.alirezaivaz.kartam.ui.viewmodel
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
-import ir.alirezaivaz.kartam.R
+import androidx.lifecycle.viewModelScope
 import ir.alirezaivaz.kartam.dto.AccountType
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
@@ -251,11 +251,11 @@ class AddCardViewModel : ViewModel() {
         }
     }
 
-    fun validateFields(): Boolean {
+    fun validateFields(force: Boolean = false): Boolean {
         if (_cardNumber.value.text.isEmpty()) {
             updateState(state = ActionState.EmptyCardNumber)
             return false
-        } else if (!_cardNumber.value.text.isValidCardNumber()) {
+        } else if (!force && !_cardNumber.value.text.isValidCardNumber()) {
             updateState(state = ActionState.InvalidCardNumber)
             return false
         } else if (_ownerName.value.text.isEmpty()) {
@@ -292,8 +292,18 @@ class AddCardViewModel : ViewModel() {
         return true
     }
 
-    suspend fun addCard() {
-        val isAllFieldsValid = validateFields()
+    fun addOrUpdateCard(force: Boolean = false) {
+        viewModelScope.launch {
+            if (_isEdit.value) {
+                updateCard(force = force)
+            } else {
+                addCard(force = force)
+            }
+        }
+    }
+
+    suspend fun addCard(force: Boolean = false) {
+        val isAllFieldsValid = validateFields(force = force)
         if (isAllFieldsValid) {
             updateIsLoading(true)
             withContext(Dispatchers.IO) {
@@ -324,8 +334,8 @@ class AddCardViewModel : ViewModel() {
         }
     }
 
-    suspend fun updateCard() {
-        val isAllFieldsValid = validateFields()
+    suspend fun updateCard(force: Boolean = false) {
+        val isAllFieldsValid = validateFields(force = force)
         if (_card.value != null && isAllFieldsValid) {
             updateIsLoading(true)
             withContext(Dispatchers.IO) {
