@@ -1,6 +1,5 @@
 package ir.alirezaivaz.kartam.ui.viewmodel
 
-import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,7 @@ import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.AccountType
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
-import ir.alirezaivaz.kartam.dto.Result
+import ir.alirezaivaz.kartam.dto.ActionState
 import ir.alirezaivaz.kartam.dto.childBanks
 import ir.alirezaivaz.kartam.dto.parentBank
 import ir.alirezaivaz.kartam.dto.toSensitive
@@ -26,8 +25,11 @@ import ir.alirezaivaz.kartam.utils.BackupManager
 import ir.alirezaivaz.kartam.utils.KartamDatabase
 import ir.alirezaivaz.kartam.utils.Utils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddCardViewModel : ViewModel() {
@@ -42,8 +44,6 @@ class AddCardViewModel : ViewModel() {
     val isLoading: StateFlow<Boolean> = _isLoading
     private val _isAutoDetectBank = MutableStateFlow(true)
     val isAutoDetectBank: StateFlow<Boolean> = _isAutoDetectBank
-    private val _result = MutableStateFlow<Result?>(null)
-    val result: StateFlow<Result?> = _result
     private val _cardNumber = MutableStateFlow(TextFieldValue())
     val cardNumber: StateFlow<TextFieldValue> = _cardNumber
     private val _ownerName = MutableStateFlow(TextFieldValue())
@@ -76,6 +76,8 @@ class AddCardViewModel : ViewModel() {
     val isOthersCard: StateFlow<Boolean> = _isOthersCard
     private val _comment = MutableStateFlow(TextFieldValue())
     val comment: StateFlow<TextFieldValue> = _comment
+    private val _state = MutableSharedFlow<ActionState>()
+    val state = _state.asSharedFlow()
 
     suspend fun initialize(cardId: Int, isOwned: Boolean) = withContext(Dispatchers.IO) {
         _isOthersCard.value = !isOwned
@@ -134,10 +136,7 @@ class AddCardViewModel : ViewModel() {
             }
             updateIsAutoDetectBank(_bank.value.childBanks.isEmpty() && _bank.value.parentBank == null)
         } else {
-            updateResult(
-                isSuccess = false,
-                message = R.string.message_went_wrong_description
-            )
+            updateState(state = ActionState.CardNotFound)
         }
         updateIsLoading(false)
     }
@@ -151,21 +150,6 @@ class AddCardViewModel : ViewModel() {
         if (updateBank && value) {
             updateBank(_cardNumber.value.text)
         }
-    }
-
-    fun updateResult(result: Result?) {
-        _result.value = result
-    }
-
-    fun updateResult(
-        isSuccess: Boolean = false,
-        @StringRes
-        message: Int? = null,
-    ) {
-        _result.value = Result(
-            isSuccess = isSuccess,
-            message = message,
-        )
     }
 
     fun updateCardNumber(cardNumber: TextFieldValue) {
@@ -261,42 +245,48 @@ class AddCardViewModel : ViewModel() {
         }
     }
 
+    fun updateState(state: ActionState) {
+        viewModelScope.launch {
+            _state.emit(state)
+        }
+    }
+
     fun validateFields(): Boolean {
         if (_cardNumber.value.text.isEmpty()) {
-            updateResult(message = R.string.error_empty_card_number)
+            updateState(state = ActionState.EmptyCardNumber)
             return false
         } else if (!_cardNumber.value.text.isValidCardNumber()) {
-            updateResult(message = R.string.error_invalid_card_number)
+            updateState(state = ActionState.InvalidCardNumber)
             return false
         } else if (_ownerName.value.text.isEmpty()) {
-            updateResult(message = R.string.error_empty_owner_name)
+            updateState(state = ActionState.EmptyOwnerName)
             return false
         } else if (!_ownerName.value.text.isValidName() || (_ownerEnglishName.value.text.isNotEmpty() && !_ownerEnglishName.value.text.isValidName())) {
-            updateResult(message = R.string.error_invalid_owner_name)
+            updateState(state = ActionState.InvalidOwnerName)
             return false
         } else if (_shabaNumber.value.text.isNotEmpty() && !_shabaNumber.value.text.isValidShabaNumber()) {
-            updateResult(message = R.string.error_invalid_shaba_number)
+            updateState(state = ActionState.InvalidShabaNumber)
             return false
         } else if (_accountNumber.value.text.isNotEmpty() && !_accountNumber.value.text.isValidAccountNumber()) {
-            updateResult(message = R.string.error_invalid_account_number)
+            updateState(state = ActionState.InvalidAccountNumber)
             return false
         } else if (_cvv2.value.text.isNotEmpty() && !_cvv2.value.text.isValidCvv2()) {
-            updateResult(message = R.string.error_invalid_cvv2)
+            updateState(state = ActionState.InvalidCVV2)
             return false
         } else if (_firstCode.value.text.isNotEmpty() && !_firstCode.value.text.isValidFirstCode()) {
-            updateResult(message = R.string.error_invalid_first_code)
+            updateState(state = ActionState.InvalidFirstCode)
             return false
         } else if (_branchCode.value.text.isNotEmpty() && !_branchCode.value.text.isDigitsOnly()) {
-            updateResult(message = R.string.error_invalid_branch_code)
+            updateState(state = ActionState.InvalidBranchCode)
             return false
         } else if (_branchName.value.text.isNotEmpty() && !_branchName.value.text.isValidName()) {
-            updateResult(message = R.string.error_invalid_branch_name)
+            updateState(state = ActionState.InvalidBranchName)
             return false
         } else if (_expirationMonth.value.text.isNotEmpty() && !_expirationMonth.value.text.isValidMonth()) {
-            updateResult(message = R.string.error_invalid_exp_month)
+            updateState(state = ActionState.InvalidExpirationMonth)
             return false
         } else if (_expirationYear.value.text.isNotEmpty() && !_expirationYear.value.text.isValidYear()) {
-            updateResult(message = R.string.error_invalid_exp_year)
+            updateState(state = ActionState.InvalidExpirationYear)
             return false
         }
         return true
@@ -330,7 +320,7 @@ class AddCardViewModel : ViewModel() {
                 BackupManager.backupNow()
             }
             updateIsLoading(false)
-            updateResult(isSuccess = true)
+            updateState(state = ActionState.CardAdded)
         }
     }
 
@@ -360,10 +350,7 @@ class AddCardViewModel : ViewModel() {
                 BackupManager.backupNow()
             }
             updateIsLoading(false)
-            updateResult(
-                isSuccess = true,
-                message = R.string.message_card_updated
-            )
+            updateState(state = ActionState.CardUpdated)
         }
     }
 

@@ -113,8 +113,6 @@
     <!-- Errors -->
     <string name="error_empty_card_number">لطفا شمارهٔ کارت را وارد کنید!</string>
     <string name="error_empty_owner_name">لطفا نام صاحب کارت را وارد کنید!</string>
-    <string name="error_empty_exp_month">لطفا ماه انقضای کارت را وارد/انتخاب کنید!</string>
-    <string name="error_empty_exp_year">لطفا سال انقضای کارت را وارد/انتخاب کنید!</string>
     <string name="error_invalid_card_number">شمارهٔ کارت نامعتبر است! لطفا آن‌را بررسی و دوباره تلاش کنید.</string>
     <string name="error_invalid_owner_name">نام صاحب کارت باید فقط شامل نویسه‌های فارسی و انگلیسی باشد!</string>
     <string name="error_invalid_shaba_number">شمارهٔ شبا نامعتبر است! لطفا آن‌را بررسی و دوباره تلاش کنید.</string>

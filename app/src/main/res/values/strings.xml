@@ -119,16 +119,14 @@
     <!-- Errors -->
     <string name="error_empty_card_number">Please enter the card number!</string>
     <string name="error_empty_owner_name">Please enter the card owner name!</string>
-    <string name="error_empty_exp_month">Please enter/choose expiration month!</string>
-    <string name="error_empty_exp_year">Please enter/choose expiration year!</string>
     <string name="error_invalid_card_number">Card number is invalid! Please check it and try again.</string>
-    <string name="error_invalid_owner_name">Owner name must only contains English and Persian characters!</string>
+    <string name="error_invalid_owner_name">Owner name must only contain English and Persian characters!</string>
     <string name="error_invalid_shaba_number">Shaba number is invalid! Please check it and try again.</string>
     <string name="error_invalid_account_number">Account number is invalid!</string>
     <string name="error_invalid_cvv2">CVV2 must be 3 or 4 digit number!</string>
     <string name="error_invalid_first_code">First code must be a 4-digit number!</string>
-    <string name="error_invalid_branch_code">Branch code must only contains digits!</string>
-    <string name="error_invalid_branch_name">Branch name must only contains English and Persian characters!</string>
+    <string name="error_invalid_branch_code">Branch code must only contain digits!</string>
+    <string name="error_invalid_branch_name">Branch name must only contain English and Persian characters!</string>
     <string name="error_invalid_exp_month">Expiration month is invalid!</string>
     <string name="error_invalid_exp_year">Expiration year is invalid or has passed!</string>
     <string name="error_request_run_failed">Your request can\'t be run!</string>

@@ -63,6 +63,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.ActionState
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.getChoosableBanks
@@ -119,7 +120,6 @@ fun AddCardScreen(
     val isEdit by viewModel.isEdit.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val isAutoDetectBank by viewModel.isAutoDetectBank.collectAsState()
-    val result by viewModel.result.collectAsState()
     val cardNumber by viewModel.cardNumber.collectAsState()
     val ownerName by viewModel.ownerName.collectAsState()
     val ownerEnglishName by viewModel.ownerEnglishName.collectAsState()
@@ -143,25 +143,19 @@ fun AddCardScreen(
         viewModel.initialize(cardId, isOwned)
     }
 
-    LaunchedEffect(result) {
-        result?.let {
+    LaunchedEffect(Unit) {
+        viewModel.state.collect {
             if (it.isSuccess) {
                 activity?.setResult(Activity.RESULT_OK)
-                if (!isEdit) {
-                    showCardAddedDialog = true
-                } else if (it.message != null) {
-                    toaster.show(
-                        message = resources.getString(it.message),
-                        type = ToastType.Success
-                    )
-                }
-            } else if (it.message != null) {
+            }
+            if (it == ActionState.CardAdded) {
+                showCardAddedDialog = true
+            } else {
                 toaster.show(
-                    message = resources.getString(it.message),
-                    type = ToastType.Error
+                    message = resources.getString(it.message ?: R.string.error_unknown),
+                    type = if (it.isSuccess) ToastType.Success else ToastType.Error
                 )
             }
-            viewModel.updateResult(null)
         }
     }
 
