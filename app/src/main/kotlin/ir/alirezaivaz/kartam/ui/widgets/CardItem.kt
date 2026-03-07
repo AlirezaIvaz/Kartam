@@ -3,7 +3,6 @@ package ir.alirezaivaz.kartam.ui.widgets
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -60,7 +59,6 @@ import ir.alirezaivaz.kartam.utils.BiometricHelper
 import ir.alirezaivaz.kartam.utils.SettingsManager
 import ir.alirezaivaz.kartam.utils.Utils
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CardItem(
     card: CardInfo,
