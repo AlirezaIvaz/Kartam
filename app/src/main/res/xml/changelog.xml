@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="1.7.0" date="2026-04-09">
+        <new>Support for GreenBank</new>
+        <new>Customizable share sheet</new>
+        <new>Allow invalid card number usage by user confirmation</new>
+        <fixed>Some minor bugs</fixed>
+        <improved>App UI</improved>
+        <improved>App functionality</improved>
+    </version>
     <version name="1.6.1" date="2026-02-23">
         <fixed>Backup and restore issues</fixed>
         <fixed>Some minor bugs</fixed>

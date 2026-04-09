@@ -2,6 +2,15 @@
 
 [فارسی](CHANGELOG.md) • English
 
+## v1.7.0 (9 April 2026)
+
+- **New:** Support for GreenBank
+- **New:** Customizable share sheet
+- **New:** Allow invalid card number usage by user confirmation
+- **Fixed:** Some minor bugs
+- **Improved:** App UI
+- **Improved:** App functionality
+
 ## v1.6.1 (12 February 2026)
 
 - **Fixed:** Backup and restore issues

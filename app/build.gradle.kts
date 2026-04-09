@@ -23,8 +23,8 @@ android {
         applicationId = "ir.alirezaivaz.kartam"
         minSdk = 23
         targetSdk = 36
-        versionCode = 160302
-        versionName = "1.6.1"
+        versionCode = 170300
+        versionName = "1.7.0"
     }
 
     signingConfigs {

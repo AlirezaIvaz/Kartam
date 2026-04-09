@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="۱٫۷٫۰" date="۲۰ فروردین ۱۴۰۵">
+        <new>پشتیبانی از گرین‌بانک</new>
+        <new>پنجرهٔ اشتراک‌گذاری قابل شخصی‌سازی</new>
+        <new>اجازه به استفاده از شمارهٔ کارت نادرست با تایید کاربر</new>
+        <fixed>برخی مشکلات جزئی</fixed>
+        <improved>رابط کاربری برنامه</improved>
+        <improved>کارکرد برنامه</improved>
+    </version>
     <version name="۱٫۶٫۱" date="۲۳ بهمن ۱۴۰۴">
         <fixed>مشکلات پشتیبان‌گیری و بازیابی</fixed>
         <fixed>برخی مشکلات جزئی</fixed>
