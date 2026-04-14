@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import ir.alirezaivaz.kartam.dto.DetectedCardData
+import ir.alirezaivaz.kartam.utils.ClipboardMemory
 import ir.alirezaivaz.kartam.utils.ClipboardParser
 
 @Composable
@@ -22,8 +23,10 @@ fun ClipboardDetector(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                val text =
-                    ClipboardParser.getClipboardText(context) ?: return@LifecycleEventObserver
+                val text = ClipboardParser.getClipboardText(context)
+                if (text == null || !ClipboardMemory.shouldHandle(text)) {
+                    return@LifecycleEventObserver
+                }
                 val parsed = ClipboardParser.parse(text)
                 if (parsed?.cardNumber != null || parsed?.shabaNumber != null) {
                     onDetected(parsed)
