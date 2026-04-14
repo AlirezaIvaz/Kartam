@@ -46,6 +46,8 @@ object SettingsManager {
     private const val PREF_AUTH_BEFORE_EDIT_DEFAULT = true
     private const val PREF_AUTH_BEFORE_DELETE = "pref_auth_before_delete"
     private const val PREF_AUTH_BEFORE_DELETE_DEFAULT = true
+    private const val PREF_AUTO_DETECT_FROM_CLIPBOARD = "pref_auto_detect_from_clipboard"
+    private const val PREF_AUTO_DETECT_FROM_CLIPBOARD_DEFAULT = false
 
     private val _version = MutableStateFlow(settings[PREF_VERSION, BuildConfig.VERSION_CODE])
     val version: StateFlow<Int> = _version
@@ -79,6 +81,8 @@ object SettingsManager {
     val isAuthBeforeEdit: StateFlow<Boolean> = _isAuthBeforeEdit
     private val _isAuthBeforeDelete = MutableStateFlow(settings[PREF_AUTH_BEFORE_DELETE, PREF_AUTH_BEFORE_DELETE_DEFAULT])
     val isAuthBeforeDelete: StateFlow<Boolean> = _isAuthBeforeDelete
+    private val _isAutoDetectFromClipboard = MutableStateFlow(settings[PREF_AUTO_DETECT_FROM_CLIPBOARD, PREF_AUTO_DETECT_FROM_CLIPBOARD_DEFAULT])
+    val isAutoDetectFromClipboard: StateFlow<Boolean> = _isAutoDetectFromClipboard
 
     fun isDarkMode(isSystemInDarkTheme: Boolean): Boolean {
         return _theme.value == Theme.Night || (_theme.value == Theme.System && isSystemInDarkTheme)
@@ -197,4 +201,8 @@ object SettingsManager {
         settings[PREF_AUTH_BEFORE_DELETE] = value
     }
 
+    fun setAutoDetectFromClipboard(value: Boolean) {
+        _isAutoDetectFromClipboard.value = value
+        settings[PREF_AUTO_DETECT_FROM_CLIPBOARD] = value
+    }
 }

@@ -103,6 +103,7 @@ fun ListScreen(
     val isAuthBeforeEdit by SettingsManager.isAuthBeforeEdit.collectAsState()
     val isAuthBeforeDelete by SettingsManager.isAuthBeforeDelete.collectAsState()
     val isSecretCvv2InList by SettingsManager.isSecretCvv2InList.collectAsState()
+    val isAutoDetectFromClipboard by SettingsManager.isAutoDetectFromClipboard.collectAsState()
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         viewModel.onMove(from.index, to.index, isOwned)
@@ -124,7 +125,9 @@ fun ListScreen(
         }
     }
 
-    ClipboardDetector { data ->
+    ClipboardDetector(
+        isEnabled = isAutoDetectFromClipboard
+    ) { data ->
         clipboardDetectedCardData = data
     }
 

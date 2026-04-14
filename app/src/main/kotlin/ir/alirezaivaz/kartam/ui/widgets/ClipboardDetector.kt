@@ -11,8 +11,11 @@ import ir.alirezaivaz.kartam.utils.ClipboardParser
 
 @Composable
 fun ClipboardDetector(
+    isEnabled: Boolean,
     onDetected: (DetectedCardData) -> Unit
 ) {
+    if (!isEnabled) return
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 

@@ -91,6 +91,7 @@ fun SettingsScreen(
     val isAuthSecretDetails by SettingsManager.isAuthSecretData.collectAsState()
     val isAuthBeforeEdit by SettingsManager.isAuthBeforeEdit.collectAsState()
     val isAuthBeforeDelete by SettingsManager.isAuthBeforeDelete.collectAsState()
+    val isAutoDetectFromClipboard by SettingsManager.isAutoDetectFromClipboard.collectAsState()
 
     Scaffold(
         contentWindowInsets = WindowInsets(0),
@@ -339,6 +340,19 @@ fun SettingsScreen(
                 isEnabled = authType != AuthType.None,
                 onCheckedChanged = {
                     SettingsManager.setAuthBeforeDelete(it)
+                }
+            )
+            VerticalSpacer(height = Dimens.small)
+            TooltipHelpRow(
+                title = stringResource(R.string.settings_experimental),
+                helpText = stringResource(R.string.settings_experimental_description)
+            )
+            VerticalSpacer(height = Dimens.small)
+            SwitchItem(
+                title = stringResource(R.string.settings_auto_detect_from_clipboard),
+                isChecked = isAutoDetectFromClipboard,
+                onCheckedChanged = {
+                    SettingsManager.setAutoDetectFromClipboard(it)
                 }
             )
             VerticalSpacer(height = Dimens.large)

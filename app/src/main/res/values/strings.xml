@@ -175,6 +175,12 @@
     <string name="settings_auth_secret_data">Authenticate for secret data</string>
     <string name="settings_auth_before_edit">Authenticate before edit</string>
     <string name="settings_auth_before_delete">Authenticate before delete</string>
+    <string name="settings_experimental">Experimental Features</string>
+    <string name="settings_experimental_description">
+        "These features are experimental and might not work properly, so by default they are"
+        "disabled."
+    </string>
+    <string name="settings_auto_detect_from_clipboard">Auto-detect card number from clipboard</string>
     <string name="settings_app_version" translatable="false">%1$s - v%2$s</string>
 
     <!-- Languages -->
