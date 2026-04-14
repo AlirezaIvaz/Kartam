@@ -16,6 +16,7 @@
     <string name="action_i_got_it">I got it</string>
     <string name="action_grant_permission">Grant permission</string>
     <string name="action_add_card">Add Card</string>
+    <string name="action_add_copied_card">Add Copied Card Number</string>
     <string name="action_stay_here">Stay here</string>
     <string name="action_edit_card">Edit Card</string>
     <string name="action_delete_card">Delete Card</string>

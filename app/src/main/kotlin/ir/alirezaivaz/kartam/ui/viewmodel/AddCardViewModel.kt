@@ -8,6 +8,7 @@ import ir.alirezaivaz.kartam.dto.AccountType
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
 import ir.alirezaivaz.kartam.dto.ActionState
+import ir.alirezaivaz.kartam.dto.DetectedCardData
 import ir.alirezaivaz.kartam.dto.childBanks
 import ir.alirezaivaz.kartam.dto.parentBank
 import ir.alirezaivaz.kartam.dto.toSensitive
@@ -79,12 +80,21 @@ class AddCardViewModel : ViewModel() {
     private val _state = MutableSharedFlow<ActionState>()
     val state = _state.asSharedFlow()
 
-    suspend fun initialize(cardId: Int, isOwned: Boolean) = withContext(Dispatchers.IO) {
+    suspend fun initialize(
+        cardId: Int,
+        isOwned: Boolean,
+        detectedCardData: DetectedCardData? = null,
+    ) = withContext(Dispatchers.IO) {
         _isOthersCard.value = !isOwned
         if (cardId == -1) {
             _isEdit.value = false
             updateIsLoading(false)
             updateIsAutoDetectBank(true)
+            detectedCardData?.let {
+                updateOwnerName(TextFieldValue(it.name.orEmpty()))
+                updateCardNumber(TextFieldValue(it.cardNumber.orEmpty()))
+                updateShabaNumber(TextFieldValue(it.shabaNumber.orEmpty()))
+            }
         } else {
             loadCardDetails(cardId)
         }

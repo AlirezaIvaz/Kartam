@@ -131,9 +131,14 @@ class ActivityMain : KartamActivity() {
                                     intent.putExtra("id", id)
                                     launcher.launch(intent)
                                 },
-                                onAddCardClick = { launcher ->
+                                onAddCardClick = { launcher, data ->
                                     val intent = Intent(context, AddCardActivity::class.java)
-                                    intent.putExtra("owned", true)
+                                    intent.putExtra("owned", data == null)
+                                    data?.let {
+                                        intent.putExtra("name", data.name)
+                                        intent.putExtra("card_number", data.cardNumber)
+                                        intent.putExtra("shaba_number", data.shabaNumber)
+                                    }
                                     launcher.launch(intent)
                                 }
                             )
@@ -154,9 +159,14 @@ class ActivityMain : KartamActivity() {
                                     intent.putExtra("id", id)
                                     launcher.launch(intent)
                                 },
-                                onAddCardClick = { launcher ->
+                                onAddCardClick = { launcher, data ->
                                     val intent = Intent(context, AddCardActivity::class.java)
                                     intent.putExtra("owned", false)
+                                    data?.let {
+                                        intent.putExtra("name", data.name)
+                                        intent.putExtra("card_number", data.cardNumber)
+                                        intent.putExtra("shaba_number", data.shabaNumber)
+                                    }
                                     launcher.launch(intent)
                                 }
                             )

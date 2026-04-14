@@ -16,6 +16,7 @@
     <string name="action_i_got_it">فهمیدم</string>
     <string name="action_grant_permission">اجازه‌دادن</string>
     <string name="action_add_card">افزودن کارت</string>
+    <string name="action_add_copied_card">افزودن شماره کارت کپی‌شده</string>
     <string name="action_stay_here">همینجا بمان</string>
     <string name="action_edit_card">ویرایش کارت</string>
     <string name="action_delete_card">حذف کارت</string>

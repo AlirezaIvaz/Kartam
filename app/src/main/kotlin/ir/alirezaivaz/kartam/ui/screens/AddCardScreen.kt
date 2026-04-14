@@ -66,6 +66,7 @@ import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.ActionState
 import ir.alirezaivaz.kartam.dto.Bank
 import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.DetectedCardData
 import ir.alirezaivaz.kartam.dto.getChoosableBanks
 import ir.alirezaivaz.kartam.dto.toSensitive
 import ir.alirezaivaz.kartam.extensions.extractCardNumber
@@ -104,7 +105,8 @@ import kotlinx.coroutines.launch
 fun AddCardScreen(
     cardId: Int,
     isOwned: Boolean,
-    viewModel: AddCardViewModel = viewModel()
+    viewModel: AddCardViewModel = viewModel(),
+    detectedCardData: DetectedCardData? = null
 ) {
     val scope = rememberCoroutineScope()
     val toaster = rememberToasterState()
@@ -142,7 +144,11 @@ fun AddCardScreen(
     val initialYear = jalaliCalendar.year
 
     LaunchedEffect(Unit) {
-        viewModel.initialize(cardId, isOwned)
+        viewModel.initialize(
+            cardId = cardId,
+            isOwned = isOwned,
+            detectedCardData = detectedCardData
+        )
     }
 
     LaunchedEffect(Unit) {

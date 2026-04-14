@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import ir.alirezaivaz.kartam.dto.DetectedCardData
 import ir.alirezaivaz.kartam.ui.screens.AddCardScreen
 
 class AddCardActivity : KartamActivity() {
@@ -16,10 +17,19 @@ class AddCardActivity : KartamActivity() {
         )
         val cardId = intent.getIntExtra("id", -1)
         val isOwned = intent.getBooleanExtra("owned", true)
+        val ownerName = intent.getStringExtra("name")
+        val cardNumber = intent.getStringExtra("card_number")
+        val shabaNumber = intent.getStringExtra("shaba_number")
+        val detectedCardData = DetectedCardData(
+            name = ownerName,
+            cardNumber = cardNumber,
+            shabaNumber = shabaNumber
+        )
         setContent {
             AddCardScreen(
                 cardId = cardId,
-                isOwned = isOwned
+                isOwned = isOwned,
+                detectedCardData = detectedCardData
             )
         }
     }

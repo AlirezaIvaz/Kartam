@@ -48,11 +48,14 @@ import com.dokar.sonner.ToasterState
 import com.dokar.sonner.rememberToasterState
 import ir.alirezaivaz.kartam.R
 import ir.alirezaivaz.kartam.dto.CardInfo
+import ir.alirezaivaz.kartam.dto.DetectedCardData
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.dialogs.DeleteCardDialog
+import ir.alirezaivaz.kartam.ui.sheets.CardNumberDetectedSheet
 import ir.alirezaivaz.kartam.ui.sheets.CardOptionsSheet
 import ir.alirezaivaz.kartam.ui.sheets.ShareCardSheet
 import ir.alirezaivaz.kartam.ui.viewmodel.MainViewModel
+import ir.alirezaivaz.kartam.ui.widgets.ClipboardDetector
 import ir.alirezaivaz.kartam.ui.widgets.ErrorView
 import ir.alirezaivaz.kartam.ui.widgets.KartamSearchBar
 import ir.alirezaivaz.kartam.ui.widgets.list.CardList
@@ -68,7 +71,7 @@ fun ListScreen(
     toaster: ToasterState,
     viewModel: MainViewModel = viewModel(),
     onEditRequest: (launcher: ManagedActivityResultLauncher<Intent, ActivityResult>, id: Int?) -> Unit,
-    onAddCardClick: (launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) -> Unit,
+    onAddCardClick: (launcher: ManagedActivityResultLauncher<Intent, ActivityResult>, data: DetectedCardData?) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -76,6 +79,7 @@ fun ListScreen(
     val hapticFeedback = LocalHapticFeedback.current
     val isLoading by viewModel.isLoading.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
+    var clipboardDetectedCardData by remember { mutableStateOf<DetectedCardData?>(null) }
     val activityLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
@@ -118,6 +122,10 @@ fun ListScreen(
             }
             isSearching = false
         }
+    }
+
+    ClipboardDetector { data ->
+        clipboardDetectedCardData = data
     }
 
     if (showCardOptionsSheet) {
@@ -185,6 +193,17 @@ fun ListScreen(
             card = selectedCard,
             onDismissRequest = {
                 showShareCardSheet = false
+            }
+        )
+    }
+    clipboardDetectedCardData?.let {
+        CardNumberDetectedSheet(
+            detectedCardData = it,
+            onAddCardRequest = { data ->
+                onAddCardClick(activityLauncher, data)
+            },
+            onDismissRequest = {
+                clipboardDetectedCardData = null
             }
         )
     }
@@ -274,7 +293,7 @@ fun ListScreen(
                         )
                     },
                     onClick = {
-                        onAddCardClick(activityLauncher)
+                        onAddCardClick(activityLauncher, null)
                     }
                 )
             }
@@ -351,6 +370,6 @@ fun HomeScreenPreview() {
         isOwned = true,
         toaster = rememberToasterState(),
         onEditRequest = { _, _ -> },
-        onAddCardClick = {}
+        onAddCardClick = { _, _ -> }
     )
 }
