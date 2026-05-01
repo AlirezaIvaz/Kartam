@@ -1,9 +1,9 @@
 [versions]
 agp = "9.2.0"
-kotlin = "2.3.20"
+kotlin = "2.3.21"
 kotlin-ksp = "2.3.6"
-kotlin-serialization = "2.3.20"
-kotlinx-serialization-json = "1.10.0"
+kotlin-serialization = "2.3.21"
+kotlinx-serialization-json = "1.11.0"
 androidx-core = "1.18.0"
 androidx-biometric = "1.4.0-alpha02"
 androidx-lifecycle = "2.10.0"
