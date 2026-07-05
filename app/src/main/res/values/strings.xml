@@ -276,5 +276,6 @@
     <string name="bank_tose_saderat">Export Development Bank of Iran</string>
     <string name="bank_tose_taavon">Tose Taavon Bank</string>
     <string name="bank_wepod">Wepod</string>
+    <string name="bank_zypod">Zypod</string>
     <string name="bank_unknown">Unknown</string>
 </resources>

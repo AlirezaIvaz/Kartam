@@ -184,6 +184,14 @@ enum class Bank(
         isNeo = true,
         prefixes = listOf("50222915"),
     ),
+    @SerializedName("Zypod")
+    Zypod(
+        type = BankType.NeoBank,
+        icon = R.drawable.ic_bank_zypod,
+        logo = R.drawable.ic_bank_zypod_logo,
+        title = R.string.bank_zypod,
+        isNeo = true,
+    ),
     @SerializedName("Ansar")
     Ansar(
         icon = R.drawable.ic_bank_ansar,
@@ -463,7 +471,7 @@ val Bank.parentBank: Bank?
         Bank.Bankvareh -> Bank.ToseTaavon
         Bank.Baran -> Bank.Keshavarzi
         Bank.Bajet -> Bank.Tejarat
-        Bank.Wepod -> Bank.Pasargad
+        Bank.Wepod, Bank.Zypod -> Bank.Pasargad
         Bank.MegaBank -> Bank.Mellat
         Bank.MetaBank -> Bank.Melal
         Bank.HiBank -> Bank.Karafarin
@@ -480,7 +488,7 @@ val Bank.childBanks: List<Bank>
     get() = when (this) {
         Bank.Saman -> listOf(Bank.BluBank, Bank.BluJunior)
         Bank.Khavarmianeh -> listOf(Bank.Bankino)
-        Bank.Pasargad -> listOf(Bank.Wepod)
+        Bank.Pasargad -> listOf(Bank.Wepod, Bank.Zypod)
         Bank.Melal -> listOf(Bank.MetaBank)
         Bank.Gardeshgari -> listOf(Bank.ToBank)
         Bank.Karafarin -> listOf(Bank.HiBank)
