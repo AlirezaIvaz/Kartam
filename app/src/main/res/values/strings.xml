@@ -156,6 +156,8 @@
     <string name="settings_show_shaba_number_in_card">Show Shaba number in card</string>
     <string name="settings_show_full_exp_date">Show full expiration date</string>
     <string name="settings_show_reverse_exp_date">Reverse show expiration date</string>
+    <string name="settings_show_quick_copy_button">Show quick copy button</string>
+    <string name="settings_show_quick_share_button">Show quick share button</string>
     <string name="settings_hide_cvv2">Hide CVV2</string>
     <string name="settings_hide_cvv2_description">CVV2 will be hidden by default and you need to long press on the card to see it.</string>
     <string name="settings_hide_cvv2_list">In card list</string>

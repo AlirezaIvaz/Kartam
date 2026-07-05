@@ -1,5 +1,7 @@
 package ir.alirezaivaz.kartam.ui.sheets
 
+import android.content.ClipData
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,10 +26,14 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,6 +55,7 @@ import ir.alirezaivaz.kartam.ui.widgets.KartamToaster
 import ir.alirezaivaz.kartam.ui.widgets.SnapshotableCard
 import ir.alirezaivaz.kartam.ui.widgets.VerticalSpacer
 import ir.alirezaivaz.kartam.utils.SettingsManager
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,7 +67,11 @@ fun CardOptionsSheet(
     onSnapshotReady: (ImageBitmap) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     val toaster = rememberToasterState()
+    val resources = LocalResources.current
+    val clipboard = LocalClipboard.current
     val sheetState = rememberModalBottomSheetState()
 
     ModalBottomSheet(
@@ -76,6 +87,30 @@ fun CardOptionsSheet(
                 onEditRequest = onEditRequest,
                 onDeleteRequest = onDeleteRequest,
                 onSnapshotReady = onSnapshotReady,
+                onCopyItemRequest = { title, subtitle ->
+                    scope.launch {
+                        val clipData = ClipData.newPlainText(title, subtitle)
+                        val clipEntry = ClipEntry(clipData)
+                        clipboard.setClipEntry(clipEntry)
+                        toaster.show(
+                            message = resources.getString(R.string.message_copied_to_clipboard)
+                                .format(title),
+                            type = ToastType.Success
+                        )
+                    }
+                },
+                onShareItemRequest = { title, subtitle ->
+                    val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TITLE, title)
+                        putExtra(Intent.EXTRA_TEXT, subtitle)
+                    }
+                    val shareIntent = Intent.createChooser(
+                        sendIntent,
+                        resources.getString(R.string.action_share_via)
+                    )
+                    context.startActivity(shareIntent)
+                }
             )
         }
     }
@@ -89,11 +124,15 @@ fun CardOptionsSheetContent(
     onEditRequest: () -> Unit,
     onDeleteRequest: () -> Unit,
     onSnapshotReady: (ImageBitmap) -> Unit,
+    onCopyItemRequest: (title: String, subtitle: String) -> Unit,
+    onShareItemRequest: (title: String, subtitle: String) -> Unit,
 ) {
     val resources = LocalResources.current
     val isAuthSecretData by SettingsManager.isAuthSecretData.collectAsState()
     val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
     val isSecretCvv2InDetails by SettingsManager.isSecretCvv2InDetails.collectAsState()
+    val isShowQuickCopyButton by SettingsManager.isShowQuickCopyButton.collectAsState()
+    val isShowQuickShareButton by SettingsManager.isShowQuickShareButton.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -115,7 +154,9 @@ fun CardOptionsSheetContent(
             )
             IconButton(
                 onClick = onShareRequest,
-                modifier = Modifier.align(Alignment.TopEnd),
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .handPointerIcon(),
                 colors = IconButtonDefaults.filledTonalIconButtonColors()
             ) {
                 Icon(
@@ -155,6 +196,11 @@ fun CardOptionsSheetContent(
                 CardOptionItem(
                     title = stringResource(R.string.label_card_number),
                     subtitle = card.number,
+                    copyAndShareAllowed = true,
+                    showQuickCopyButton = isShowQuickCopyButton,
+                    showQuickShareButton = isShowQuickShareButton,
+                    onCopyItemRequest = onCopyItemRequest,
+                    onShareItemRequest = onShareItemRequest,
                 )
                 VerticalSpacer(height = Dimens.small)
             }
@@ -162,6 +208,11 @@ fun CardOptionsSheetContent(
                 CardOptionItem(
                     title = stringResource(R.string.label_shaba_number),
                     subtitle = stringResource(R.string.formatter_shaba_number).format(card.shabaNumber),
+                    copyAndShareAllowed = true,
+                    showQuickCopyButton = isShowQuickCopyButton,
+                    showQuickShareButton = isShowQuickShareButton,
+                    onCopyItemRequest = onCopyItemRequest,
+                    onShareItemRequest = onShareItemRequest,
                 )
                 VerticalSpacer(height = Dimens.small)
             }
@@ -169,6 +220,11 @@ fun CardOptionsSheetContent(
                 CardOptionItem(
                     title = stringResource(R.string.label_account_number),
                     subtitle = card.accountNumber,
+                    copyAndShareAllowed = true,
+                    showQuickCopyButton = isShowQuickCopyButton,
+                    showQuickShareButton = isShowQuickShareButton,
+                    onCopyItemRequest = onCopyItemRequest,
+                    onShareItemRequest = onShareItemRequest,
                 )
                 VerticalSpacer(height = Dimens.small)
             }
@@ -208,6 +264,11 @@ fun CardOptionsSheetContent(
                     subtitle = card.comment,
                     subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
                     subtitleMaxLines = Int.MAX_VALUE,
+                    copyAndShareAllowed = true,
+                    showQuickCopyButton = isShowQuickCopyButton,
+                    showQuickShareButton = isShowQuickShareButton,
+                    onCopyItemRequest = onCopyItemRequest,
+                    onShareItemRequest = onShareItemRequest,
                 )
                 VerticalSpacer(height = Dimens.small)
             }
@@ -278,6 +339,8 @@ fun CardOptionsSheetPreview() {
                 onEditRequest = {},
                 onDeleteRequest = {},
                 onSnapshotReady = {},
+                onCopyItemRequest = { _, _ -> },
+                onShareItemRequest = { _, _ -> }
             )
         }
     }

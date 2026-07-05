@@ -29,6 +29,10 @@ object SettingsManager {
     private const val PREF_SHOW_FULL_EXP_DATE_DEFAULT = true
     private const val PREF_SHOW_REVERSE_EXP_DATE = "pref_show_reverse_expiration_date"
     private const val PREF_SHOW_REVERSE_EXP_DATE_DEFAULT = true
+    private const val PREF_SHOW_QUICK_COPY_BUTTON = "pref_show_quick_copy_button"
+    private const val PREF_SHOW_QUICK_COPY_BUTTON_DEFAULT = true
+    private const val PREF_SHOW_QUICK_SHARE_BUTTON = "pref_show_quick_share_button"
+    private const val PREF_SHOW_QUICK_SHARE_BUTTON_DEFAULT = false
     private const val PREF_SECRET_CVV2_LIST = "pref_secret_cvv2_list"
     private const val PREF_SECRET_CVV2_LIST_DEFAULT = true
     private const val PREF_SECRET_CVV2_DETAILS = "pref_secret_cvv2_details"
@@ -59,6 +63,10 @@ object SettingsManager {
     val isShowFullExpirationDate: StateFlow<Boolean> = _isShowFullExpirationDate
     private val _isShowReverseExpirationDate = MutableStateFlow(settings[PREF_SHOW_REVERSE_EXP_DATE, PREF_SHOW_REVERSE_EXP_DATE_DEFAULT])
     val isShowReverseExpirationDate: StateFlow<Boolean> = _isShowReverseExpirationDate
+    private val _isShowQuickCopyButton = MutableStateFlow(settings[PREF_SHOW_QUICK_COPY_BUTTON, PREF_SHOW_QUICK_COPY_BUTTON_DEFAULT])
+    val isShowQuickCopyButton: StateFlow<Boolean> = _isShowQuickCopyButton
+    private val _isShowQuickShareButton = MutableStateFlow(settings[PREF_SHOW_QUICK_SHARE_BUTTON, PREF_SHOW_QUICK_SHARE_BUTTON_DEFAULT])
+    val isShowQuickShareButton: StateFlow<Boolean> = _isShowQuickShareButton
     private val _isSecretCvv2InList = MutableStateFlow(settings[PREF_SECRET_CVV2_LIST, PREF_SECRET_CVV2_LIST_DEFAULT])
     val isSecretCvv2InList: StateFlow<Boolean> = _isSecretCvv2InList
     private val _isSecretCvv2InDetails = MutableStateFlow(settings[PREF_SECRET_CVV2_DETAILS, PREF_SECRET_CVV2_DETAILS_DEFAULT])
@@ -134,6 +142,16 @@ object SettingsManager {
     fun setShowReverseExpirationDate(value: Boolean) {
         _isShowReverseExpirationDate.value = value
         settings[PREF_SHOW_REVERSE_EXP_DATE] = value
+    }
+
+    fun setShowQuickCopyButton(value: Boolean) {
+        _isShowQuickCopyButton.value = value
+        settings[PREF_SHOW_QUICK_COPY_BUTTON] = value
+    }
+
+    fun setShowQuickShareButton(value: Boolean) {
+        _isShowQuickShareButton.value = value
+        settings[PREF_SHOW_QUICK_SHARE_BUTTON] = value
     }
 
     fun setSecretCvv2List(value: Boolean) {

@@ -83,6 +83,8 @@ fun SettingsScreen(
     val isShowShabaNumberInCard by SettingsManager.isShowShabaNumberInCard.collectAsState()
     val isShowFullExpirationDate by SettingsManager.isShowFullExpirationDate.collectAsState()
     val isShowReverseExpirationDate by SettingsManager.isShowReverseExpirationDate.collectAsState()
+    val isShowQuickCopyButton by SettingsManager.isShowQuickCopyButton.collectAsState()
+    val isShowQuickShareButton by SettingsManager.isShowQuickShareButton.collectAsState()
     val isSecretCvv2List by SettingsManager.isSecretCvv2InList.collectAsState()
     val isSecretCvv2Details by SettingsManager.isSecretCvv2InDetails.collectAsState()
     val isLockOnStart by SettingsManager.isLockOnStart.collectAsState()
@@ -194,6 +196,20 @@ fun SettingsScreen(
                 isChecked = isShowReverseExpirationDate,
                 onCheckedChanged = {
                     SettingsManager.setShowReverseExpirationDate(it)
+                }
+            )
+            SwitchItem(
+                title = stringResource(R.string.settings_show_quick_copy_button),
+                isChecked = isShowQuickCopyButton,
+                onCheckedChanged = {
+                    SettingsManager.setShowQuickCopyButton(it)
+                }
+            )
+            SwitchItem(
+                title = stringResource(R.string.settings_show_quick_share_button),
+                isChecked = isShowQuickShareButton,
+                onCheckedChanged = {
+                    SettingsManager.setShowQuickShareButton(it)
                 }
             )
             TooltipHelpRow(
