@@ -36,7 +36,11 @@ class BiometricHelper(
         }
     )
 
-    fun authenticate() {
+    fun authenticate(ignoreAuth: Boolean = false) {
+        if (ignoreAuth) {
+            onResult(true)
+            return
+        }
         if (authType == AuthType.None) {
             onResult(true)
             return

@@ -219,15 +219,41 @@ fun SettingsScreen(
             SwitchItem(
                 title = stringResource(R.string.settings_hide_cvv2_list),
                 isChecked = isSecretCvv2List,
-                onCheckedChanged = {
-                    SettingsManager.setSecretCvv2List(it)
+                onCheckedChanged = { value ->
+                    BiometricHelper(
+                        activity = activity as FragmentActivity,
+                        authType = authType,
+                        onResult = { result ->
+                            if (result) {
+                                SettingsManager.setSecretCvv2List(value)
+                            } else {
+                                toaster.show(
+                                    message = resources.getString(R.string.error_authentication_failed),
+                                    type = ToastType.Error
+                                )
+                            }
+                        }
+                    ).authenticate(ignoreAuth = !isSecretCvv2List)
                 }
             )
             SwitchItem(
                 title = stringResource(R.string.settings_hide_cvv2_details),
                 isChecked = isSecretCvv2Details,
-                onCheckedChanged = {
-                    SettingsManager.setSecretCvv2Details(it)
+                onCheckedChanged = { value ->
+                    BiometricHelper(
+                        activity = activity as FragmentActivity,
+                        authType = authType,
+                        onResult = { result ->
+                            if (result) {
+                                SettingsManager.setSecretCvv2Details(value)
+                            } else {
+                                toaster.show(
+                                    message = resources.getString(R.string.error_authentication_failed),
+                                    type = ToastType.Error
+                                )
+                            }
+                        }
+                    ).authenticate(ignoreAuth = !isSecretCvv2Details)
                 }
             )
             VerticalSpacer(height = Dimens.small)
@@ -256,8 +282,8 @@ fun SettingsScreen(
                     BiometricHelper(
                         activity = activity as FragmentActivity,
                         authType = authType,
-                        onResult = {
-                            if (it) {
+                        onResult = { result ->
+                            if (result) {
                                 SettingsManager.setUnlockWithBiometric(value)
                             } else {
                                 toaster.show(
@@ -301,8 +327,8 @@ fun SettingsScreen(
                                         BiometricHelper(
                                             activity = activity as FragmentActivity,
                                             authType = item.takeUnless { it == AuthType.None } ?: authType,
-                                            onResult = {
-                                                if (it) {
+                                            onResult = { result ->
+                                                if (result) {
                                                     selectedAuthTypeIndex = index
                                                     SettingsManager.setAuthType(item)
                                                 } else {
@@ -330,32 +356,84 @@ fun SettingsScreen(
                 title = stringResource(R.string.settings_auth_owned_card_details),
                 isChecked = isAuthOwnedCardDetails,
                 isEnabled = authType != AuthType.None,
-                onCheckedChanged = {
-                    SettingsManager.setAuthOwnedCardDetails(it)
+                onCheckedChanged = { value ->
+                    BiometricHelper(
+                        activity = activity as FragmentActivity,
+                        authType = authType,
+                        onResult = { result ->
+                            if (result) {
+                                SettingsManager.setAuthOwnedCardDetails(value)
+                            } else {
+                                toaster.show(
+                                    message = resources.getString(R.string.error_authentication_failed),
+                                    type = ToastType.Error
+                                )
+                            }
+                        }
+                    ).authenticate(ignoreAuth = !isAuthOwnedCardDetails)
                 }
             )
             SwitchItem(
                 title = stringResource(R.string.settings_auth_secret_data),
                 isChecked = isAuthSecretDetails,
                 isEnabled = authType != AuthType.None,
-                onCheckedChanged = {
-                    SettingsManager.setAuthSecretData(it)
+                onCheckedChanged = { value ->
+                    BiometricHelper(
+                        activity = activity as FragmentActivity,
+                        authType = authType,
+                        onResult = { result ->
+                            if (result) {
+                                SettingsManager.setAuthSecretData(value)
+                            } else {
+                                toaster.show(
+                                    message = resources.getString(R.string.error_authentication_failed),
+                                    type = ToastType.Error
+                                )
+                            }
+                        }
+                    ).authenticate(ignoreAuth = !isAuthSecretDetails)
                 }
             )
             SwitchItem(
                 title = stringResource(R.string.settings_auth_before_edit),
                 isChecked = isAuthBeforeEdit,
                 isEnabled = authType != AuthType.None,
-                onCheckedChanged = {
-                    SettingsManager.setAuthBeforeEdit(it)
+                onCheckedChanged = { value ->
+                    BiometricHelper(
+                        activity = activity as FragmentActivity,
+                        authType = authType,
+                        onResult = { result ->
+                            if (result) {
+                                SettingsManager.setAuthBeforeEdit(value)
+                            } else {
+                                toaster.show(
+                                    message = resources.getString(R.string.error_authentication_failed),
+                                    type = ToastType.Error
+                                )
+                            }
+                        }
+                    ).authenticate(ignoreAuth = !isAuthBeforeEdit)
                 }
             )
             SwitchItem(
                 title = stringResource(R.string.settings_auth_before_delete),
                 isChecked = isAuthBeforeDelete,
                 isEnabled = authType != AuthType.None,
-                onCheckedChanged = {
-                    SettingsManager.setAuthBeforeDelete(it)
+                onCheckedChanged = { value ->
+                    BiometricHelper(
+                        activity = activity as FragmentActivity,
+                        authType = authType,
+                        onResult = { result ->
+                            if (result) {
+                                SettingsManager.setAuthBeforeDelete(value)
+                            } else {
+                                toaster.show(
+                                    message = resources.getString(R.string.error_authentication_failed),
+                                    type = ToastType.Error
+                                )
+                            }
+                        }
+                    ).authenticate(ignoreAuth = !isAuthBeforeDelete)
                 }
             )
             VerticalSpacer(height = Dimens.small)
