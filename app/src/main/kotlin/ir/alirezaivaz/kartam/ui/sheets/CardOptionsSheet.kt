@@ -133,6 +133,13 @@ fun CardOptionsSheetContent(
     val isSecretCvv2InDetails by SettingsManager.isSecretCvv2InDetails.collectAsState()
     val isShowQuickCopyButton by SettingsManager.isShowQuickCopyButton.collectAsState()
     val isShowQuickShareButton by SettingsManager.isShowQuickShareButton.collectAsState()
+    val isSecretAuthenticationRequired = !isAuthOwnedCardDetails && isAuthSecretData
+    val onAuthenticationFailed: () -> Unit = {
+        toaster.show(
+            message = resources.getString(R.string.error_authentication_failed),
+            type = ToastType.Error
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -180,13 +187,8 @@ fun CardOptionsSheetContent(
                 CardItem(
                     card = card,
                     isCvv2VisibleByDefault = !isSecretCvv2InDetails,
-                    isAuthenticationRequired = !isAuthOwnedCardDetails && isAuthSecretData,
-                    onAuthenticationFailed = {
-                        toaster.show(
-                            message = resources.getString(R.string.error_authentication_failed),
-                            type = ToastType.Error
-                        )
-                    }
+                    isAuthenticationRequired = isSecretAuthenticationRequired,
+                    onAuthenticationFailed = onAuthenticationFailed
                 )
             }
             VerticalSpacer(height = Dimens.large)
@@ -233,6 +235,8 @@ fun CardOptionsSheetContent(
                     title = stringResource(R.string.label_first_code),
                     subtitle = it,
                     isSecret = true,
+                    isAuthenticationRequired = isSecretAuthenticationRequired,
+                    onAuthenticationFailed = onAuthenticationFailed,
                 )
                 VerticalSpacer(height = Dimens.small)
             }
@@ -253,9 +257,11 @@ fun CardOptionsSheetContent(
                     subtitle = it,
 //                    subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
                     isSecret = true,
+                    isAuthenticationRequired = isSecretAuthenticationRequired,
                     copyAndShareAllowed = true,
                     showQuickCopyButton = isShowQuickCopyButton,
                     onCopyItemRequest = onCopyItemRequest,
+                    onAuthenticationFailed = onAuthenticationFailed,
                 )
                 VerticalSpacer(height = Dimens.small)
             }

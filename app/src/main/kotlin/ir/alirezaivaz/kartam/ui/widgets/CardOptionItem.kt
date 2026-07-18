@@ -1,5 +1,6 @@
 package ir.alirezaivaz.kartam.ui.widgets
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,12 +29,16 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentActivity
 import ir.alirezaivaz.kartam.R
+import ir.alirezaivaz.kartam.dto.AuthType
 import ir.alirezaivaz.kartam.dto.FakeData
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
+import ir.alirezaivaz.kartam.utils.BiometricHelper
+import ir.alirezaivaz.kartam.utils.SettingsManager
 import ir.alirezaivaz.kartam.utils.Utils
 
 @Composable
@@ -42,13 +48,36 @@ fun CardOptionItem(
     subtitleFont: FontFamily? = kodeMonoFontFamily,
     subtitleMaxLines: Int = 1,
     isSecret: Boolean = false,
+    isAuthenticationRequired: Boolean = false,
     copyAndShareAllowed: Boolean = false,
     showQuickCopyButton: Boolean = false,
     showQuickShareButton: Boolean = false,
     onCopyItemRequest: ((title: String, subtitle: String) -> Unit)? = null,
     onShareItemRequest: ((title: String, subtitle: String) -> Unit)? = null,
+    onAuthenticationFailed: (() -> Unit)? = null,
 ) {
+    val activity = LocalActivity.current
+    val authType by SettingsManager.authType.collectAsState()
     var isSecretVisible by remember { mutableStateOf(false) }
+
+    fun withAuthentication(action: () -> Unit) {
+        if (isSecret && !isSecretVisible && authType != AuthType.None && isAuthenticationRequired) {
+            BiometricHelper(
+                activity = activity as FragmentActivity,
+                authType = authType,
+                onResult = {
+                    if (it) {
+                        action()
+                    } else {
+                        onAuthenticationFailed?.invoke()
+                    }
+                }
+            ).authenticate()
+        } else {
+            action()
+        }
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,10 +86,10 @@ fun CardOptionItem(
             .combinedClickable(
                 enabled = copyAndShareAllowed,
                 onClick = {
-                    onCopyItemRequest?.invoke(title, subtitle)
+                    withAuthentication { onCopyItemRequest?.invoke(title, subtitle) }
                 },
                 onLongClick = {
-                    onShareItemRequest?.invoke(title, subtitle)
+                    withAuthentication { onShareItemRequest?.invoke(title, subtitle) }
                 }
             )
     ) {
@@ -97,7 +126,13 @@ fun CardOptionItem(
             if (isSecret) {
                 IconButton(
                     modifier = Modifier.handPointerIcon(),
-                    onClick = { isSecretVisible = !isSecretVisible }
+                    onClick = {
+                        if (isSecretVisible) {
+                            isSecretVisible = false
+                        } else {
+                            withAuthentication { isSecretVisible = true }
+                        }
+                    }
                 ) {
                     Icon(
                         painter = painterResource(
@@ -126,7 +161,7 @@ fun CardOptionItem(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
                     ),
                     onClick = {
-                        onCopyItemRequest?.invoke(title, subtitle)
+                        withAuthentication { onCopyItemRequest?.invoke(title, subtitle) }
                     }
                 ) {
                     Icon(
@@ -143,7 +178,7 @@ fun CardOptionItem(
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                     ),
                     onClick = {
-                        onShareItemRequest?.invoke(title, subtitle)
+                        withAuthentication { onShareItemRequest?.invoke(title, subtitle) }
                     }
                 ) {
                     Icon(
