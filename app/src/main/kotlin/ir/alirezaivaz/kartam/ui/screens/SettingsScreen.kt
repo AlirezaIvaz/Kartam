@@ -160,6 +160,7 @@ fun SettingsScreen(
                         count = languages.size,
                         label = item.title,
                         isSelected = index == selectedLanguageIndex,
+                        fontFamily = item.typography.bodyMedium.fontFamily,
                         onClick = {
                             selectedLanguageIndex = index
                             onLanguageChangedRequest(item)
