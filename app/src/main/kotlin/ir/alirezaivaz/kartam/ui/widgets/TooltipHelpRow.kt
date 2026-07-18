@@ -57,12 +57,13 @@ fun TooltipHelpRow(
                 .fillMaxWidth()
                 .padding(horizontal = Dimens.large),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(Dimens.medium)
         ) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Start,
+                modifier = Modifier.weight(1f)
             )
             TooltipBox(
                 state = tooltipState,

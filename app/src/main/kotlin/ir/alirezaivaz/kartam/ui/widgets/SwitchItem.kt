@@ -26,6 +26,7 @@ fun SwitchItem(
     titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
     paddingStart: Dp = Dimens.large,
     paddingEnd: Dp = Dimens.large,
+    paddingVertical: Dp = Dimens.small,
 ) {
     Row(
         modifier = modifier
@@ -34,7 +35,7 @@ fun SwitchItem(
             .clickable(enabled = isEnabled) {
                 onCheckedChanged(!isChecked)
             },
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.medium),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -43,7 +44,13 @@ fun SwitchItem(
             color = MaterialTheme.colorScheme.onSurface.copy(
                 alpha = if (isEnabled) 1f else 0.38f
             ),
-            modifier = Modifier.padding(start = paddingStart)
+            modifier = Modifier
+                .weight(1f)
+                .padding(
+                    start = paddingStart,
+                    top = paddingVertical,
+                    bottom = paddingVertical
+                )
         )
         Switch(
             checked = isChecked,
