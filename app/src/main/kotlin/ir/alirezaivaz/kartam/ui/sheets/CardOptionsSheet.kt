@@ -230,7 +230,7 @@ fun CardOptionsSheetContent(
                 )
                 VerticalSpacer(height = Dimens.small)
             }
-            card.firstCode.toStringOrNull()?.let {
+            card.firstCode.toStringOrNull()?.takeIf { card.isOwned }?.let {
                 CardOptionItem(
                     title = stringResource(R.string.label_first_code),
                     subtitle = it,
@@ -240,22 +240,20 @@ fun CardOptionsSheetContent(
                 )
                 VerticalSpacer(height = Dimens.small)
             }
-            card.bankAppUsername.toStringOrNull()?.let {
+            card.bankAppUsername.toStringOrNull()?.takeIf { card.isOwned }?.let {
                 CardOptionItem(
                     title = stringResource(R.string.label_app_username),
                     subtitle = it,
-//                    subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
                     copyAndShareAllowed = true,
                     showQuickCopyButton = isShowQuickCopyButton,
                     onCopyItemRequest = onCopyItemRequest,
                 )
                 VerticalSpacer(height = Dimens.small)
             }
-            card.bankAppPassword.toStringOrNull()?.let {
+            card.bankAppPassword.toStringOrNull()?.takeIf { card.isOwned }?.let {
                 CardOptionItem(
                     title = stringResource(R.string.label_app_password),
                     subtitle = it,
-//                    subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
                     isSecret = true,
                     isAuthenticationRequired = isSecretAuthenticationRequired,
                     copyAndShareAllowed = true,

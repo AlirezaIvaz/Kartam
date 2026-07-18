@@ -109,7 +109,7 @@ class AddCardViewModel : ViewModel() {
         _card.value = _cardDao.getCard(cardId)
         if (_card.value != null) {
             val currentCard = _card.value!!
-            updateIsOthersCard(!currentCard.isOwned)
+            updateIsOthersCard(!currentCard.isOwned, resetSensitiveData = true)
             updateCardNumber(TextFieldValue(currentCard.number))
             updateBank(currentCard.bank)
             updateOwnerName(TextFieldValue(currentCard.name))
@@ -122,18 +122,20 @@ class AddCardViewModel : ViewModel() {
             if (!currentCard.accountNumber.isNullOrEmpty()) {
                 updateAccountNumber(TextFieldValue(currentCard.accountNumber))
             }
-            currentCard.cvv2.toStringOrNull()?.let {
-                val cvv2 = Utils.getCvv2(it, isVisible = true)
-                updateCvv2(TextFieldValue(cvv2))
-            }
-            currentCard.firstCode.toStringOrNull()?.let {
-                updateFirstCode(TextFieldValue(it))
-            }
-            currentCard.bankAppUsername.toStringOrNull()?.let {
-                updateBankAppUsername(TextFieldValue(it))
-            }
-            currentCard.bankAppPassword.toStringOrNull()?.let {
-                updateBankAppPassword(TextFieldValue(it))
+            if (currentCard.isOwned) {
+                currentCard.cvv2.toStringOrNull()?.let {
+                    val cvv2 = Utils.getCvv2(it, isVisible = true)
+                    updateCvv2(TextFieldValue(cvv2))
+                }
+                currentCard.firstCode.toStringOrNull()?.let {
+                    updateFirstCode(TextFieldValue(it))
+                }
+                currentCard.bankAppUsername.toStringOrNull()?.let {
+                    updateBankAppUsername(TextFieldValue(it))
+                }
+                currentCard.bankAppPassword.toStringOrNull()?.let {
+                    updateBankAppPassword(TextFieldValue(it))
+                }
             }
             currentCard.branchCode?.let {
                 updateBranchCode(TextFieldValue(it.toString()))
@@ -263,9 +265,9 @@ class AddCardViewModel : ViewModel() {
         _comment.value = comment
     }
 
-    fun updateIsOthersCard(value: Boolean) {
+    fun updateIsOthersCard(value: Boolean, resetSensitiveData: Boolean = true) {
         _isOthersCard.value = value
-        if (!value) {
+        if (resetSensitiveData) {
             updateCvv2(TextFieldValue())
             updateFirstCode(TextFieldValue())
             updateBankAppUsername(TextFieldValue())

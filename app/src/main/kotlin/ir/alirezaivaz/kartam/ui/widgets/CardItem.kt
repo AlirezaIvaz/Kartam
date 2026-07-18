@@ -256,7 +256,7 @@ fun CardItem(
                         }
                         Spacer(Modifier.weight(1f))
                         AnimatedVisibility(
-                            visible = !card.cvv2?.toStringOrNull().isNullOrBlank(),
+                            visible = card.isOwned && !card.cvv2?.toStringOrNull().isNullOrBlank(),
                             enter = fadeIn(),
                             exit = fadeOut()
                         ) {
