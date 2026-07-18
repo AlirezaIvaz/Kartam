@@ -17,12 +17,12 @@ ksp {
 
 android {
     namespace = "ir.alirezaivaz.kartam"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "ir.alirezaivaz.kartam"
         minSdk = 23
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 170300
         versionName = "1.7.0"
     }
