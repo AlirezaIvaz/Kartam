@@ -232,6 +232,30 @@ fun CardOptionsSheetContent(
                 CardOptionItem(
                     title = stringResource(R.string.label_first_code),
                     subtitle = it,
+                    isSecret = true,
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            card.bankAppUsername.toStringOrNull()?.let {
+                CardOptionItem(
+                    title = stringResource(R.string.label_app_username),
+                    subtitle = it,
+//                    subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                    copyAndShareAllowed = true,
+                    showQuickCopyButton = isShowQuickCopyButton,
+                    onCopyItemRequest = onCopyItemRequest,
+                )
+                VerticalSpacer(height = Dimens.small)
+            }
+            card.bankAppPassword.toStringOrNull()?.let {
+                CardOptionItem(
+                    title = stringResource(R.string.label_app_password),
+                    subtitle = it,
+//                    subtitleFont = MaterialTheme.typography.bodyLarge.fontFamily,
+                    isSecret = true,
+                    copyAndShareAllowed = true,
+                    showQuickCopyButton = isShowQuickCopyButton,
+                    onCopyItemRequest = onCopyItemRequest,
                 )
                 VerticalSpacer(height = Dimens.small)
             }

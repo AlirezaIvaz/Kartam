@@ -29,6 +29,8 @@
     <string name="action_more_options">More options</string>
     <string name="action_copy">Copy</string>
     <string name="action_share">Share</string>
+    <string name="action_show_value">Show %s</string>
+    <string name="action_hide_value">Hide %s</string>
     <string name="action_share_via">Share via…</string>
     <string name="action_more_apps">More apps</string>
     <string name="action_rate">Rate</string>
@@ -63,6 +65,8 @@
     <string name="label_exp_year">Exp. Year</string>
     <string name="label_cvv2" translatable="false">CVV2</string>
     <string name="label_first_code">First Code</string>
+    <string name="label_app_username">Bank App Username</string>
+    <string name="label_app_password">Bank App Password</string>
     <string name="label_comment">Comment</string>
     <string name="label_current_data">Current Data</string>
     <string name="label_backup_history">Backup History</string>

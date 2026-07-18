@@ -55,7 +55,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
@@ -138,6 +140,9 @@ fun AddCardScreen(
     val expirationYear by viewModel.expirationYear.collectAsState()
     val cvv2 by viewModel.cvv2.collectAsState()
     val firstCode by viewModel.firstCode.collectAsState()
+    val bankAppUsername by viewModel.bankAppUsername.collectAsState()
+    val bankAppPassword by viewModel.bankAppPassword.collectAsState()
+    var isBankAppPasswordVisible by remember { mutableStateOf(false) }
     val comment by viewModel.comment.collectAsState()
     val isOthersCard by viewModel.isOthersCard.collectAsState()
     val initialMonth = jalaliCalendar.month
@@ -569,6 +574,77 @@ fun AddCardScreen(
                             }
                         )
                     }
+                    VerticalSpacer(height = Dimens.small)
+                    OutlinedTextField(
+                        value = bankAppUsername,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Dimens.large),
+                        enabled = !isLoading && !isOthersCard,
+                        singleLine = true,
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_app_username),
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = { input ->
+                            viewModel.updateBankAppUsername(input)
+                        }
+                    )
+                    VerticalSpacer(height = Dimens.small)
+                    OutlinedTextField(
+                        value = bankAppPassword,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Dimens.large),
+                        enabled = !isLoading && !isOthersCard,
+                        singleLine = true,
+                        label = {
+                            Text(
+                                text = stringResource(R.string.label_app_password),
+                            )
+                        },
+                        visualTransformation = if (isBankAppPasswordVisible) {
+                            VisualTransformation.None
+                        } else {
+                            PasswordVisualTransformation()
+                        },
+                        trailingIcon = {
+                            IconButton(
+                                onClick = { isBankAppPasswordVisible = !isBankAppPasswordVisible },
+                                enabled = !isLoading && !isOthersCard,
+                            ) {
+                                Icon(
+                                    painter = painterResource(
+                                        if (isBankAppPasswordVisible) {
+                                            R.drawable.ic_eye_off
+                                        } else {
+                                            R.drawable.ic_eye
+                                        }
+                                    ),
+                                    contentDescription = stringResource(
+                                        if (isBankAppPasswordVisible) {
+                                            R.string.action_hide_value
+                                        } else {
+                                            R.string.action_show_value
+                                        },
+                                        stringResource(R.string.label_app_password)
+                                    ),
+                                )
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = { input ->
+                            viewModel.updateBankAppPassword(input)
+                        }
+                    )
                     VerticalSpacer(height = Dimens.large)
                     Card(
                         shape = OutlinedTextFieldDefaults.shape,

@@ -29,6 +29,8 @@
     <string name="action_more_options">گزینه‌های بیشتر</string>
     <string name="action_copy">کپی</string>
     <string name="action_share">اشتراک‌گذاری</string>
+    <string name="action_show_value">نمایش %s</string>
+    <string name="action_hide_value">پنهان‌کردن %s</string>
     <string name="action_share_via">اشتراک‌گذاری با…</string>
     <string name="action_more_apps">برنامه‌های بیشتر</string>
     <string name="action_rate">دیدگاه</string>
@@ -62,6 +64,8 @@
     <string name="label_exp_year">سال انقضا</string>
     <string name="label_cvv2">CVV2</string>
     <string name="label_first_code">رمز اول</string>
+    <string name="label_app_username">نام کاربری همراه‌بانک</string>
+    <string name="label_app_password">گذرواژهٔ همراه‌بانک</string>
     <string name="label_comment">یادداشت</string>
     <string name="label_current_data">داده‌های فعلی</string>
     <string name="label_backup_history">تاریخچهٔ پشتیبان‌گیری</string>

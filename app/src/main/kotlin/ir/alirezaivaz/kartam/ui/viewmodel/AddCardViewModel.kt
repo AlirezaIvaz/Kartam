@@ -73,6 +73,10 @@ class AddCardViewModel : ViewModel() {
     val cvv2: StateFlow<TextFieldValue> = _cvv2
     private val _firstCode = MutableStateFlow(TextFieldValue())
     val firstCode: StateFlow<TextFieldValue> = _firstCode
+    private val _bankAppUsername = MutableStateFlow(TextFieldValue())
+    val bankAppUsername: StateFlow<TextFieldValue> = _bankAppUsername
+    private val _bankAppPassword = MutableStateFlow(TextFieldValue())
+    val bankAppPassword: StateFlow<TextFieldValue> = _bankAppPassword
     private val _isOthersCard = MutableStateFlow(false)
     val isOthersCard: StateFlow<Boolean> = _isOthersCard
     private val _comment = MutableStateFlow(TextFieldValue())
@@ -124,6 +128,12 @@ class AddCardViewModel : ViewModel() {
             }
             currentCard.firstCode.toStringOrNull()?.let {
                 updateFirstCode(TextFieldValue(it))
+            }
+            currentCard.bankAppUsername.toStringOrNull()?.let {
+                updateBankAppUsername(TextFieldValue(it))
+            }
+            currentCard.bankAppPassword.toStringOrNull()?.let {
+                updateBankAppPassword(TextFieldValue(it))
             }
             currentCard.branchCode?.let {
                 updateBranchCode(TextFieldValue(it.toString()))
@@ -241,6 +251,14 @@ class AddCardViewModel : ViewModel() {
         _firstCode.value = code
     }
 
+    fun updateBankAppUsername(username: TextFieldValue) {
+        _bankAppUsername.value = username
+    }
+
+    fun updateBankAppPassword(password: TextFieldValue) {
+        _bankAppPassword.value = password
+    }
+
     fun updateComment(comment: TextFieldValue) {
         _comment.value = comment
     }
@@ -250,6 +268,8 @@ class AddCardViewModel : ViewModel() {
         if (!value) {
             updateCvv2(TextFieldValue())
             updateFirstCode(TextFieldValue())
+            updateBankAppUsername(TextFieldValue())
+            updateBankAppPassword(TextFieldValue())
             updateExpirationMonth(TextFieldValue())
             updateExpirationYear(TextFieldValue())
         }
@@ -331,6 +351,8 @@ class AddCardViewModel : ViewModel() {
                     cvv2 = _cvv2.value.text.toSensitive(),
                     firstCode = _firstCode.value.text.toSensitive(),
                     bank = _bank.value,
+                    bankAppPassword = _bankAppPassword.value.text.toSensitive(),
+                    bankAppUsername = _bankAppUsername.value.text.toSensitive(),
                     accountType = _accountType.value,
                     comment = _comment.value.text,
                     isOwned = !_isOthersCard.value,
@@ -362,6 +384,8 @@ class AddCardViewModel : ViewModel() {
                     cvv2 = _cvv2.value.text.toSensitive(),
                     firstCode = _firstCode.value.text.toSensitive(),
                     bank = _bank.value,
+                    bankAppUsername = _bankAppUsername.value.text.toSensitive(),
+                    bankAppPassword = _bankAppPassword.value.text.toSensitive(),
                     accountType = _accountType.value,
                     comment = _comment.value.text,
                     isOwned = !_isOthersCard.value

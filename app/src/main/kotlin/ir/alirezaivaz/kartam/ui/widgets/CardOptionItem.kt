@@ -14,6 +14,10 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +33,7 @@ import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.theme.kodeMonoFontFamily
+import ir.alirezaivaz.kartam.utils.Utils
 
 @Composable
 fun CardOptionItem(
@@ -36,12 +41,14 @@ fun CardOptionItem(
     subtitle: String,
     subtitleFont: FontFamily? = kodeMonoFontFamily,
     subtitleMaxLines: Int = 1,
+    isSecret: Boolean = false,
     copyAndShareAllowed: Boolean = false,
     showQuickCopyButton: Boolean = false,
     showQuickShareButton: Boolean = false,
     onCopyItemRequest: ((title: String, subtitle: String) -> Unit)? = null,
     onShareItemRequest: ((title: String, subtitle: String) -> Unit)? = null,
 ) {
+    var isSecretVisible by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,13 +82,41 @@ fun CardOptionItem(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = subtitle,
+                    text = if (isSecret && !isSecretVisible) {
+                        Utils.getAsteriskString(subtitle.length.coerceIn(4, 12))
+                    } else {
+                        subtitle
+                    },
                     style = MaterialTheme.typography.bodyLarge,
                     maxLines = subtitleMaxLines,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Bold,
                     fontFamily = subtitleFont
                 )
+            }
+            if (isSecret) {
+                IconButton(
+                    modifier = Modifier.handPointerIcon(),
+                    onClick = { isSecretVisible = !isSecretVisible }
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            if (isSecretVisible) {
+                                R.drawable.ic_eye_off
+                            } else {
+                                R.drawable.ic_eye
+                            }
+                        ),
+                        contentDescription = stringResource(
+                            if (isSecretVisible) {
+                                R.string.action_hide_value
+                            } else {
+                                R.string.action_show_value
+                            },
+                            title
+                        )
+                    )
+                }
             }
             if (copyAndShareAllowed && showQuickCopyButton) {
                 IconButton(

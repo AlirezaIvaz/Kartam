@@ -12,7 +12,7 @@ import ir.alirezaivaz.kartam.dto.CardInfo
 
 @Database(
     entities = [CardInfo::class],
-    version = 4,
+    version = 5,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -42,6 +42,13 @@ abstract class KartamDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE cards ADD COLUMN bank_app_username TEXT")
+                db.execSQL("ALTER TABLE cards ADD COLUMN bank_app_password TEXT")
+            }
+        }
+
         private fun buildDatabase(): KartamDatabase {
             return Room
                 .databaseBuilder(
@@ -53,6 +60,7 @@ abstract class KartamDatabase : RoomDatabase() {
                     MIGRATION_1_2,
                     MIGRATION_2_3,
                     MIGRATION_3_4,
+                    MIGRATION_4_5,
                 )
                 .build()
         }
