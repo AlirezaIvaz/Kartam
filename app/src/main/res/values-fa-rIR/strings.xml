@@ -172,7 +172,7 @@
         "- زیستی قوی: هر بیومتریکی (مانند اثرانگشت، عنبیه یا چهره) روی دستگاه که الزامات کلاس ۳ (که پیش‌از این قوی بود) را مطابق با تعریف CCD اندروید برآورده کند یا از آن فراتر برود.\n"
     </string>
     <string name="settings_auth_owned_card_details">اعتبارسنجی برای جزئیات کارت‌های من</string>
-    <string name="settings_auth_secret_data">اعتبارسنجی برای داده‌های مخفی</string>
+    <string name="settings_auth_secret_data">اعتبارسنجی برای داده‌های حساس</string>
     <string name="settings_auth_before_edit">اعتبارسنجی برای ویرایش</string>
     <string name="settings_auth_before_delete">اعتبارسنجی برای حذف</string>
     <string name="settings_experimental">ویژگی‌های آزمایشی</string>
