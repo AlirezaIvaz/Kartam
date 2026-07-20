@@ -19,7 +19,9 @@ class ActivityLock : KartamActivity() {
         setContent {
             PinLockScreen(
                 onUnlocked = {
-                    if (!returnOnly) {
+                    if (returnOnly) {
+                        setResult(RESULT_OK)
+                    } else {
                         startActivity(
                             Intent(
                                 this@ActivityLock,

@@ -1,7 +1,10 @@
 package ir.alirezaivaz.kartam.ui.screens
 
+import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,6 +51,7 @@ import ir.alirezaivaz.kartam.dto.Language
 import ir.alirezaivaz.kartam.dto.Theme
 import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
+import ir.alirezaivaz.kartam.ui.activities.ActivityLock
 import ir.alirezaivaz.kartam.ui.activities.ActivityLockSetup
 import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
@@ -102,6 +106,13 @@ fun SettingsScreen(
     val isAuthBeforeEdit by SettingsManager.isAuthBeforeEdit.collectAsState()
     val isAuthBeforeDelete by SettingsManager.isAuthBeforeDelete.collectAsState()
     val isAutoDetectFromClipboard by SettingsManager.isAutoDetectFromClipboard.collectAsState()
+    val disableLockLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            SettingsManager.setLockOnStart(false)
+        }
+    }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0),
@@ -271,7 +282,14 @@ fun SettingsScreen(
                 isChecked = isLockOnStart,
                 onCheckedChanged = {
                     if (isLockOnStart) {
-                        SettingsManager.setLockOnStart(false)
+                        disableLockLauncher.launch(
+                            Intent(
+                                activity,
+                                ActivityLock::class.java
+                            ).apply {
+                                putExtra(ActivityLock.EXTRA_RETURN_ONLY, true)
+                            }
+                        )
                     } else {
                         activity?.startActivity(
                             Intent(
