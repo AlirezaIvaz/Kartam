@@ -7,10 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import ir.alirezaivaz.kartam.dto.DetectedCardData
 import ir.alirezaivaz.kartam.ui.screens.AddCardScreen
+import ir.alirezaivaz.kartam.utils.SettingsManager
 
 class AddCardActivity : KartamActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setFlagSecure(SettingsManager.isFlagSecure.value)
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)

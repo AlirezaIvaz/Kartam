@@ -17,6 +17,7 @@ import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,10 @@ class ActivityMain : KartamActivity() {
             var showChangelogSheet by remember { mutableStateOf(SettingsManager.isAppUpdated()) }
             navController.addOnDestinationChangedListener { controller, destination, arguments ->
                 currentDestination = Destination.findBy(destination.route)
+            }
+            val isFlagSecure by SettingsManager.isFlagSecure.collectAsState()
+            LaunchedEffect(isFlagSecure) {
+                setFlagSecure(isFlagSecure)
             }
 
             KartamTheme {

@@ -163,6 +163,12 @@
     <string name="settings_show_reverse_exp_date">Reverse show expiration date</string>
     <string name="settings_show_quick_copy_button">Show quick copy button</string>
     <string name="settings_show_quick_share_button">Show quick share button</string>
+    <string name="settings_prevent_screenshots">Prevent screenshots</string>
+    <string name="settings_prevent_screenshots_description">
+        "This blocks screenshots and hides card details in the recent apps preview,"
+        "screen recording, and casting. It may also interfere with screen mirroring and"
+        "some accessibility screen readers. Turn it on?"
+    </string>
     <string name="settings_hide_cvv2">Hide CVV2</string>
     <string name="settings_hide_cvv2_description">CVV2 will be hidden by default and you need to long press on the card to see it.</string>
     <string name="settings_hide_cvv2_list">In card list</string>

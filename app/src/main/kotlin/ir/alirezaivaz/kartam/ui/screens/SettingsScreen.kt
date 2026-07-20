@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -53,6 +54,7 @@ import ir.alirezaivaz.kartam.dto.isDynamicColorsSupported
 import ir.alirezaivaz.kartam.extensions.handPointerIcon
 import ir.alirezaivaz.kartam.ui.activities.ActivityLock
 import ir.alirezaivaz.kartam.ui.activities.ActivityLockSetup
+import ir.alirezaivaz.kartam.ui.dialogs.PreventScreenshotsConfirmDialog
 import ir.alirezaivaz.kartam.ui.theme.Dimens
 import ir.alirezaivaz.kartam.ui.theme.KartamTheme
 import ir.alirezaivaz.kartam.ui.widgets.KartamTopBar
@@ -106,6 +108,8 @@ fun SettingsScreen(
     val isAuthBeforeEdit by SettingsManager.isAuthBeforeEdit.collectAsState()
     val isAuthBeforeDelete by SettingsManager.isAuthBeforeDelete.collectAsState()
     val isAutoDetectFromClipboard by SettingsManager.isAutoDetectFromClipboard.collectAsState()
+    val isFlagSecure by SettingsManager.isFlagSecure.collectAsState()
+    var showPreventScreenshotsConfirmDialog by remember { mutableStateOf(false) }
     val disableLockLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -122,6 +126,17 @@ fun SettingsScreen(
             )
         },
     ) {
+        if (showPreventScreenshotsConfirmDialog) {
+            PreventScreenshotsConfirmDialog(
+                onConfirmRequest = {
+                    SettingsManager.setFlagSecure(true)
+                    showPreventScreenshotsConfirmDialog = false
+                },
+                onDismissRequest = {
+                    showPreventScreenshotsConfirmDialog = false
+                }
+            )
+        }
         Column(
             modifier = Modifier
                 .padding(it)
@@ -514,6 +529,17 @@ fun SettingsScreen(
                 helpText = stringResource(R.string.settings_experimental_description)
             )
             VerticalSpacer(height = Dimens.small)
+            SwitchItem(
+                title = stringResource(R.string.settings_prevent_screenshots),
+                isChecked = isFlagSecure,
+                onCheckedChanged = { value ->
+                    if (value) {
+                        showPreventScreenshotsConfirmDialog = true
+                    } else {
+                        SettingsManager.setFlagSecure(false)
+                    }
+                }
+            )
             SwitchItem(
                 title = stringResource(R.string.settings_auto_detect_from_clipboard),
                 isChecked = isAutoDetectFromClipboard,

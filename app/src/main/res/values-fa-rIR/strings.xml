@@ -157,6 +157,12 @@
     <string name="settings_show_reverse_exp_date">جابه‌جاکردن ماه و سال در تاریخ انقضا</string>
     <string name="settings_show_quick_copy_button">نمایش دکمهٔ کپی سریع</string>
     <string name="settings_show_quick_share_button">نمایش دکمهٔ اشتراک‌گذاری سریع</string>
+    <string name="settings_prevent_screenshots">جلوگیری از اسکرین‌شات</string>
+    <string name="settings_prevent_screenshots_description">
+        "این گزینه اسکرین‌شات گرفتن را مسدود می‌کند و جزئیات کارت را در پیش‌نمایش برنامه‌های اخیر،"
+        "هنگام ضبط صفحه و اشتراک‌گذاری صفحه پنهان می‌کند. ممکن است با نمایش آینه‌ای صفحه و برخی"
+        "صفحه‌خوان‌های دسترسی‌پذیری نیز تداخل داشته باشد. فعال شود؟"
+    </string>
     <string name="settings_hide_cvv2">مخفی‌کردن CVV2</string>
     <string name="settings_hide_cvv2_description">CVV2 به‌صورت پیش‌فرض مخفی خواهد بود و برای دیدن آن باید چند ثانیه انگشت خود را روی کارت نگه‌دارید.</string>
     <string name="settings_hide_cvv2_list">در فهرست کارت‌ها</string>
