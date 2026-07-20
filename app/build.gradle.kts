@@ -1,3 +1,4 @@
+import com.android.build.api.variant.FilterConfiguration
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import java.util.Properties
@@ -64,27 +65,6 @@ android {
             include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
         }
     }
-    applicationVariants.all {
-        val variant = this
-        val versionCodes = mapOf(
-            "all" to 0,
-            "arm64-v8a" to 1,
-            "armeabi-v7a" to 2,
-            "x86" to 3,
-            "x86_64" to 4
-        )
-        variant.outputs
-            .map { it as com.android.build.gradle.internal.api.ApkVariantOutputImpl }
-            .forEach { output ->
-                val abi = output.getFilter("ABI") ?: "all"
-                output.outputFileName = "Kartam_${variant.versionName}_${abi}.apk"
-                if (versionCodes.containsKey(abi)) {
-                    val abiCode = versionCodes[abi]!! * 10
-                    val versionCode = variant.versionCode * 100
-                    output.versionCodeOverride = abiCode.plus(versionCode)
-                }
-            }
-    }
     flavorDimensions += "default"
     productFlavors {
         create("github") {
@@ -113,6 +93,26 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        val versionCodes = mapOf(
+            "all" to 0,
+            "arm64-v8a" to 1,
+            "armeabi-v7a" to 2,
+            "x86" to 3,
+            "x86_64" to 4
+        )
+        variant.outputs.forEach { output ->
+            val abi = output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier ?: "all"
+            output.outputFileName.set("Kartam_${output.versionName.orNull}_${abi}.apk")
+            versionCodes[abi]?.let { abiCode ->
+                val baseVersionCode = output.versionCode.orNull ?: 0
+                output.versionCode.set(baseVersionCode * 100 + abiCode * 10)
+            }
+        }
     }
 }
 
