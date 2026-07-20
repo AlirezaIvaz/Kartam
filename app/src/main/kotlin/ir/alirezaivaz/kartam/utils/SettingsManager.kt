@@ -39,6 +39,10 @@ object SettingsManager {
     private const val PREF_SECRET_CVV2_DETAILS_DEFAULT = false
     private const val PREF_LOCK_ON_START = "pref_lock_on_start"
     private const val PREF_LOCK_ON_START_DEFAULT = false
+    private const val PREF_LOCK_ON_RETURN = "pref_lock_on_return"
+    private const val PREF_LOCK_ON_RETURN_DEFAULT = true
+    private const val PREF_LOCK_GRACE_SECONDS = "pref_lock_grace_seconds"
+    private const val PREF_LOCK_GRACE_SECONDS_DEFAULT = 30
     private const val PREF_UNLOCK_WITH_BIOMETRIC = "pref_unlock_with_biometric"
     private const val PREF_UNLOCK_WITH_BIOMETRIC_DEFAULT = false
     private const val PREF_PIN_HASH = "pref_pin_hash"
@@ -52,6 +56,8 @@ object SettingsManager {
     private const val PREF_AUTH_BEFORE_DELETE_DEFAULT = true
     private const val PREF_AUTO_DETECT_FROM_CLIPBOARD = "pref_auto_detect_from_clipboard"
     private const val PREF_AUTO_DETECT_FROM_CLIPBOARD_DEFAULT = false
+    private const val PREF_FLAG_SECURE = "pref_flag_secure"
+    private const val PREF_FLAG_SECURE_DEFAULT = false
 
     private val _version = MutableStateFlow(settings[PREF_VERSION, BuildConfig.VERSION_CODE])
     val version: StateFlow<Int> = _version
@@ -77,6 +83,10 @@ object SettingsManager {
     val language: StateFlow<Language> = _language
     private val _isLockOnStart = MutableStateFlow(settings[PREF_LOCK_ON_START, PREF_LOCK_ON_START_DEFAULT])
     val isLockOnStart: StateFlow<Boolean> = _isLockOnStart
+    private val _isLockOnReturn = MutableStateFlow(settings[PREF_LOCK_ON_RETURN, PREF_LOCK_ON_RETURN_DEFAULT])
+    val isLockOnReturn: StateFlow<Boolean> = _isLockOnReturn
+    private val _lockGraceSeconds = MutableStateFlow(settings[PREF_LOCK_GRACE_SECONDS, PREF_LOCK_GRACE_SECONDS_DEFAULT])
+    val lockGraceSeconds: StateFlow<Int> = _lockGraceSeconds
     private val _isUnlockWithBiometric = MutableStateFlow(settings[PREF_UNLOCK_WITH_BIOMETRIC, PREF_UNLOCK_WITH_BIOMETRIC_DEFAULT])
     val isUnlockWithBiometric: StateFlow<Boolean> = _isUnlockWithBiometric
     private val _authType = MutableStateFlow(AuthType.find(settings[PREF_AUTH_TYPE, AuthType.None.name]))
@@ -91,6 +101,8 @@ object SettingsManager {
     val isAuthBeforeDelete: StateFlow<Boolean> = _isAuthBeforeDelete
     private val _isAutoDetectFromClipboard = MutableStateFlow(settings[PREF_AUTO_DETECT_FROM_CLIPBOARD, PREF_AUTO_DETECT_FROM_CLIPBOARD_DEFAULT])
     val isAutoDetectFromClipboard: StateFlow<Boolean> = _isAutoDetectFromClipboard
+    private val _isFlagSecure = MutableStateFlow(settings[PREF_FLAG_SECURE, PREF_FLAG_SECURE_DEFAULT])
+    val isFlagSecure: StateFlow<Boolean> = _isFlagSecure
 
     fun isDarkMode(isSystemInDarkTheme: Boolean): Boolean {
         return _theme.value == Theme.Night || (_theme.value == Theme.System && isSystemInDarkTheme)
@@ -173,6 +185,16 @@ object SettingsManager {
         }
     }
 
+    fun setLockOnReturn(value: Boolean) {
+        _isLockOnReturn.value = value
+        settings[PREF_LOCK_ON_RETURN] = value
+    }
+
+    fun setLockGraceSeconds(value: Int) {
+        _lockGraceSeconds.value = value
+        settings[PREF_LOCK_GRACE_SECONDS] = value
+    }
+
     fun setUnlockWithBiometric(value: Boolean) {
         _isUnlockWithBiometric.value = value
         settings[PREF_UNLOCK_WITH_BIOMETRIC] = value
@@ -222,5 +244,10 @@ object SettingsManager {
     fun setAutoDetectFromClipboard(value: Boolean) {
         _isAutoDetectFromClipboard.value = value
         settings[PREF_AUTO_DETECT_FROM_CLIPBOARD] = value
+    }
+
+    fun setFlagSecure(value: Boolean) {
+        _isFlagSecure.value = value
+        settings[PREF_FLAG_SECURE] = value
     }
 }
