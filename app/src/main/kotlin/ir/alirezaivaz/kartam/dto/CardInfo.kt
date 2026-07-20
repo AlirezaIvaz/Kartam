@@ -46,11 +46,11 @@ data class CardInfo(
     @ColumnInfo(name = "bank")
     @SerializedName("bank")
     val bank: Bank,
-    @ColumnInfo(name = "app_username")
-    @SerializedName("app_username")
+    @ColumnInfo(name = "bank_app_username")
+    @SerializedName("bank_app_username")
     val bankAppUsername: SensitiveString? = null,
-    @ColumnInfo(name = "app_password")
-    @SerializedName("app_password")
+    @ColumnInfo(name = "bank_app_password")
+    @SerializedName("bank_app_password")
     val bankAppPassword: SensitiveString? = null,
     @ColumnInfo(name = "account_type")
     @SerializedName("account_type")

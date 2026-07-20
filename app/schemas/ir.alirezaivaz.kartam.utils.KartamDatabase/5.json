@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "b4b69a64f7fc7f57433406a442863d4c",
+    "identityHash": "5d62e921d2a383bf1186b40acad0d2f8",
     "entities": [
       {
         "tableName": "cards",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `name_en` TEXT, `number` TEXT NOT NULL, `shaba_number` TEXT, `account_number` TEXT, `branch_code` INTEGER, `branch_name` TEXT, `exp_month` INTEGER, `exp_year` INTEGER, `cvv2` TEXT, `first_code` TEXT, `app_username` TEXT, `app_password` TEXT, `bank` TEXT NOT NULL, `account_type` TEXT, `comment` TEXT, `owned` INTEGER NOT NULL, `position` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `name_en` TEXT, `number` TEXT NOT NULL, `shaba_number` TEXT, `account_number` TEXT, `branch_code` INTEGER, `branch_name` TEXT, `exp_month` INTEGER, `exp_year` INTEGER, `cvv2` TEXT, `first_code` TEXT, `bank` TEXT NOT NULL, `bank_app_username` TEXT, `bank_app_password` TEXT, `account_type` TEXT, `comment` TEXT, `owned` INTEGER NOT NULL, `position` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -72,20 +72,20 @@
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "appUsername",
-            "columnName": "app_username",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "appPassword",
-            "columnName": "app_password",
-            "affinity": "TEXT"
-          },
-          {
             "fieldPath": "bank",
             "columnName": "bank",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "bankAppUsername",
+            "columnName": "bank_app_username",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "bankAppPassword",
+            "columnName": "bank_app_password",
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "accountType",
@@ -120,7 +120,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b4b69a64f7fc7f57433406a442863d4c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5d62e921d2a383bf1186b40acad0d2f8')"
     ]
   }
 }
