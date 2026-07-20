@@ -28,6 +28,9 @@ enum class ActionState(
     InvalidCardNumber(
         message = R.string.error_invalid_card_number,
     ),
+    DuplicateCardNumber(
+        message = R.string.error_duplicate_card_number,
+    ),
     InvalidOwnerName(
         message = R.string.error_invalid_owner_name,
     ),

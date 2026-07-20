@@ -128,7 +128,11 @@ fun ListScreen(
     ClipboardDetector(
         isEnabled = isAutoDetectFromClipboard
     ) { data ->
-        clipboardDetectedCardData = data
+        scope.launch {
+            if (!viewModel.existsCardNumber(data.cardNumber)) {
+                clipboardDetectedCardData = data
+            }
+        }
     }
 
     if (showCardOptionsSheet) {

@@ -25,6 +25,9 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE id=:id")
     suspend fun getCard(id: Int): CardInfo?
 
+    @Query("SELECT EXISTS(SELECT 1 FROM cards WHERE number=:number AND id!=:excludeId)")
+    suspend fun existsByNumber(number: String, excludeId: Int = -1): Boolean
+
     @Query("SELECT MAX(position) FROM cards")
     suspend fun getMaxPosition(): Int?
 

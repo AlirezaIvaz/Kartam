@@ -91,6 +91,10 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    suspend fun existsCardNumber(number: String): Boolean = withContext(Dispatchers.IO) {
+        _cardDao.existsByNumber(number)
+    }
+
     suspend fun deleteCard(card: CardInfo) {
         updateIsRefreshing(true)
         withContext(Dispatchers.IO) {

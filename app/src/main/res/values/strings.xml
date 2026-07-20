@@ -125,6 +125,7 @@
     <string name="error_empty_card_number">Please enter the card number!</string>
     <string name="error_empty_owner_name">Please enter the card owner name!</string>
     <string name="error_invalid_card_number">Card number is invalid! Please check it and try again.</string>
+    <string name="error_duplicate_card_number">A card with this number is already saved!</string>
     <string name="error_invalid_owner_name">Owner name must only contain English and Persian characters!</string>
     <string name="error_invalid_shaba_number">Shaba number is invalid! Please check it and try again.</string>
     <string name="error_invalid_account_number">Account number is invalid!</string>

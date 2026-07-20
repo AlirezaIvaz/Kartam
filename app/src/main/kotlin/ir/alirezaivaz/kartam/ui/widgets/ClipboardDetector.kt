@@ -28,8 +28,8 @@ fun ClipboardDetector(
                     return@LifecycleEventObserver
                 }
                 val parsed = ClipboardParser.parse(text)
-                if (parsed?.cardNumber != null || parsed?.shabaNumber != null) {
-                    onDetected(parsed)
+                parsed?.let {
+                    onDetected(it)
                 }
             }
         }

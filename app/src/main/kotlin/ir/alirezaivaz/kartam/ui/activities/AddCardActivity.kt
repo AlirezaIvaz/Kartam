@@ -18,7 +18,7 @@ class AddCardActivity : KartamActivity() {
         val cardId = intent.getIntExtra("id", -1)
         val isOwned = intent.getBooleanExtra("owned", true)
         val ownerName = intent.getStringExtra("name")
-        val cardNumber = intent.getStringExtra("card_number")
+        val cardNumber = intent.getStringExtra("card_number").orEmpty()
         val shabaNumber = intent.getStringExtra("shaba_number")
         val detectedCardData = DetectedCardData(
             name = ownerName,

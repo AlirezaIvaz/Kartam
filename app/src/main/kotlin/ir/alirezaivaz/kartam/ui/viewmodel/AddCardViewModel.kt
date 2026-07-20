@@ -283,12 +283,15 @@ class AddCardViewModel : ViewModel() {
         }
     }
 
-    fun validateFields(force: Boolean = false): Boolean {
+    suspend fun validateFields(force: Boolean = false): Boolean {
         if (_cardNumber.value.text.isEmpty()) {
             updateState(state = ActionState.EmptyCardNumber)
             return false
         } else if (!force && !_cardNumber.value.text.isValidCardNumber()) {
             updateState(state = ActionState.InvalidCardNumber)
+            return false
+        } else if (_cardDao.existsByNumber(_cardNumber.value.text, excludeId = _card.value?.id ?: -1)) {
+            updateState(state = ActionState.DuplicateCardNumber)
             return false
         } else if (_ownerName.value.text.isEmpty()) {
             updateState(state = ActionState.EmptyOwnerName)
