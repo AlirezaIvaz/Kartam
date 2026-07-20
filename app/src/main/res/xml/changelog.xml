@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <version name="1.8.0" date="2026-07-20">
+        <new>Support for Zypod neobank</new>
+        <new>Bank app username and password fields for cards</new>
+        <new>Screenshot prevention option (Experimental)</new>
+        <new>Auto-detect card number from clipboard (Experimental)</new>
+        <new>Copy by tap and share with long-press in card details</new>
+        <new>Re-lock the app when returning from the background</new>
+        <fixed>Some minor bugs</fixed>
+        <fixed>Quick copy and share buttons are back</fixed>
+        <fixed>Authenticate before disabling security features</fixed>
+        <improved>App UI</improved>
+        <improved>App size</improved>
+        <improved>App functionality</improved>
+    </version>
     <version name="1.7.0" date="2026-04-09">
         <new>Support for GreenBank</new>
         <new>Customizable share sheet</new>

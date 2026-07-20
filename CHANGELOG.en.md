@@ -2,6 +2,21 @@
 
 [فارسی](CHANGELOG.md) • English
 
+## v1.8.0 (20 July 2026)
+
+- **New:** Support for Zypod neobank
+- **New:** Bank app username and password fields for cards
+- **New:** Screenshot prevention option (Experimental)
+- **New:** Auto-detect card number from clipboard (Experimental)
+- **New:** Copy by tap and share with long-press in card details
+- **New:** Re-lock the app when returning from the background
+- **Fixed:** Some minor bugs
+- **Fixed:** Quick copy and share buttons are back
+- **Fixed:** Authenticate before disabling app lock and other security features
+- **Improved:** App UI
+- **Improved:** App size
+- **Improved:** App functionality
+
 ## v1.7.0 (9 April 2026)
 
 - **New:** Support for GreenBank
