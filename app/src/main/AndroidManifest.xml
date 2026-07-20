@@ -37,7 +37,9 @@
         <activity
             android:name=".ui.activities.AddCardActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.activities.ActivityLock" />
+        <activity
+            android:name=".ui.activities.ActivityLock"
+            android:launchMode="singleTop" />
         <activity android:name=".ui.activities.ActivityLockSetup" />
 
         <service

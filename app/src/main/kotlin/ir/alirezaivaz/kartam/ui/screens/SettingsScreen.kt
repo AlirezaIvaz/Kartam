@@ -88,7 +88,15 @@ fun SettingsScreen(
     val isSecretCvv2List by SettingsManager.isSecretCvv2InList.collectAsState()
     val isSecretCvv2Details by SettingsManager.isSecretCvv2InDetails.collectAsState()
     val isLockOnStart by SettingsManager.isLockOnStart.collectAsState()
+    val isLockOnReturn by SettingsManager.isLockOnReturn.collectAsState()
+    val lockGraceSeconds by SettingsManager.lockGraceSeconds.collectAsState()
     val isUnlockWithBiometric by SettingsManager.isUnlockWithBiometric.collectAsState()
+    val lockGraceOptions = listOf(
+        0 to R.string.lock_grace_immediately,
+        30 to R.string.lock_grace_30s,
+        60 to R.string.lock_grace_1m,
+        300 to R.string.lock_grace_5m,
+    )
     val isAuthOwnedCardDetails by SettingsManager.isAuthOwnedCardDetails.collectAsState()
     val isAuthSecretDetails by SettingsManager.isAuthSecretData.collectAsState()
     val isAuthBeforeEdit by SettingsManager.isAuthBeforeEdit.collectAsState()
@@ -274,6 +282,51 @@ fun SettingsScreen(
                     }
                 }
             )
+            VerticalSpacer(height = Dimens.small)
+            SwitchItem(
+                title = stringResource(R.string.settings_lock_on_return),
+                isChecked = isLockOnReturn,
+                isEnabled = isLockOnStart,
+                onCheckedChanged = { value ->
+                    SettingsManager.setLockOnReturn(value)
+                }
+            )
+            VerticalSpacer(height = Dimens.small)
+            Text(
+                text = stringResource(R.string.settings_lock_grace),
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colorScheme.onSurface.copy(
+                    alpha = if (isLockOnStart && isLockOnReturn) 1f else 0.38f
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Dimens.large)
+            )
+            VerticalSpacer(height = Dimens.small)
+            LazyRow {
+                item {
+                    SingleChoiceSegmentedButtonRow(
+                        modifier = Modifier
+                            .handPointerIcon()
+                            .fillMaxWidth()
+                            .padding(horizontal = Dimens.large),
+                    ) {
+                        lockGraceOptions.forEachIndexed { index, (seconds, label) ->
+                            SegmentedButton(
+                                index = index,
+                                count = lockGraceOptions.size,
+                                label = label,
+                                isEnabled = isLockOnStart && isLockOnReturn,
+                                isSelected = lockGraceSeconds == seconds,
+                                onClick = {
+                                    SettingsManager.setLockGraceSeconds(seconds)
+                                }
+                            )
+                        }
+                    }
+                }
+            }
             VerticalSpacer(height = Dimens.small)
             SwitchItem(
                 title = stringResource(R.string.settings_unlock_with_biometric),

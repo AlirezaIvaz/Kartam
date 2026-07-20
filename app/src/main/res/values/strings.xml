@@ -167,6 +167,12 @@
     <string name="settings_hide_cvv2_list">In card list</string>
     <string name="settings_hide_cvv2_details">In card details</string>
     <string name="settings_lock_on_start">Lock on start</string>
+    <string name="settings_lock_on_return">Lock when returning to app</string>
+    <string name="settings_lock_grace">Re-lock after</string>
+    <string name="lock_grace_immediately">Immediately</string>
+    <string name="lock_grace_30s">30s</string>
+    <string name="lock_grace_1m">1 min</string>
+    <string name="lock_grace_5m">5 min</string>
     <string name="settings_unlock_with_biometric">Unlock with biometric</string>
     <string name="settings_language">Language</string>
     <string name="settings_theme">Theme</string>

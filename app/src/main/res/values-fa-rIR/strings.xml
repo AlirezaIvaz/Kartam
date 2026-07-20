@@ -161,6 +161,12 @@
     <string name="settings_hide_cvv2_list">در فهرست کارت‌ها</string>
     <string name="settings_hide_cvv2_details">در جزئیات کارت</string>
     <string name="settings_lock_on_start">قفل ورود</string>
+    <string name="settings_lock_on_return">قفل هنگام بازگشت به برنامه</string>
+    <string name="settings_lock_grace">قفل‌شدن خودکار پس از</string>
+    <string name="lock_grace_immediately">بلافاصله</string>
+    <string name="lock_grace_30s">۳۰ ثانیه</string>
+    <string name="lock_grace_1m">۱ دقیقه</string>
+    <string name="lock_grace_5m">۵ دقیقه</string>
     <string name="settings_unlock_with_biometric">بازکردن با اعتبارسنجی زیستی</string>
     <string name="settings_language">زبان</string>
     <string name="settings_theme">پوسته</string>

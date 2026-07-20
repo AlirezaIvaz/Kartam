@@ -25,12 +25,14 @@ fun SingleChoiceSegmentedButtonRowScope.SegmentedButton(
     modifier: Modifier = Modifier,
     @DrawableRes
     icon: Int? = null,
+    isEnabled: Boolean = true,
     @DrawableRes
     iconSelected: Int? = null,
     fontFamily: FontFamily? = null,
 ) {
     SegmentedButton(
         modifier = modifier.handPointerIcon(),
+        enabled = isEnabled,
         selected = isSelected,
         icon = {
             if (icon != null) {
