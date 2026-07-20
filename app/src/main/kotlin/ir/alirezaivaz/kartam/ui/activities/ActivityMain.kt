@@ -133,16 +133,16 @@ class ActivityMain : KartamActivity() {
                                 viewModel = viewModel,
                                 onEditRequest = { launcher, id ->
                                     val intent = Intent(context, AddCardActivity::class.java)
-                                    intent.putExtra("id", id)
+                                    intent.putExtra(AddCardActivity.EXTRA_ID, id)
                                     launcher.launch(intent)
                                 },
                                 onAddCardClick = { launcher, data ->
                                     val intent = Intent(context, AddCardActivity::class.java)
-                                    intent.putExtra("owned", data == null)
+                                    intent.putExtra(AddCardActivity.EXTRA_OWNED, data == null)
                                     data?.let {
-                                        intent.putExtra("name", data.name)
-                                        intent.putExtra("card_number", data.cardNumber)
-                                        intent.putExtra("shaba_number", data.shabaNumber)
+                                        intent.putExtra(AddCardActivity.EXTRA_NAME, data.name)
+                                        intent.putExtra(AddCardActivity.EXTRA_CARD_NUMBER, data.cardNumber)
+                                        intent.putExtra(AddCardActivity.EXTRA_SHABA_NUMBER, data.shabaNumber)
                                     }
                                     launcher.launch(intent)
                                 }
@@ -161,16 +161,16 @@ class ActivityMain : KartamActivity() {
                                 viewModel = viewModel,
                                 onEditRequest = { launcher, id ->
                                     val intent = Intent(context, AddCardActivity::class.java)
-                                    intent.putExtra("id", id)
+                                    intent.putExtra(AddCardActivity.EXTRA_ID, id)
                                     launcher.launch(intent)
                                 },
                                 onAddCardClick = { launcher, data ->
                                     val intent = Intent(context, AddCardActivity::class.java)
-                                    intent.putExtra("owned", false)
+                                    intent.putExtra(AddCardActivity.EXTRA_OWNED, false)
                                     data?.let {
-                                        intent.putExtra("name", data.name)
-                                        intent.putExtra("card_number", data.cardNumber)
-                                        intent.putExtra("shaba_number", data.shabaNumber)
+                                        intent.putExtra(AddCardActivity.EXTRA_NAME, data.name)
+                                        intent.putExtra(AddCardActivity.EXTRA_CARD_NUMBER, data.cardNumber)
+                                        intent.putExtra(AddCardActivity.EXTRA_SHABA_NUMBER, data.shabaNumber)
                                     }
                                     launcher.launch(intent)
                                 }
